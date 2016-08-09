@@ -1,5 +1,27 @@
 \section{Introduction}
 
+\Ac{cap} is the second most frequently diagnosed men cancer, accounting for 899,000 cases leading to 258,100 deaths~\citep{ferlay2010estimates}.
+As highlighted by the PI-RADS Steering Committee, the two main challenges to be addressed are~\citep{weinreb2016pi}:
+(i) the improvement of detecting clinically significant \ac{cap} and
+(ii) an increase of the confidence in benign or dormant cases, avoiding unnecessary invasive medical exams.
+In this regard, \ac{mpmri} is frequently used to build robust \ac{cad} systems to detect, localize, and grade \ac{cap}.
+In general, \ac{cad} systems are based on \ac{mpmri} which combines several of the following modalities~\citep{lemaitre2015computer}: \ac{t2w}-\ac{mri}, \ac{dce}-\ac{mri}, \ac{adc} maps, and \ac{mrsi}.
+
+In \ac{dce}-\ac{mri}, a contrast media is injected intravenously and a set of images is acquired over time.
+Consequently, each voxel in the image is a dynamic signal which is related to the vascular properties of the tissue.
+In fact, these properties are automatically extracted using quantitative or semi-quantitative approaches~\citep{lemaitre2015computer}.
+
+The former group of approaches uses pharmacokinetic modelling based on a bicompartment model, namely Brix~\citep{brix1991pharmacokinetic} and Tofts~\citep{tofts1995quantitative} models.
+The parameters of the Brix model are found assuming a linear relationship between the media concentration and \ac{mri} signal intensity.
+This assumption has shown, however, to lead to inaccurate parameter calculation~\citep{heilmann2006determination}.
+In the contrary, Tofts model only requires a conversion from \ac{mri} signal intensity to concentration, which can become a non-linear relationship using specific equation of \ac{mri} sequences (e.g., FLASH sequence).
+Tofts modelling suffers, however, from an higher complexity~\citep{gliozzi2011phenomenological}.
+The conversion using the non-linear approach requires to acquire a T$_1$ map which is not always possible during clinical examination.
+Furthermore, the parameter calculation require the \ac{aif} which is challenging to measure and can also lead to inaccurate estimation of the parameters.
+
+The latter group of approaches are rather mathematical than pharmacokinetic modelling.
+
+
 %%% Local Variables: 
 %%% mode: latex
 %%% TeX-master: "../main"
