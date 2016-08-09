@@ -19,8 +19,18 @@ Tofts modelling suffers, however, from an higher complexity~\citep{gliozzi2011ph
 The conversion using the non-linear approach requires to acquire a T$_1$ map which is not always possible during clinical examination.
 Furthermore, the parameter calculation require the \ac{aif} which is challenging to measure and can also lead to inaccurate estimation of the parameters.
 
-The latter group of approaches are rather mathematical than pharmacokinetic modelling.
+The latter group of approaches are rather mathematical than pharmacokinetic modelling~\citep{huisman2001accurate,gliozzi2011phenomenological}.
+These methods offer the advantages to not require any knowledge about the \ac{mri} sequence nor any conversion from signal intensity to concentration.
+However, the heuristic approach propose by \citeauthor{huisman2001accurate} requires an estimate regarding the noise standard deviation of the signal as well as manual tuning.
 
+Nevertheless, all presented methods suffer from two major drawbacks:
+(i) the inter-patient variability of the data lead to a variation of the parameters estimated and to poor classification performance while designing \ac{cad} systems, and
+(ii) only few parameters are used to characterize the dynamic signal implying that some information are discarded.
+
+In this work, we propose a fully automatic normalization method for \ac{dce}-\ac{mri} that reduce the inter-patient variability of the data.
+Furthermore, we show that using the full normalized signal lead to the best classification performance.
+
+The paper is organized as follows: Section~\ref{sec:methods} outlines our normalization strategy (Section~\ref{sec:norm}) as well as specificity regarding the state-of-the-art methods used for comparison (Section~\ref{sec:stateart}). The dataset, experiments, and results are reported in Section~\ref{sec:experiments} while discussed in Section~\ref{sec:discussions} followed by a concluding section.
 
 %%% Local Variables: 
 %%% mode: latex
