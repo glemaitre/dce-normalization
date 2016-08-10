@@ -2,15 +2,70 @@
 
 \subsection{Normalization of \ac{dce}-\ac{mri} images}\label{sec:norm}
 
-\subsection{State-of-the-art quantification}\label{sec:stateart}
+\subsection{Quantification of \ac{dce}-\ac{mri}}\label{sec:stateart}
 
-\subsubsection{Brix model}
+\subsubsection{Brix and Hoffmann models}
+
+In the Brix model~\citep{brix1991pharmacokinetic}, the \ac{mri} signal intensity is assumed to be proportional to the media concentration.
+Therefore, the model is expressed as in Eq.\,\eqref{eq:brix}:
+
+\begin{equation}
+  s_n(t) = 1 + A \left[ \frac{\exp(k_{el} t') - 1}{k_{ep}(k_{ep} - k_{el})} \exp(- k_{el} t) - \frac{\exp(k_{ep} t') - 1}{k_{el}(k_{ep} - k_{el})} \exp(- k_{ep} t) \right],
+  \label{eq:brix}
+\end{equation}
+
+\noindent with
+
+\begin{equation}
+  s_n(t) = \frac{s(t)}{S_0},
+  \label{eq:enh}
+\end{equation}
+
+\noindent where $s(t)$ and $S_0$ are the \ac{mri} signal intensity at time $t$ and the average pre-contrast \ac{mri} signal intensity, respectively; $A$, $k_{el}$, and $k_{ep}$ are a constant proportional to the transfer constant, the diffusion rate constant, and the rate constant, respectively. Additionally, during the injection time $0 \leq t \leq \tau$, $t' = t$ and afterwards while $t > \tau$, $t' = \tau$.
+
+Following this model, \citeauthor{hoffmann1995pharmacokinetic} propose the following similar model as expressed in Eq.\,\eqref{eq:hoffmann}:
+
+\begin{equation}
+  s_n(t) = 1 + \frac{A}{\tau} \left[ \frac{k_{ep} \left( \exp(k_{el} t') - 1 \right)}{k_{el}(k_{ep} - k_{el})} \exp(- k_{el} t) - \frac{\exp(k_{ep} t') - 1}{(k_{ep} - k_{el})} \exp(- k_{ep} t) \right].
+  \label{eq:hoffmann}
+\end{equation}
 
 \subsubsection{Tofts model}
 
-\subsubsection{\acs*{pum} model}
+The extended Tofts model is formulated as in Eq.\,\eqref{eq:exttofts}:
 
-\subsubsection{Semi-quantitative modeling}
+\begin{equation}
+  C_t(t) = K_{trans} C_p(t) \Conv \exp(-k_{ep}t) + v_p C_p(t),
+  \label{eq:exttofts}
+\end{equation}
+
+\begin{description}
+  \item[Conversion of \ac{mri} signal intensity to concentration]
+
+  \item[Estimation of patient-based \ac{aif} signal \textit{vs.} population-based \ac{aif} signal]
+\end{description}
+
+\subsubsection{\acs*{pun} model}
+
+\citeauthor{gliozzi2011phenomenological} show that \ac{pun} approach can be used for \ac{dce}-\ac{mri} analysis~\citep{gliozzi2011phenomenological}.
+The model has been successfully used in a \ac{cad} system proposed by~\cite{giannini2015fully}.
+This model can be expressed as in Eq.\,\eqref{eq:pun}:
+
+\begin{equation}
+  s_n(t) = \exp\left[rt + \frac{1}{\beta} \left( a_0 - r \right) \left( \exp(\beta t) - 1 \right) \right],
+  \label{eq:pun}
+\end{equation}
+
+\noindent with
+
+\begin{equation}
+  s_n(t) = \frac{s(t) - S_0}{S_0},
+  \label{eq:enh}
+\end{equation}
+
+\noindent where $s(t)$ and $S_0$ are the \ac{mri} signal intensity at time $t$ and the average pre-contrast \ac{mri} signal intensity, respectively; $r$, $a_0$, and $\beta$ are the free parameters of the model.
+
+\subsubsection{}
 
 %%% Local Variables: 
 %%% mode: latex
