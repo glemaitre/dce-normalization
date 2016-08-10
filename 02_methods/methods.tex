@@ -39,10 +39,19 @@ The extended Tofts model is formulated as in Eq.\,\eqref{eq:exttofts}:
   \label{eq:exttofts}
 \end{equation}
 
-\begin{description}
-  \item[Conversion of \ac{mri} signal intensity to concentration]
+\noindent where $\Conv$ is the convolution operator; $C_t(t)$ and $C_p(t)$ is the concentration of contrast agent in the tissue and in the plasma, respectively; $K_{trans}$, $k_{ep}$, and $v_p$ are the volume transfer constant, the diffusion rate constant, and the plasma volume fraction, respectively.
 
-  \item[Estimation of patient-based \ac{aif} signal \textit{vs.} population-based \ac{aif} signal]
+Therefore, Tofts model requires to:
+(i) estimate an \ac{aif} signal to later compute $C_p(t)$, and
+(ii) convert the \ac{mri} signal intensity into a concentration.
+
+\begin{description}
+  \item[Estimation of \ac{aif} signal] Two different strategies can be used to get an \ac{aif} signal:
+    (i) compute a population-based \ac{aif} signal or
+    (ii) estimate a patient-based \ac{aif} signal from the \ac{dce}-\ac{mri} data.
+    
+    The former approach
+  \item[Conversion of \ac{mri} signal intensity to concentration]
 \end{description}
 
 \subsubsection{\acs*{pun} model}
