@@ -42,16 +42,36 @@ The extended Tofts model is formulated as in Eq.\,\eqref{eq:exttofts}:
 \noindent where $\Conv$ is the convolution operator; $C_t(t)$ and $C_p(t)$ is the concentration of contrast agent in the tissue and in the plasma, respectively; $K_{trans}$, $k_{ep}$, and $v_p$ are the volume transfer constant, the diffusion rate constant, and the plasma volume fraction, respectively.
 
 Therefore, Tofts model requires to:
-(i) estimate an \ac{aif} signal to later compute $C_p(t)$, and
-(ii) convert the \ac{mri} signal intensity into a concentration.
+(i) detect candidate voxels from the femoral or iliac arteries and estimate a patient-based \ac{aif} signal,
+(ii) convert the \ac{mri} signal intensity (i.e., \ac{aif} and dynamic signal) to a concentration, and
+(iii) in the case of a population-based \ac{aif}, estimate an \ac{aif} signal.
 
 \begin{description}
-  \item[Estimation of \ac{aif} signal] Two different strategies can be used to get an \ac{aif} signal:
-    (i) compute a population-based \ac{aif} signal or
-    (ii) estimate a patient-based \ac{aif} signal from the \ac{dce}-\ac{mri} data.
-    
-    The former approach
-  \item[Conversion of \ac{mri} signal intensity to concentration]
+  \item[Segmentation of artery voxels and patient-based \ac{aif} estimation] The \ac{aif} signal from \ac{dce}-\ac{mri} can be manually estimated by selecting the most-enhanced voxels from the femoral or iliac arteries~\citep{meng2010comparison}.
+    Few methods have been proposed to address the automated extraction of \ac{aif} signal.
+    \citeauthor{chen2008automatic} filter successively the possible candidates~\citep{chen2008automatic}:
+    (i) dynamic signals with small peak are rejecting by thresholding,
+    (ii) voxels with a small wash-in are rejected by thresholding,
+    (iii) a blob detector is used and large enough regions are kept, and
+    (iv) circular and cylindricality are used to reject the last false positive.
+    \citeauthor{zhu2011automated} propose an iterative method selecting voxels which best fit a gamma variate function~\citep{zhu2011automated}.
+    However, it requires to compute first and second derivatives as well as maximum curvature points.
+    \citeauthor{shanbhag2012generalized} propose a 4-steps algorithm~\citep{shanbhag2012generalized,fennessy2015quantitative}:
+    (i) remove slices with artefacts and find the best slices based on intrinsic anatomic landmarks and enhancement characteristics,
+    (ii) find the voxel candidates using the maximum enhanced voxels and a multi-label maximum entropy based thresholding algorithm,
+    (iii) excluding region next to the endorectal coil, and
+    (iv) selecting the best 5 candidates which meet enhancement characteristics and that are correlated.
+
+    All the above methods are rather complex and thus we propose a method which is based on the following simple assumptions:
+    (i) all possible \ac{aif} signal candidates should have a similar shape,
+    (ii) an high enhancement, and
+    (iii) the arteries should be almost round and within a size range.
+    Therefore, each slice is clustered into regions using K-means clustering with $k=6$.
+    The cluster with the highest enhancement\textemdash i.e. corresponding to the 90\textsuperscript{th} percentile of the maximum of each dynamic signal\textemdash contain the arteries and is selected.
+    Finally, regions with an eccentricity smaller than $0.5$ and an area in the range of $[100, 400]$ voxels are kept.
+    Additionally, to remove voxels contaminated by partial volume effect, only the $10\%$ most enhanced voxels of the possible candidates are kept as proposed by~\citep{schabel2008uncertainty}.
+    An example of artery segmentation is shown in Fig.\,\ref{fig:aifseg}.
+    \item[Conversion of \ac{mri} signal intensity to concentration]    
 \end{description}
 
 \subsubsection{\acs*{pun} model}
