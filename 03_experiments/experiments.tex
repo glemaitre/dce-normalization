@@ -3,40 +3,55 @@
 \begin{table}
   \caption{\acs*{auc} of the individual features for each method.}
   \centering
-  \begin{tabular}{l c c}
+  \begin{tabular}{l c c c c}
     \toprule
-    \textbf{Features} & Un-normalized data & Normalized data \\
+    \textbf{Features} & \multicolumn{2}{c}{Un-normalized data} & \multicolumn{2}{c}{Normalized data} \\
+    & \acs*{rf} & \acs*{nb} & \acs*{rf} & \acs*{nb} \\
     \midrule
-    \textbf{Brix model} & & \\
-    \quad $A$         & & \\
-    \quad $k_{el}$    & & \\
-    \quad $k_{ep}$    & & \\
-    \textbf{Hoffmann model} & & \\
-    \quad $A$         & & \\
-    \quad $k_{el}$    & & \\
-    \quad $k_{ep}$    & & \\
-    \textbf{Tofts model with population \ac{aif}} & & \\
-    \quad $K_{trans}$ & & \\
-    \quad $v_{p}$     & & \\
-    \quad $k_{ep}$    & & \\
-    \textbf{Tofts model with patient \ac{aif}} & & \\
-    \quad $K_{trans}$ & & \\
-    \quad $v_{p}$     & & \\
-    \quad $k_{ep}$    & & \\
-    \textbf{\ac{pun} model} & & \\
-    \quad $a_0$       & & \\
-    \quad $r$         & & \\
-    \quad $\beta$     & & \\
-    \textbf{Semi-quantitative analysis} & & \\
-    \quad wash-in     & & \\
-    \quad wash-out    & & \\
-    \quad IAUC        & & \\
-    \quad $\tau$      & & \\
-    \quad $S_M - S_0$ & & \\
+    \textbf{Brix model} & & & & \\
+    \quad $A$         & 0.54 & 0.62 & 0.58 & 0.67 \\
+    \quad $k_{el}$    & 0.55 & 0.52 & 0.54 & 0.61 \\
+    \quad $k_{ep}$    & 0.51 & 0.52 & 0.51 & 0.58 \\
+    \textbf{Hoffmann model} & & & & \\
+    \quad $A$         & 0.52 & 0.50 & 0.51 & 0.56 \\
+    \quad $k_{el}$    & 0.55 & 0.53 & 0.54 & 0.64 \\
+    \quad $k_{ep}$    & 0.55 & 0.50 & 0.53 & 0.66 \\
+    \textbf{Tofts model with population \ac{aif}} & & & & \\
+    \quad $K_{trans}$ & 0.56 & 0.62 & 0.56 & 0.65 \\
+    \quad $v_{e}$     & 0.51 & 0.50 & 0.50 & 0.52 \\
+    \quad $v_{p}$     & 0.53 & 0.63 & 0.55 & 0.53 \\
+    \textbf{Tofts model with patient \ac{aif}} & & & & \\
+    \quad $K_{trans}$ & 0.57 & 0.66 & 0.56 & 0.65 \\
+    \quad $v_{e}$     & 0.49 & 0.50 & 0.51 & 0.52 \\
+    \quad $v_{p}$     & 0.53 & 0.37 & 0.57 & 0.65 \\
+    \textbf{\ac{pun} model} & & & & \\
+    \quad $a_0$       & 0.52 & 0.53 & 0.53 & 0.51  \\
+    \quad $r$         & 0.53 & 0.59 & 0.55 & 0.55 \\
+    \quad $\beta$     & 0.55 & 0.56 & 0.53 & 0.44 \\
+    \textbf{Semi-quantitative analysis} & & & & \\
+    \quad wash-in     & 0.59 & 0.64 & 0.55 & 0.51 \\
+    \quad wash-out    & 0.52 & 0.50 & 0.56 & 0.66 \\
+    \quad IAUC        & 0.51 & 0.61 & 0.52 & 0.64 \\
+    \quad $\tau$      & 0.57 & 0.57 & 0.56 & 0.61 \\
+    \quad $S_M - S_0$ & 0.56 & 0.63 & 0.53 & 0.64 \\
     \bottomrule
   \end{tabular}
   \label{tab:resfeats}
 \end{table}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\linewidth]{03_experiments/figures/rf.pdf}
+  \caption{\acs*{roc} analysis using a \acs*{rf} classifier using the \ac{dce} signal with and without normalization.}
+  \label{fig:rfunorm}
+\end{figure}
+
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\linewidth]{03_experiments/figures/nb.pdf}
+  \caption{\acs*{roc} analysis using a \acs*{nb} classifier using the \ac{dce} signal with and without normalization.}
+  \label{fig:rfunorm}
+\end{figure}
 
 \begin{figure}
   \centering
