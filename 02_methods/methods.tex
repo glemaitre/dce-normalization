@@ -2,6 +2,38 @@
 
 \subsection{Normalization of \ac{dce}-\ac{mri} images}\label{sec:norm}
 
+\begin{figure}
+  \centering
+  \hspace*{\fill}
+  \subfigure[Patient 1]{\label{subfig:pat1}\includegraphics[width=.49\textwidth]{02_methods/figures/pat1.pdf}} \hfill
+  \subfigure[Patient 2]{\label{subfig:pat2}\includegraphics[width=.49\textwidth]{02_methods/figures/pat2.pdf}}
+  \hspace*{\fill}
+  \caption{Illustration of the variations of the intensity \acs*{pdf} over time of two patients in a \ac{dce}-\ac{mri}.}
+  \label{fig:heatmap}
+\end{figure}
+
+In this work, we proposed a method to normalized \ac{dce}-\ac{mri} prostate data.
+However, it can be note that this method can be used for any \ac{dce}-\ac{mri} sequences.
+The aim of the method is to reduce the intra-patient variation that can occur during the acquisition.
+These variations can be highlighted by observing the evolution of the intensity \ac{pdf} of the \ac{dce}-\ac{mri} over time, as shown in Fig.\,\ref{fig:heatmap}.
+These variations are:
+(i) an offset of the peak value before pre-contrast,
+(ii) a time offset depending of the contrast injection, and
+(iii) a scale factor related to the enhancement.
+Therefore, our normalization method should attenuate all these variations
+
+\subsubsection{Baseline alignment of each \ac{dce}-\ac{mri} serie}
+
+Short-path using graph minimization.
+
+\subsubsection{Estimate the dispersion of the voxel intensities}
+
+MSE.
+
+\subsubsection{Parametric curve alignment}
+
+Model using 1 translation and one scale.
+
 \subsection{Quantification of \ac{dce}-\ac{mri}}\label{sec:stateart}
 
 \subsubsection{Brix and Hoffmann models}\label{sec:brixhoffmann}

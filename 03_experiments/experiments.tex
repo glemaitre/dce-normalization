@@ -16,6 +16,11 @@ The volumes of the \ac{dce}-\ac{mri} dynamic are rigidly registered, to remove a
 Furthermore, a non-rigid registration is performed between the \ac{t2w}- and \ac{dce}-\ac{mri} in order to propagate the prostate zones and \ac{cap} ground-truths.
 The resampling is implemented in C++ using the Insight Segmentation and Registration Toolkit~\citep{ibanez2005itk}.
 
+\subsection{Implementation}
+
+The implementation of the registration (C++), normalization (Python), and classification pipeline (Python) are publicly available on GitHub\footnote{\url{https://github.com/I2Cvb/lemaitre-2016-nov/tree/master}}.
+The data used for this work are also publicly available\footnote{\url{http://some-url.com}}.
+
 \subsection{Results}
 
 \begin{table}
