@@ -12,19 +12,52 @@
   \label{fig:heatmap}
 \end{figure}
 
-In this work, we proposed a method to normalized \ac{dce}-\ac{mri} prostate data.
-However, it can be note that this method can be used for any \ac{dce}-\ac{mri} sequences.
-The aim of the method is to reduce the intra-patient variation that can occur during the acquisition.
-These variations can be highlighted by observing the evolution of the intensity \ac{pdf} of the \ac{dce}-\ac{mri} over time, as shown in Fig.\,\ref{fig:heatmap}.
+In this work, we proposed a method to normalized \ac{dce}-\ac{mri} prostate data, although it can be ported to any \ac{dce}-\ac{mri} sequences.
+The aim of the method is to reduce the intra-patient variations that can occur during acquisition.
+In \ac{t2w}-\ac{mri} prostate image, an offset and a scale factor are the two factors driving the intra-patient variation.
+Therefore, these variations are corrected using a $z$-score approach assuming that the data follow a Rician distribution~\citep{lemaitre2016normalization}.
+In \ac{dce}-\ac{mri}, there is additional factors characterizing such variations.
+These variations can be highlighted by observing the evolution of the intensity \ac{pdf} of the \ac{dce}-\ac{mri} over time, as shown in the heatmap in Fig.\,\ref{fig:heatmap}.
 These variations are:
 (i) an offset of the peak value before pre-contrast,
 (ii) a time offset depending of the contrast injection, and
-(iii) a scale factor related to the enhancement.
-Therefore, our normalization method should attenuate all these variations
+(iii) a global scale factor related to the enhancement.
+Therefore, our normalization method should attenuate all these variations and be performed globally across the different time sequence rather than for each independent sequence.
 
-\subsubsection{Baseline alignment of each \ac{dce}-\ac{mri} serie}
+\subsubsection{Graph-based offset correction for each \ac{dce}-\ac{mri} sequence}
 
-Short-path using graph minimization.
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\linewidth]{02_methods/figures/estimator.pdf}
+  \caption{Illustration of the estimator found using the shortest-path through the graph.}
+  \label{fig:estimator}
+\end{figure}
+
+Before to standardize each sequence, the first step of the normalization is to cancel the intensity shift which is specific for each patient.
+The intensity \ac{pdf} do not follow either a Rician or Gaussian distribution over time.
+Therefore, the mean cannot be used as a potential estimate for the offset.
+Additionally, this offset should be characterized by a smooth transition over time.
+This problem can be solved using the graph-theory: considering the intensity \ac{pdf} over time as shown in Fig.\,\ref{fig:heatmap}, the offset is the boundary splitting the heatmap in two partitions such that it is as close as possible to the peak of the intensity \ac{pdf} (see Fig.\,\ref{fig:estimator} for an illustration).
+Given the heatmap, a directed weighted graph $\mathcal{G}=(\mathcal{V}, \mathcal{E})$ is built by taking each bar of the heatmap as a node and connecting each pair of bars by an edge.
+The edge weight $w_{ij}$ between two nodes $i$ and $j$ corresponding to two pixels at position $(x_i, y_i)$ and $(x_j, y_j)$, respectively, is defined as in Eq.\,\eqref{eq:weight}:
+
+\begin{equation}
+  w_{ij} = \begin{cases}
+    \alpha \exp(1 - \frac{H(i)}{\max(H)})       & \text{if } x_j = x_i + 1 \text{ and } y_j = y_i \\
+    (1 - \alpha) \exp(1 - \frac{H(i)}{\max(H)}) & \text{if } x_j = x_i \text{ and } y_j = y_i + 1 \\
+    0                                           & \text{otherwise}
+  \end{cases} ,
+  \label{eq:weight}
+\end{equation}
+
+\noindent where $H$ is the heatmap, $\alpha$ is a smoothing parameter controlling the partitioning.
+
+Therefore, the offset is estimated by finding the shortest-path to cross the graph using Dijkstra algorithm.
+The entry and exiting nodes are set to be the bin with the maximum probability for the first \ac{dce}-\ac{mri} serie and the bin corresponding to the median value for the last \ac{dce}-\ac{mri} serie, respectively.
+To ensure a robust estimation of the offset, the process of finding the shortest-path is iteratively repeated by shifting the data and updating the heatmap as well as the graph $\mathcal{G}$.
+The procedure is stopped once that the offset found do not change.
+In general, this process is not repeated more than 3 iterations.
+An example of the offset found using this approach is presented in Fig.\,\ref{fig:estimator}.
 
 \subsubsection{Estimate the dispersion of the voxel intensities}
 

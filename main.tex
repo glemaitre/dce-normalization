@@ -16,10 +16,17 @@
 % Package for SI units
 \usepackage{siunitx}
 
-%% figure package
+% Package for figures
 \usepackage{epsf,graphicx}
 \usepackage{epstopdf}
 \usepackage{subfigure} 
+
+% Package for pseudo algorithm
+\usepackage{algorithm}
+\usepackage[noend]{algpseudocode}
+\makeatletter
+\def\BState{\State\hskip-\ALG@thistlm}
+\makeatother
 
 % Define the operator of convolution
 \newcommand{\Conv}{\mathop{\scalebox{1.5}{\raisebox{-0.2ex}{$\ast$}}}}%
