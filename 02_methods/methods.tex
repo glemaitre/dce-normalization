@@ -58,14 +58,43 @@ To ensure a robust estimation of the offset, the process of finding the shortest
 The procedure is stopped once that the offset found do not change.
 In general, this process is not repeated more than 3 iterations.
 An example of the offset found using this approach is presented in Fig.\,\ref{fig:estimator}.
+Finally, each sequence is shifted using this offset.
 
-\subsubsection{Estimate the dispersion of the voxel intensities}
+\subsubsection{Time offset and data dispersion correction}
 
-MSE.
+\begin{figure}
+  \centering
+  \hspace*{\fill}
+  \subfigure[\acs*{rmse} computed for each patient of our dataset.]{\label{fig:rmse}\includegraphics[width=.49\textwidth]{02_methods/figures/rmse.pdf}} \hfill
+  \subfigure[\acs*{rmse} after alignment using the curve parametric model.]{\label{fig:rmseal}\includegraphics[width=.49\textwidth]{02_methods/figures/rmse_aligned.pdf}}
+  \hspace*{\fill}
+  \caption{Illustration of the correction of the time offset and the data dispersion.}
+  \label{fig:curveal}
+\end{figure}
 
-\subsubsection{Parametric curve alignment}
+The next variations to correct are the time offset and the data dispersion.
+By computing the \ac{rmse} for each \ac{dce}-\ac{mri}, one can observed these two variations as shown in Fig.\,\ref{fig:rmse}.
+Therefore, to correct these variations, we propose to register each patient \ac{rmse} to a mean model which corresponds to the mean of all patients \ac{rmse}.
+The parametric model to perform the registration is formulated as in Eq.\,\eqref{eq:model}:
 
-Model using 1 translation and one scale.
+\begin{equation}
+  T(\alpha, \tau, f(t)) = \alpha f(t - \tau) ,
+  \label{eq:model}
+\end{equation}
+
+\noindent where $\alpha$ and $\tau$ are the two parameters handling the time offset and global scale, respectively, $f(\cdot)$ is the \ac{rmse} function.
+
+Therefore the registration problem is equivalent to:
+
+\begin{equation}
+  \argmin_{\alpha, \tau} = \sum_{t=0}^{N} \left[ T\left(\alpha, \tau, f(t)\right) - \mu(t) \right]^{2} ,
+  \label{eq:cost}
+\end{equation}
+
+\noindent where $\mu(\cdot)$ is the mean model, $N$ is the number of \ac{dce}-\ac{mri} serie.
+
+Illustration of the correction applied to each \ac{rmse} patient is shown in Fig.\,\ref{fig:rmseal}.
+Once all these parameters have been inferred, the data can be shifted as well as scale.
 
 \subsection{Quantification of \ac{dce}-\ac{mri}}\label{sec:stateart}
 
