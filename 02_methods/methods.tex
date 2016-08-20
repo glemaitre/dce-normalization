@@ -142,6 +142,17 @@ Therefore, Tofts model requires to:
 (ii) convert the \ac{mri} signal intensity (i.e., \ac{aif} and dynamic signal) to a concentration, and
 (iii) in the case of a population-based \ac{aif}, estimate an \ac{aif} signal.
 
+\begin{figure}
+  \centering
+  \hspace*{\fill}
+  \subfigure[Original image.]{\label{fig:org}\includegraphics[width=.3\textwidth]{02_methods/figures/original.pdf}} \hfill
+  \subfigure[Candidates region after clustering.]{\label{fig:cand}\includegraphics[width=.3\textwidth]{02_methods/figures/candidate.pdf}} \hfill
+  \subfigure[Regions selected after applying the different criteria.]{\label{fig:final}\includegraphics[width=.3\textwidth]{02_methods/figures/aif.pdf}}
+  \hspace*{\fill}
+  \caption{Illustration of the segmentation of the area used to determine the \acs*{aif}.}
+  \label{fig:aif}
+\end{figure}
+
 \begin{description}
   \item[Segmentation of artery voxels and patient-based \ac{aif} estimation] The \ac{aif} signal from \ac{dce}-\ac{mri} can be manually estimated by selecting the most-enhanced voxels from the femoral or iliac arteries~\citep{meng2010comparison}.
     Few methods have been proposed to address the automated extraction of \ac{aif} signal.
@@ -166,7 +177,7 @@ Therefore, Tofts model requires to:
     The cluster with the highest enhancement\textemdash i.e. corresponding to the 90\textsuperscript{th} percentile of the maximum of each dynamic signal\textemdash contain the arteries and is selected.
     Finally, regions with an eccentricity smaller than $0.5$ and an area in the range of $[100, 400]$ voxels are kept.
     Additionally, to remove voxels contaminated by partial volume effect, only the $10\%$ most enhanced voxels of the possible candidates are kept as proposed by~\citep{schabel2008uncertainty} and the average signal is computed.
-    A summary of the different segmentation steps is presented in Fig.\,\ref{fig:aifseg}.
+    A summary of the different segmentation steps is presented in Fig.\,\ref{fig:aif}.
     \item[Conversion of \ac{mri} signal intensity to concentration] To estimate the free parameters of the Tofts model (see Eq.\,\eqref{eq:exttofts}), the concentration $C_t(t)$ and $C_p(t)$ need to be computed from the \ac{mri} signal intensity and the \ac{aif} signal, respectively.
       This conversion is based on the equation of the FLASH sequence\textemdash see~\ref{app:signaltoconc} for details\textemdash and is formulated as in Eq.\,\eqref{eq:conv}:
       \begin{equation}
