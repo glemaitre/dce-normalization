@@ -23,40 +23,78 @@ The data used for this work are also publicly available\footnote{\url{http://som
 
 \subsection{Results}
 
+% \begin{table}
+%   \caption{\acs*{auc} of the individual features for each method.}
+%   \centering
+%   \begin{tabular}{l c c c c}
+%     \toprule
+%     \textbf{Features} & \multicolumn{2}{c}{Un-normalized data} & \multicolumn{2}{c}{Normalized data} \\
+%     & \acs*{rf} & \acs*{nb} & \acs*{rf} & \acs*{nb} \\
+%     \midrule
+%     \textbf{Brix model} & & & & \\
+%     \quad $A$         & 0.54 & 0.62 & 0.58 & 0.67 \\
+%     \quad $k_{el}$    & 0.55 & 0.52 & 0.54 & 0.61 \\
+%     \quad $k_{ep}$    & 0.51 & 0.52 & 0.51 & 0.58 \\
+%     \textbf{Hoffmann model} & & & & \\
+%     \quad $A$         & 0.52 & 0.50 & 0.51 & 0.56 \\
+%     \quad $k_{el}$    & 0.55 & 0.53 & 0.54 & 0.64 \\
+%     \quad $k_{ep}$    & 0.55 & 0.50 & 0.53 & 0.66 \\
+%     \textbf{Tofts model with population \ac{aif}} & & & & \\
+%     \quad $K_{trans}$ & 0.56 & 0.62 & 0.56 & 0.65 \\
+%     \quad $v_{e}$     & 0.51 & 0.50 & 0.50 & 0.52 \\
+%     \quad $v_{p}$     & 0.53 & 0.63 & 0.55 & 0.53 \\
+%     \textbf{Tofts model with patient \ac{aif}} & & & & \\
+%     \quad $K_{trans}$ & 0.57 & 0.66 & 0.56 & 0.65 \\
+%     \quad $v_{e}$     & 0.49 & 0.50 & 0.51 & 0.52 \\
+%     \quad $v_{p}$     & 0.53 & 0.37 & 0.57 & 0.65 \\
+%     \textbf{\ac{pun} model} & & & & \\
+%     \quad $a_0$       & 0.52 & 0.53 & 0.53 & 0.51  \\
+%     \quad $r$         & 0.53 & 0.59 & 0.55 & 0.55 \\
+%     \quad $\beta$     & 0.55 & 0.56 & 0.53 & 0.44 \\
+%     \textbf{Semi-quantitative analysis} & & & & \\
+%     \quad wash-in     & 0.59 & 0.64 & 0.55 & 0.51 \\
+%     \quad wash-out    & 0.52 & 0.50 & 0.56 & 0.66 \\
+%     \quad IAUC        & 0.51 & 0.61 & 0.52 & 0.64 \\
+%     \quad $\tau$      & 0.57 & 0.57 & 0.56 & 0.61 \\
+%     \quad $S_M - S_0$ & 0.56 & 0.63 & 0.53 & 0.64 \\
+%     \bottomrule
+%   \end{tabular}
+%   \label{tab:resfeats}
+% \end{table}
+
 \begin{table}
-  \caption{\acs*{auc} of the individual features for each method.}
+  \caption{\acs*{auc} for each individual pharmacokinetic parameter using a \acs*{nb} classifier.}
   \centering
-  \begin{tabular}{l c c c c}
+  \begin{tabular}{l c c}
     \toprule
-    \textbf{Features} & \multicolumn{2}{c}{Un-normalized data} & \multicolumn{2}{c}{Normalized data} \\
-    & \acs*{rf} & \acs*{nb} & \acs*{rf} & \acs*{nb} \\
+    \textbf{Features} & Un-normalized data & Normalized data \\
     \midrule
-    \textbf{Brix model} & & & & \\
-    \quad $A$         & 0.54 & 0.62 & 0.58 & 0.67 \\
-    \quad $k_{el}$    & 0.55 & 0.52 & 0.54 & 0.61 \\
-    \quad $k_{ep}$    & 0.51 & 0.52 & 0.51 & 0.58 \\
-    \textbf{Hoffmann model} & & & & \\
-    \quad $A$         & 0.52 & 0.50 & 0.51 & 0.56 \\
-    \quad $k_{el}$    & 0.55 & 0.53 & 0.54 & 0.64 \\
-    \quad $k_{ep}$    & 0.55 & 0.50 & 0.53 & 0.66 \\
-    \textbf{Tofts model with population \ac{aif}} & & & & \\
-    \quad $K_{trans}$ & 0.56 & 0.62 & 0.56 & 0.65 \\
-    \quad $v_{e}$     & 0.51 & 0.50 & 0.50 & 0.52 \\
-    \quad $v_{p}$     & 0.53 & 0.63 & 0.55 & 0.53 \\
-    \textbf{Tofts model with patient \ac{aif}} & & & & \\
-    \quad $K_{trans}$ & 0.57 & 0.66 & 0.56 & 0.65 \\
-    \quad $v_{e}$     & 0.49 & 0.50 & 0.51 & 0.52 \\
-    \quad $v_{p}$     & 0.53 & 0.37 & 0.57 & 0.65 \\
-    \textbf{\ac{pun} model} & & & & \\
-    \quad $a_0$       & 0.52 & 0.53 & 0.53 & 0.51  \\
-    \quad $r$         & 0.53 & 0.59 & 0.55 & 0.55 \\
-    \quad $\beta$     & 0.55 & 0.56 & 0.53 & 0.44 \\
-    \textbf{Semi-quantitative analysis} & & & & \\
-    \quad wash-in     & 0.59 & 0.64 & 0.55 & 0.51 \\
-    \quad wash-out    & 0.52 & 0.50 & 0.56 & 0.66 \\
-    \quad IAUC        & 0.51 & 0.61 & 0.52 & 0.64 \\
-    \quad $\tau$      & 0.57 & 0.57 & 0.56 & 0.61 \\
-    \quad $S_M - S_0$ & 0.56 & 0.63 & 0.53 & 0.64 \\
+    \textbf{Brix model} & & \\
+    \quad $A$         & 0.62 & 0.67 \\
+    \quad $k_{el}$    & 0.52 & 0.61 \\
+    \quad $k_{ep}$    & 0.52 & 0.58 \\
+    \textbf{Hoffmann model} & & \\
+    \quad $A$         & 0.50 & 0.56 \\
+    \quad $k_{el}$    & 0.53 & 0.64 \\
+    \quad $k_{ep}$    & 0.50 & 0.66 \\
+    \textbf{Tofts model with population \ac{aif}} & & \\
+    \quad $K_{trans}$ & 0.62 & 0.65 \\
+    \quad $v_{e}$     & 0.50 & 0.52 \\
+    \quad $v_{p}$     & 0.63 & 0.53 \\
+    \textbf{Tofts model with patient \ac{aif}} & & \\
+    \quad $K_{trans}$ & 0.66 & 0.65 \\
+    \quad $v_{e}$     & 0.50 & 0.52 \\
+    \quad $v_{p}$     & 0.37 & 0.65 \\
+    \textbf{\ac{pun} model} & & \\
+    \quad $a_0$       & 0.53 & 0.51  \\
+    \quad $r$         & 0.59 & 0.55 \\
+    \quad $\beta$     & 0.56 & 0.44 \\
+    \textbf{Semi-quantitative analysis} & & \\
+    \quad wash-in     & 0.64 & 0.51 \\
+    \quad wash-out    & 0.50 & 0.66 \\
+    \quad IAUC        & 0.61 & 0.64 \\
+    \quad $\tau$      & 0.57 & 0.61 \\
+    \quad $S_M - S_0$ & 0.63 & 0.64 \\
     \bottomrule
   \end{tabular}
   \label{tab:resfeats}
@@ -64,44 +102,39 @@ The data used for this work are also publicly available\footnote{\url{http://som
 
 \begin{figure}
   \centering
+  \hspace*{\fill}
+  \subfigure[Without normalization.]{\label{fig:rfpharmaunorm}\includegraphics[width=.49\textwidth]{03_experiments/figures/unormalized/rf.pdf}} \hfill
+  \subfigure[With normalization.]{\label{fig:rfpharmanorm}\includegraphics[width=.49\textwidth]{03_experiments/figures/normalized/rf.pdf}}
+  \hspace*{\fill}
+  \caption{\acs*{roc} analysis using a \acs*{rf} classifier with and without normalization \ac{dce}-\ac{mri} data for different pharmacokinetic models.}
+  \label{fig:normpharmarf}
+\end{figure}
+
+% \begin{figure}
+%   \centering
+%   \hspace*{\fill}
+%   \subfigure[Without normalization.]{\label{fig:nbpharmaunorm}\includegraphics[width=.49\textwidth]{03_experiments/figures/unormalized/nb.pdf}} \hfill
+%   \subfigure[With normalization.]{\label{fig:nbpharmanorm}\includegraphics[width=.49\textwidth]{03_experiments/figures/normalized/nb.pdf}}
+%   \hspace*{\fill}
+%   \caption{\acs*{roc} analysis using a \acs*{nb} classifier with and without normalization \ac{dce}-\ac{mri} data for different pharmacokinetic models.}
+%   \label{fig:normpharmanb}
+% \end{figure}
+
+% \begin{figure}
+%   \centering
+%   \hspace*{\fill}
+%   \subfigure[\acs*{rf} classifier.]{\label{fig:rfunorm}\includegraphics[width=.49\textwidth]{03_experiments/figures/rf.pdf}} \hfill
+%   \subfigure[\acs*{nb} classifier.]{\label{fig:nbunorm}\includegraphics[width=.49\textwidth]{03_experiments/figures/nb.pdf}}
+%   \hspace*{\fill}
+%   \caption{\acs*{roc} analysis using the entire \ac{dce}-\ac{mri} signal with and without normalization.}
+%   \label{fig:unormdcesignal}
+% \end{figure}
+
+\begin{figure}
+  \centering
   \includegraphics[width=0.7\linewidth]{03_experiments/figures/rf.pdf}
-  \caption{\acs*{roc} analysis using a \acs*{rf} classifier using the \ac{dce} signal with and without normalization.}
-  \label{fig:rfunorm}
-\end{figure}
-
-\begin{figure}
-  \centering
-  \includegraphics[width=0.7\linewidth]{03_experiments/figures/nb.pdf}
-  \caption{\acs*{roc} analysis using a \acs*{nb} classifier using the \ac{dce} signal with and without normalization.}
-  \label{fig:rfunorm}
-\end{figure}
-
-\begin{figure}
-  \centering
-  \includegraphics[width=0.7\linewidth]{03_experiments/figures/unormalized/rf.pdf}
-  \caption{\acs*{roc} analysis using a \acs*{rf} classifier for the different quantification methods without data normalization.}
-  \label{fig:rfunorm}
-\end{figure}
-
-\begin{figure}
-  \centering
-  \includegraphics[width=0.7\linewidth]{03_experiments/figures/unormalized/nb.pdf}
-  \caption{\acs*{roc} analysis using a \acs*{nb} classifier for the different quantification methods without data normalization.}
-  \label{fig:rfunorm}
-\end{figure}
-
-\begin{figure}
-  \centering
-  \includegraphics[width=0.7\linewidth]{03_experiments/figures/normalized/rf.pdf}
-  \caption{\acs*{roc} analysis using a \acs*{rf} classifier for the different quantification methods with data normalization.}
-  \label{fig:rfunorm}
-\end{figure}
-
-\begin{figure}
-  \centering
-  \includegraphics[width=0.7\linewidth]{03_experiments/figures/normalized/nb.pdf}
-  \caption{\acs*{roc} analysis using a \acs*{nb} classifier for the different quantification methods with data normalization.}
-  \label{fig:rfunorm}
+  \caption{\acs*{roc} analysis using the entire \ac{dce}-\ac{mri} signal with and without normalization in conjunction with a \acs*{rf} classifier.}
+  \label{fig:rfnormdcesignal}
 \end{figure}
 
 %%% Local Variables: 
