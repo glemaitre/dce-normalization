@@ -1,27 +1,6 @@
 \section{Experiments and results}\label{sec:experiments}
 
-\subsection{Data}\label{sec:data}
-
-The multi-parametric \ac{mri} data are acquired from a cohort of patients with higher-than-normal level of \ac{psa}.
-The acquisition is performed using a 3T whole body \ac{mri} scanner (Siemens Magnetom Trio TIM, Erlangen, Germany) using sequences to obtain \ac{t2w}-\ac{mri}, \ac{dce}-\ac{mri} and \ac{dw}-\ac{mri}.
-Aside of the \ac{mri} examination, these patients also have underwent a guided-biopsy.
-The dataset is composed of a total of 20 patients of which 18 patients have biopsy proven \ac{cap} and 2 patients are ``healthy'' with negative biopsies.
-Therefore, 13 patients have a \ac{cap} in the \ac{pz}, 3 patients have \ac{cap} in the \ac{cg}, 2 patients have invasive \ac{cap} in both \ac{pz} and \ac{cg} and finally 2 patients are considered as ``healthy''.
-An experienced radiologist has segmented the prostate organ --- on \ac{t2w}- and \ac{dce}-\ac{mri} --- as well as the prostate zones (i.e., \ac{pz} and \ac{cg}) and \ac{cap} on the \ac{t2w}-\ac{mri}.
-
-The \ac{dce}-\ac{mri} sequence consists in a kinetic study composed of 40 samples over time with a time resolution of \SI{6.5}{\second}.
-These \ac{dce}-\ac{mri} sequences are resampled using the spatial information of the \ac{t2w} \ac{mri} sequence with dimensions of $448 \times 360 \times 64$ and voxel spacing of $0.68 \times 0.68 \times 1.25 $ mm\textsuperscript{3}.
-A linear interpolation is used to compute missing data during the up-sampling.
-The volumes of the \ac{dce}-\ac{mri} dynamic are rigidly registered, to remove any patient motion during the acquisition.
-Furthermore, a non-rigid registration is performed between the \ac{t2w}- and \ac{dce}-\ac{mri} in order to propagate the prostate zones and \ac{cap} ground-truths.
-The resampling is implemented in C++ using the Insight Segmentation and Registration Toolkit~\citep{ibanez2005itk}.
-
-\subsection{Implementation}
-
-The implementation of the registration (C++), normalization (Python), and classification pipeline (Python) are publicly available on GitHub\footnote{\url{https://github.com/I2Cvb/lemaitre-2016-nov/tree/master}}.
-The data used for this work are also publicly available\footnote{\url{http://some-url.com}}.
-
-\subsection{Results}
+\subsection{Classification of individual parameter for each model}
 
 % \begin{table}
 %   \caption{\acs*{auc} of the individual features for each method.}
@@ -62,6 +41,15 @@ The data used for this work are also publicly available\footnote{\url{http://som
 %   \label{tab:resfeats}
 % \end{table}
 
+The first experiment consists in comparing the classification performance using each individual parameter for the different models, to assess the potential benefit of the normalization method.
+Therefore, each feature is individually classified using a Gaussian \ac{nb} classifier in a \ac{lopo} fashion.
+{\color{red}\ac{nb} is used due to its simplicity and it enables to check the fitted parameters for interpretation.}
+The results are summarized in Table~\ref{tab:resfeats}.
+It can be noted that in the majority of the cases, normalizing the data improve the classification performance in terms of \ac{auc}.
+Only the \ac{pun} model does not follow this tendency {\color{red} which might due to the fact that the function do not fit the data as good as the other model - WE WILL NEED SOME RMSE FOR EACH FITTING IF WE SAY SO.}.
+
+{\color{red}It could be interesting to check the value of the mean and std of the \ac{nb}. We could compute a ratio which refer to the class separability.}
+
 \begin{table}
   \caption{\acs*{auc} for each individual pharmacokinetic parameter using a \acs*{nb} classifier.}
   \centering
@@ -86,7 +74,7 @@ The data used for this work are also publicly available\footnote{\url{http://som
     \quad $v_{e}$     & 0.50 & 0.52 \\
     \quad $v_{p}$     & 0.37 & 0.65 \\
     \textbf{\ac{pun} model} & & \\
-    \quad $a_0$       & 0.53 & 0.51  \\
+    \quad $a_0$       & 0.53 & 0.51 \\
     \quad $r$         & 0.59 & 0.55 \\
     \quad $\beta$     & 0.56 & 0.44 \\
     \textbf{Semi-quantitative analysis} & & \\
@@ -99,6 +87,14 @@ The data used for this work are also publicly available\footnote{\url{http://som
   \end{tabular}
   \label{tab:resfeats}
 \end{table}
+
+\subsection{Classification by combining the parameters for each model}
+
+Usually, the parameters are combined to form a multi-dimensional prior to classify the data.
+Therefore, for each model, all parameters are combined and classified using a \ac{rf} classifier in a \ac{lopo} fashion.
+The use of \ac{rf} is motivated since that it leads to the best performance in the state-of-the-art methods~\citep{litjens2014computer}.
+The results are summarized by making \ac{roc} analysis and computing the \ac{auc}, as reported in Fig.\,\ref{fig:normpharmarf}.
+It can be noted that in all the cases the normalization of the data improve the classification performance.
 
 \begin{figure}
   \centering
@@ -129,6 +125,16 @@ The data used for this work are also publicly available\footnote{\url{http://som
 %   \caption{\acs*{roc} analysis using the entire \ac{dce}-\ac{mri} signal with and without normalization.}
 %   \label{fig:unormdcesignal}
 % \end{figure}
+
+\subsection{Classification of the entire enhanced \acs*{dce}-\acs*{mri} signal}
+
+The quantification methods are extracting a minimal set of parameters which should characterized the enhancement \ac{dce}-\ac{mri} curves.
+However, this extraction could discard some information of the signal.
+This experiment attends to use the whole \ac{dce}-\ac{mri} signal to perform the classification.
+Therefore, the enhanced signal is classified using a \ac{rf} classifier in a \ac{lopo} fashion.
+The \ac{roc} analysis and \ac{auc} are reported in Fig.\,\ref{fig:rfnormdcesignal}.
+It can be note that the worst performance are achieved while data without normalization.
+However, normalizing the data, this classification strategy lead the best classification performance, outperforming any quantification method, showing the importance of our normalization algorithm.
 
 \begin{figure}
   \centering
