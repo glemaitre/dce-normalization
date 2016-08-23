@@ -5,30 +5,30 @@ As highlighted by the PI-RADS Steering Committee, the two main challenges to be 
 (i) the improvement of detecting clinically significant \ac{cap} and
 (ii) an increase of the confidence in benign or dormant cases, avoiding unnecessary invasive medical exams.
 In this regard, \ac{mpmri} is frequently used to build robust \ac{cad} systems to detect, localize, and grade \ac{cap}.
-In general, \ac{cad} systems are based on \ac{mpmri} which combines several of the following modalities~\citep{lemaitre2015computer}: \ac{t2w}-\ac{mri}, \ac{dce}-\ac{mri}, \ac{adc} maps, and \ac{mrsi}.
+In general, \ac{cad} systems are based on \ac{mpmri} which potentially combines several of the following modalities~\citep{lemaitre2015computer}: \ac{t2w}-\ac{mri}, \ac{dce}-\ac{mri}, \ac{adc} maps, and \ac{mrsi}.
 
 In \ac{dce}-\ac{mri}, a contrast media is injected intravenously and a set of images is acquired over time.
-Consequently, each voxel in the image is a dynamic signal which is related to the vascular properties of the tissue.
+Consequently, each voxel in an image corresponds to a dynamic signal is related to the vascular properties of the tissue.
 In fact, these properties are automatically extracted using quantitative or semi-quantitative approaches~\citep{lemaitre2015computer}.
 
 The former group of approaches uses pharmacokinetic modelling based on a bicompartment model, namely Brix~\citep{brix1991pharmacokinetic} and Tofts~\citep{tofts1995quantitative} models.
-The parameters of the Brix model are found assuming a linear relationship between the media concentration and \ac{mri} signal intensity.
-This assumption has shown, however, to lead to inaccurate parameter calculation~\citep{heilmann2006determination}.
-In the contrary, Tofts model only requires a conversion from \ac{mri} signal intensity to concentration, which can become a non-linear relationship using specific equation of \ac{mri} sequences (e.g., FLASH sequence).
+The parameters of the Brix model are inferred assuming a linear relationship between the media concentration and the \ac{mri} signal intensity.
+This assumption has shown, however, to lead to inaccurately estimate the pharmacokinetic parameters~\citep{heilmann2006determination}.
+In the contrary, Tofts model requires a conversion from \ac{mri} signal intensity to concentration, which become a non-linear relationship using specific equation of \ac{mri} sequences (e.g., FLASH sequence).
 Tofts modelling suffers, however, from an higher complexity~\citep{gliozzi2011phenomenological}.
-The conversion using the non-linear approach requires to acquire a T$_1$ map which is not always possible during clinical examination.
-Furthermore, the parameter calculation require the \ac{aif} which is challenging to measure and can also lead to inaccurate estimation of the parameters.
+Indeed, the conversion using the non-linear approach requires to acquire a T$_1$ map which is not always possible during clinical examination.
+Additionally, the parameter calculation requires the \ac{aif} which is challenging to measure and can also lead to inaccurate estimation.
 
 The latter group of approaches are rather mathematical than pharmacokinetic modelling~\citep{huisman2001accurate,gliozzi2011phenomenological}.
 These methods offer the advantages to not require any knowledge about the \ac{mri} sequence nor any conversion from signal intensity to concentration.
 However, the heuristic approach propose by \citeauthor{huisman2001accurate} requires an estimate regarding the noise standard deviation of the signal as well as manual tuning.
 
 Nevertheless, all presented methods suffer from two major drawbacks:
-(i) the inter-patient variability of the data lead to a variation of the parameters estimated and to poor classification performance while designing \ac{cad} systems, and
+(i) the inter-patient variability of the data lead to a variation of the parameters estimated and subsequently to poor classification performance while designing \ac{cad} systems, and
 (ii) only few parameters are used to characterize the dynamic signal implying that some information are discarded.
 
 In this work, we propose a fully automatic normalization method for \ac{dce}-\ac{mri} that reduce the inter-patient variability of the data.
-Furthermore, we show that using the full normalized signal lead to the best classification performance.
+Furthermore, we show that using the full normalized \ac{dce}-\ac{mri} signal lead to the best classification performance.
 
 The paper is organized as follows: Section~\ref{sec:methods} outlines our normalization strategy (Section~\ref{sec:norm}) as well as specificity regarding the state-of-the-art methods used for comparison (Section~\ref{sec:stateart}). The dataset, experiments, and results are reported in Section~\ref{sec:experiments} while discussed in Section~\ref{sec:discussions} followed by a concluding section.
 
