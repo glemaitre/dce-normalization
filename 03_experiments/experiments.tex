@@ -69,54 +69,54 @@ The data used for this work are also publicly available\footnote{\url{http://kag
 %   \label{tab:resfeats}
 % \end{table}
 
-\begin{table}
+\begin{table*}
   \caption{\acs*{auc} for each individual pharmacokinetic parameter using a \acs*{nb} classifier.}
   \centering
-  \begin{tabular}{l c c}
+  \begin{tabular}{l c c c}
     \toprule
-    \textbf{Features} & Un-normalized data & Normalized data \\
+    \textbf{Features} & Un-normalized data & Normalized data & Gain/Loss \\
     \midrule
-    \textbf{Brix model} & & \\
-    \quad $A$         & 0.62 & 0.67 \\
-    \quad $k_{el}$    & 0.52 & 0.61 \\
-    \quad $k_{ep}$    & 0.52 & 0.58 \\
-    \textbf{Hoffmann model} & & \\
-    \quad $A$         & 0.50 & 0.56 \\
-    \quad $k_{el}$    & 0.53 & 0.64 \\
-    \quad $k_{ep}$    & 0.50 & 0.66 \\
-    \textbf{Tofts model with population \ac{aif}} & & \\
-    \quad $K_{trans}$ & 0.62 & 0.65 \\
-    \quad $v_{e}$     & 0.50 & 0.52 \\
-    \quad $v_{p}$     & 0.63 & 0.53 \\
-    \textbf{Tofts model with patient \ac{aif}} & & \\
-    \quad $K_{trans}$ & 0.66 & 0.65 \\
-    \quad $v_{e}$     & 0.50 & 0.52 \\
-    \quad $v_{p}$     & 0.37 & 0.65 \\
-    \textbf{\ac{pun} model} & & \\
-    \quad $a_0$       & 0.53 & 0.51 \\
-    \quad $r$         & 0.59 & 0.55 \\
-    \quad $\beta$     & 0.56 & 0.44 \\
-    \textbf{Semi-quantitative analysis} & & \\
-    \quad wash-in     & 0.64 & 0.51 \\
-    \quad wash-out    & 0.50 & 0.66 \\
-    \quad IAUC        & 0.61 & 0.64 \\
-    \quad $\tau$      & 0.57 & 0.61 \\
-    \quad $S_M - S_0$ & 0.63 & 0.64 \\
+    \textbf{Brix model} & & & \\
+    \quad $A$         & 0.62 & 0.67 & + 0.05 \\
+    \quad $k_{el}$    & 0.52 & 0.61 & + 0.09 \\
+    \quad $k_{ep}$    & 0.52 & 0.58 & + 0.06 \\
+    \textbf{Hoffmann model} & & & \\
+    \quad $A$         & 0.50 & 0.56 & + 0.06 \\
+    \quad $k_{el}$    & 0.53 & 0.64 & + 0.11 \\
+    \quad $k_{ep}$    & 0.50 & 0.66 & + 0.16 \\
+    \textbf{Tofts model with population \ac{aif}} & & & \\
+    \quad $K_{trans}$ & 0.62 & 0.65 & + 0.03 \\
+    \quad $v_{e}$     & 0.50 & 0.52 & + 0.02 \\
+    \quad $v_{p}$     & 0.63 & 0.53 & - 0.10 \\
+    \textbf{Tofts model with patient \ac{aif}} & & & \\
+    \quad $K_{trans}$ & 0.66 & 0.65 & - 0.01 \\
+    \quad $v_{e}$     & 0.50 & 0.52 & + 0.02 \\
+    \quad $v_{p}$     & 0.37 & 0.65 & + 0.18 \\
+    \textbf{\ac{pun} model} & & & \\
+    \quad $a_0$       & 0.53 & 0.51 & - 0.02 \\
+    \quad $r$         & 0.59 & 0.55 & - 0.04 \\
+    \quad $\beta$     & 0.56 & 0.44 & - 0.12 \\
+    \textbf{Semi-quantitative analysis} & & & \\
+    \quad wash-in     & 0.64 & 0.51 & - 0.15 \\
+    \quad wash-out    & 0.50 & 0.66 & + 0.16 \\
+    \quad IAUC        & 0.61 & 0.64 & + 0.03 \\
+    \quad $\tau$      & 0.57 & 0.61 & + 0.04 \\
+    \quad $S_M - S_0$ & 0.63 & 0.64 & + 0.01 \\
     \bottomrule
   \end{tabular}
   \label{tab:resfeats}
-\end{table}
+\end{table*}
 
 This experiment consists in assessing the benefit of normalizing the \ac{dce}-\ac{mri}, prior to classify each individual parameter for each model.
 Therefore, a Gaussian \ac{nb} classifier is used in conjunction with a \ac{lopo}.
 The results are summarized in Table~\ref{tab:resfeats}.
-In general, data normalization leads to better classification performance while extracting pharmacokinetic related parameters.
+In general, data normalization leads to better classification performance (i.e., + 4\%) while extracting pharmacokinetic related parameters.
 Only the \ac{pun} model does not follow this tendency.
-{\color{red} Find out why!!!}
+{\color{red} Find out why!!! I am computing the R2 coefficient to check the fit of data.}
 
 \subsection{Classification by combining the parameters for each model}
 
-\begin{figure}
+\begin{figure*}
   \centering
   \hspace*{\fill}
   \subfigure[Without normalization.]{\label{fig:rfpharmaunorm}\includegraphics[width=.49\textwidth]{03_experiments/figures/unormalized/rf.pdf}} \hfill
@@ -124,13 +124,14 @@ Only the \ac{pun} model does not follow this tendency.
   \hspace*{\fill}
   \caption{\acs*{roc} analysis using a \acs*{rf} classifier with and without normalization \ac{dce}-\ac{mri} data for different pharmacokinetic models.}
   \label{fig:normpharmarf}
-\end{figure}
+\end{figure*}
 
 In previous proposed \ac{cad} systems, the pharmacokinetic of a single model are combined.
 Therefore, for each model, all parameters are combined and classified using a \ac{rf} classifier in a \ac{lopo} fashion.
 The use of \ac{rf} is motivated since that it leads to the best performance in the state-of-the-art methods~\citep{litjens2014computer}.
 Results are summarized by performing a \ac{roc} analysis and computing the \ac{auc}, as reported in Fig.\,\ref{fig:normpharmarf}.
 Independently to the quantification model, the data normalization improves the\ac{auc} and classification performance.
+An increase of the \ac{auc} ranging from 1\% to 12\% is noticeable.
 
 % \begin{figure}
 %   \centering
@@ -166,8 +167,8 @@ However, this extraction could lead to a loss of information.
 This experiment is performed to assess if making use of the whole \ac{dce}-\ac{mri} signal instead of the just the pharmacokinetic parameters can improve the classification performance.
 Therefore, each enhanced \ac{dce}-\ac{mri} signal, normalized and un-normalized, is classified using a \ac{rf} classifier in a \ac{lopo} fashion.
 The \ac{roc} analysis and \ac{auc} are reported in Fig.\,\ref{fig:rfnormdcesignal}.
-It can be noted that the worst performance are achieved while classifying raw data without normalization.
-However, data normalization in conjunction with the use of the whole \ac{dce}-\ac{mri} signal is the strategy which outperforms all others.
+Classification without normalization lead to the worst performance, with an \ac{auc} of 0.57.
+However, data normalization in conjunction with the use of the whole \ac{dce}-\ac{mri} signal is the strategy which outperforms all others, with an \ac{auc} of 0.67.
 
 %%% Local Variables: 
 %%% mode: latex

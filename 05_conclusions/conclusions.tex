@@ -1,10 +1,12 @@
 \section{Conclusions and future works}\label{sec:conclusions}
 
 In this work, we presented a new method for normalizing/standardizing \ac{dce}-\ac{mri} data.
-Through different experiments, we show the benefit of such normalization.
-Furthermore, we show that using the whole \ac{dce}-\ac{mri} signal instead extracting parameters lead to the best classification performance.
+This method aimed at reducing the inter-patient variations occurring during data acquisition.
+A graph-based approach was used to correct intensity offset in conjunction with a model-based correction to reduce time offset as well as intensity scaling.
+We show the benefit of our normalization method prior to extract quantitative and semi-quantitative features, with a significant improvement of the classification performance.
+Nevertheless, we also show that using the whole normalized \ac{dce}-\ac{mri} signal outperforms all quantitative approach.
 
-As avenues for future research, this normalization has to be part of a \ac{mpmri} \ac{cad} system, mixing \ac{t2w}-\ac{mri}, \ac{dce}-\ac{mri}, \ac{dw}-\ac{mri}, and \ac{mrsi}.
+As avenues for future research, this normalization has to be part of a \ac{mpmri} \ac{cad} system in which \ac{dce}-\ac{mri} modality needs to be combined with other complementary modalities.
 
 %%% Local Variables: 
 %%% mode: latex

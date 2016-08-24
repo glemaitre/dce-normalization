@@ -13,7 +13,7 @@ In this work, we propose a method to normalize \ac{dce}-\ac{mri} prostate data t
 In \ac{t2w}-\ac{mri}, these variations are characterized by a shift and a scaling of the intensities as illustrated by the intensity \ac{pdf} in Fig.\,\ref{fig:t2w}.
 Therefore, these variations can be corrected using a $z$-score approach, assuming that the data follow a specific distribution~\citep{lemaitre2016normalization}.
 
-\begin{figure}
+\begin{figure*}
   \centering
   \hspace*{\fill}
   \subfigure[]{\label{subfig:pathist}\includegraphics[width=.35\textwidth]{02_methods/figures/IMG_20160824_122328.jpg}} \hfill
@@ -27,7 +27,7 @@ Therefore, these variations can be corrected using a $z$-score approach, assumin
   \hspace*{\fill}
   \caption{Illustration of the variations of the intensity \acs*{pdf} over time of two patients in a \ac{dce}-\ac{mri}.}
   \label{fig:heatmap}
-\end{figure}
+\end{figure*}
 
 In \ac{dce}-\ac{mri}, the intensity \ac{pdf} does not follow a unique type of distribution such as Rician or Gaussian distribution, as shown in Fig.\,\ref{subfig:pathist}.
 Indeed, the inter-patient variations are more complex due to the temporal acquisition.
@@ -76,7 +76,7 @@ Finally, for each \ac{dce}-\ac{mri} serie, the intensities are shifted by this o
 
 \subsubsection{Time offset and data dispersion correction}
 
-\begin{figure}
+\begin{figure*}
   \centering
   \hspace*{\fill}
   \subfigure[\acs*{rmse} computed for each patient of our dataset.]{\label{fig:rmse}\includegraphics[width=.49\textwidth]{02_methods/figures/rmse.pdf}} \hfill
@@ -84,7 +84,7 @@ Finally, for each \ac{dce}-\ac{mri} serie, the intensities are shifted by this o
   \hspace*{\fill}
   \caption{Illustration of the correction of the time offset and the data dispersion.}
   \label{fig:curveal}
-\end{figure}
+\end{figure*}
 
 The next variations to correct are the time offset and the data dispersion.
 By computing the \ac{rmse} of the intensities for each \ac{dce}-\ac{mri} serie, one can observed these two variations as shown in Fig.\,\ref{fig:rmse}.
@@ -162,7 +162,7 @@ Therefore, Tofts model requires to:
 (ii) convert the \ac{mri} signal intensity (i.e., \ac{aif} and dynamic signal) to a concentration, and
 (iii) in the case of a population-based \ac{aif}, estimate an \ac{aif} signal.
 
-\begin{figure}
+\begin{figure*}
   \centering
   \hspace*{\fill}
   \subfigure[Original image.]{\label{fig:org}\includegraphics[width=.3\textwidth]{02_methods/figures/original.pdf}} \hfill
@@ -171,7 +171,7 @@ Therefore, Tofts model requires to:
   \hspace*{\fill}
   \caption{Illustration of the segmentation of the area used to determine the \acs*{aif}.}
   \label{fig:aif}
-\end{figure}
+\end{figure*}
 
 \begin{description}
   \item[Segmentation of artery voxels and patient-based \ac{aif} estimation] The \ac{aif} signal from \ac{dce}-\ac{mri} can be manually estimated by selecting the most-enhanced voxels from the femoral or iliac arteries~\citep{meng2010comparison}.
