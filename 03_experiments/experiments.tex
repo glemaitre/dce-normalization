@@ -13,10 +13,10 @@ A \SI{3}{\mm} slice fat-suppressed \ac{t2w} fast spin-echo sequence (\ac{tr}/\ac
 Three-dimensional \ac{t2w} fast spin-echo (\ac{tr}/\ac{te}/\ac{etl}: \SI{3600}{\ms}/\SI{143}{\ms}/109, slice thickness: \SI{1.25}{\mm}) images are then acquired in an oblique axial plane.
 The nominal matrix and \ac{fov} of the 3D \ac{t2w} fast spin-echo images are $320 \times 256$ and $280 \times 240$ mm\textsuperscript{2}, respectively, thereby affording sub-millimetric pixel resolution within the imaging plane.
 
-\ac{dce}-\ac{mri} are performed using a fat suppressed 3D T$_1$ VIBE sequence (\ac{tr}/\ac{te}/Flip angle: \SI{3.25}{\ms}/\SI{1.12}{\ms}/\SI{10}{\degree}; Matrix: $256 \times 192$; \ac{fov}: $280 \times 210$ (with 75\% rectangular \ac{fov}); slab of 16 partitions of \SI{3.5}{\mm} thickness; temporal resolution: \SI{6}{\s}/slab over approximately \SI{5}{\minute}).
+\ac{dce}-\ac{mri} is performed using a fat suppressed 3D T$_1$ VIBE sequence (\ac{tr}/\ac{te}/Flip angle: \SI{3.25}{\ms}/\SI{1.12}{\ms}/\SI{10}{\degree}; Matrix: $256 \times 192$; \ac{fov}: $280 \times 210$ (with 75\% rectangular \ac{fov}); slab of 16 partitions of \SI{3.5}{\mm} thickness; temporal resolution: \SI{6}{\s}/slab over approximately \SI{5}{\minute}).
 A power injector (Medrad, Indianola, USA) is used to provide a bolus injection of Gd-DTPA (Dotarem, Guerbet, Roissy, France) at a dose of \SI{0.2}{\ml} Gd-DTPA/kg of body weight.
 
-These \ac{dce}-\ac{mri} sequences are resampled using the spatial information of the \ac{t2w}-\ac{mri} and missing data are interpolated using linear interpolation.
+These \ac{dce}-\ac{mri} sequences are resampled using the spatial information of the \ac{t2w}-\ac{mri} and missing data are interpolated using a linear interpolation.
 The volumes of the \ac{dce}-\ac{mri} dynamic are rigidly registered, to remove any patient motion during the acquisition.
 Furthermore, a non-rigid registration is performed between the \ac{t2w}-\ac{mri} and \ac{dce}-\ac{mri} in order to propagate the prostate zones and \ac{cap} ground-truths.
 The resampling is implemented in C++ using the Insight Segmentation and Registration Toolkit~\citep{ibanez2005itk}.
@@ -69,15 +69,6 @@ The data used for this work are also publicly available\footnote{\url{http://kag
 %   \label{tab:resfeats}
 % \end{table}
 
-The first experiment consists in comparing the classification performance using each individual parameter for the different models, to assess the potential benefit of the normalization method.
-Therefore, each feature is individually classified using a Gaussian \ac{nb} classifier in a \ac{lopo} fashion.
-{\color{red}\ac{nb} is used due to its simplicity and it enables to check the fitted parameters for interpretation.}
-The results are summarized in Table~\ref{tab:resfeats}.
-It can be noted that in the majority of the cases, normalizing the data improve the classification performance in terms of \ac{auc}.
-Only the \ac{pun} model does not follow this tendency {\color{red} which might due to the fact that the function do not fit the data as good as the other model - WE WILL NEED SOME RMSE FOR EACH FITTING IF WE SAY SO.}.
-
-{\color{red}It could be interesting to check the value of the mean and std of the \ac{nb}. We could compute a ratio which refer to the class separability.}
-
 \begin{table}
   \caption{\acs*{auc} for each individual pharmacokinetic parameter using a \acs*{nb} classifier.}
   \centering
@@ -116,13 +107,14 @@ Only the \ac{pun} model does not follow this tendency {\color{red} which might d
   \label{tab:resfeats}
 \end{table}
 
-\subsection{Classification by combining the parameters for each model}
+This experiment consists in assessing the benefit of normalizing the \ac{dce}-\ac{mri}, prior to classify each individual parameter for each model.
+Therefore, a Gaussian \ac{nb} classifier is used in conjunction with a \ac{lopo}.
+The results are summarized in Table~\ref{tab:resfeats}.
+In general, data normalization leads to better classification performance while extracting pharmacokinetic related parameters.
+Only the \ac{pun} model does not follow this tendency.
+{\color{red} Find out why!!!}
 
-Usually, the parameters are combined to form a multi-dimensional prior to classify the data.
-Therefore, for each model, all parameters are combined and classified using a \ac{rf} classifier in a \ac{lopo} fashion.
-The use of \ac{rf} is motivated since that it leads to the best performance in the state-of-the-art methods~\citep{litjens2014computer}.
-The results are summarized by making \ac{roc} analysis and computing the \ac{auc}, as reported in Fig.\,\ref{fig:normpharmarf}.
-It can be noted that in all the cases the normalization of the data improve the classification performance.
+\subsection{Classification by combining the parameters for each model}
 
 \begin{figure}
   \centering
@@ -133,6 +125,12 @@ It can be noted that in all the cases the normalization of the data improve the 
   \caption{\acs*{roc} analysis using a \acs*{rf} classifier with and without normalization \ac{dce}-\ac{mri} data for different pharmacokinetic models.}
   \label{fig:normpharmarf}
 \end{figure}
+
+In previous proposed \ac{cad} systems, the pharmacokinetic of a single model are combined.
+Therefore, for each model, all parameters are combined and classified using a \ac{rf} classifier in a \ac{lopo} fashion.
+The use of \ac{rf} is motivated since that it leads to the best performance in the state-of-the-art methods~\citep{litjens2014computer}.
+Results are summarized by performing a \ac{roc} analysis and computing the \ac{auc}, as reported in Fig.\,\ref{fig:normpharmarf}.
+Independently to the quantification model, the data normalization improves the\ac{auc} and classification performance.
 
 % \begin{figure}
 %   \centering
@@ -156,20 +154,20 @@ It can be noted that in all the cases the normalization of the data improve the 
 
 \subsection{Classification of the entire enhanced \acs*{dce}-\acs*{mri} signal}
 
-The quantification methods are extracting a minimal set of parameters which should characterized the enhancement \ac{dce}-\ac{mri} curves.
-However, this extraction could discard some information of the signal.
-This experiment attends to use the whole \ac{dce}-\ac{mri} signal to perform the classification.
-Therefore, the enhanced signal is classified using a \ac{rf} classifier in a \ac{lopo} fashion.
-The \ac{roc} analysis and \ac{auc} are reported in Fig.\,\ref{fig:rfnormdcesignal}.
-It can be note that the worst performance are achieved while data without normalization.
-However, normalizing the data, this classification strategy lead the best classification performance, outperforming any quantification method, showing the importance of our normalization algorithm.
-
 \begin{figure}
   \centering
   \includegraphics[width=0.7\linewidth]{03_experiments/figures/rf.pdf}
   \caption{\acs*{roc} analysis using the entire \ac{dce}-\ac{mri} signal with and without normalization in conjunction with a \acs*{rf} classifier.}
   \label{fig:rfnormdcesignal}
 \end{figure}
+
+As stated in the introduction, the quantification methods are extracting a set of parameters characterizing the enhancement \ac{dce}-\ac{mri} signal.
+However, this extraction could lead to a loss of information.
+This experiment is performed to assess if making use of the whole \ac{dce}-\ac{mri} signal instead of the just the pharmacokinetic parameters can improve the classification performance.
+Therefore, each enhanced \ac{dce}-\ac{mri} signal, normalized and un-normalized, is classified using a \ac{rf} classifier in a \ac{lopo} fashion.
+The \ac{roc} analysis and \ac{auc} are reported in Fig.\,\ref{fig:rfnormdcesignal}.
+It can be noted that the worst performance are achieved while classifying raw data without normalization.
+However, data normalization in conjunction with the use of the whole \ac{dce}-\ac{mri} signal is the strategy which outperforms all others.
 
 %%% Local Variables: 
 %%% mode: latex

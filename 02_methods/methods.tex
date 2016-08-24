@@ -4,25 +4,38 @@
 
 \begin{figure}
   \centering
+  \includegraphics[width=0.7\linewidth]{02_methods/figures/t2w.pdf}
+  \caption{Illustration of the inter-patient variations in 17 different patients, using the \acs*{pdf} representation.}
+  \label{fig:t2w}
+\end{figure}
+
+In this work, we propose a method to normalize \ac{dce}-\ac{mri} prostate data to reduce intra-patient variations, although it can be applied to any \ac{dce}-\ac{mri} sequences.
+In \ac{t2w}-\ac{mri}, these variations are characterized by a shift and a scaling of the intensities as illustrated by the intensity \ac{pdf} in Fig.\,\ref{fig:t2w}.
+Therefore, these variations can be corrected using a $z$-score approach, assuming that the data follow a specific distribution~\citep{lemaitre2016normalization}.
+
+\begin{figure}
+  \centering
   \hspace*{\fill}
-  \subfigure[Patient 1]{\label{subfig:pat1}\includegraphics[width=.49\textwidth]{02_methods/figures/pat1.pdf}} \hfill
-  \subfigure[Patient 2]{\label{subfig:pat2}\includegraphics[width=.49\textwidth]{02_methods/figures/pat2.pdf}}
+  \subfigure[]{\label{subfig:pathist}\includegraphics[width=.35\textwidth]{02_methods/figures/IMG_20160824_122328.jpg}} \hfill
+  \subfigure[]{\label{subfig:heatmaprep}\includegraphics[width=.5\textwidth]{02_methods/figures/pat2.pdf}}
+  \hspace*{\fill}
+  \\
+  \hspace*{\fill}
+  \subfigure{\includegraphics[width=.2\textwidth]{02_methods/figures/pat1.pdf}} \hfill
+  \subfigure[]{\label{subfig:pat2}\includegraphics[width=.2\textwidth]{02_methods/figures/pat2.pdf}} \hfill
+  \subfigure{\includegraphics[width=.2\textwidth]{02_methods/figures/pat2.pdf}}
   \hspace*{\fill}
   \caption{Illustration of the variations of the intensity \acs*{pdf} over time of two patients in a \ac{dce}-\ac{mri}.}
   \label{fig:heatmap}
 \end{figure}
 
-In this work, we propose a method to normalize \ac{dce}-\ac{mri} prostate data, although it can be applied to any \ac{dce}-\ac{mri} sequences.
-The aim of the method is to reduce the intra-patient variations, occurring during the acquisition process.
-In \ac{t2w}-\ac{mri}, these variations imply that the intensity \ac{pdf} of the prostate region is shifted as well as wider or narrower, from a patient to another.
-Therefore, these variations can be corrected using a $z$-score approach, assuming that the data follow a specific distribution~\citep{lemaitre2016normalization}.
-
-In \ac{dce}-\ac{mri}, the inter-patient variations are more complex due to the over time acquisition.
-These variations can be highlighted by observing the evolution of the intensity \ac{pdf} of the \ac{dce}-\ac{mri} over time, as shown in the heatmap in Fig.\,\ref{fig:heatmap}.
-Therefore, these variations are:
-(i) an intensity offset of the \ac{pdf} peak at pre-contrast,
-(ii) a time offset depending of the contrast agent arrival, and
-(iii) a change of scale related to the signal enhancement.
+In \ac{dce}-\ac{mri}, the intensity \ac{pdf} does not follow a unique type of distribution such as Rician or Gaussian distribution, as shown in Fig.\,\ref{subfig:pathist}.
+Indeed, the inter-patient variations are more complex due to the temporal acquisition.
+A better representation to observed these variations is to represent the intensity \ac{pdf} of the \ac{dce}-\ac{mri} data over time (see Fig.\,\ref{subfig:pathist}) using a heatmap representation as shown in Fig.\,\ref{subfig:heatmaprep}.
+Analyzing this heatmap representation across patients (see Fig.\,\ref{subfig:pat2}), the following variations are highlighted:
+(i) an intensity offset $\Delta_i$ of the \ac{pdf} peak at pre-contrast,
+(ii) a time offset $\Delta_t$ depending of the contrast agent arrival, and
+(iii) a change of scale $\sigma_i$ related to the signal enhancement.
 Therefore, our normalization method should attenuate all these variations and be performed globally across the different time sequence rather than for each independent sequence.
 
 \subsubsection{Graph-based offset correction for each \ac{dce}-\ac{mri} sequence}
@@ -35,10 +48,10 @@ Therefore, our normalization method should attenuate all these variations and be
 \end{figure}
 
 Before to standardize each sequence, the first step of the normalization is to cancel the intensity specific at each patient, occurring due to the media injection.
-In \ac{dce}-\ac{mri}, the intensity \ac{pdf} do not always follow either a Rician or a Gaussian distribution over time.
+As previously mentioned, the intensity \ac{pdf} do not always follow either a Rician or a Gaussian distribution over time, in \ac{dce}-\ac{mri}.
 Therefore, the mean of these distributions cannot be used as a potential estimate for this offset.
 Additionally, this offset should be characterized by a smooth transition between series over time.
-Thus, this problem is solved using the graph-theory: considering the intensity \ac{pdf} over time as shown in Fig.\,\ref{fig:heatmap}, the offset is the boundary splitting the heatmap in two partitions such that it is as close as possible to the peak of the intensity \ac{pdf} (see Fig.\,\ref{fig:estimator} for an illustration).
+Thus, this problem is solved using the graph-theory: considering the intensity \ac{pdf} over time as shown in Fig.\,\ref{subfig:heatmaprep}, the offset is the boundary splitting the heatmap in two partitions such that it is as close as possible to the peak of the intensity \ac{pdf} (see Fig.\,\ref{fig:estimator} for an illustration).
 Given the heatmap, a directed weighted graph $\mathcal{G}=(\mathcal{V}, \mathcal{E})$ is built by taking each bar of the heatmap as a node and connecting each pair of bars by an edge.
 The edge weight $w_{ij}$ between two nodes $i$ and $j$ corresponding to two pixels at position $(x_i, y_i)$ and $(x_j, y_j)$, respectively, is defined as in Eq.\,\eqref{eq:weight}:
 
@@ -99,6 +112,10 @@ Once all these parameters have been inferred, the data can be shifted as well as
 
 \subsection{Quantification of \ac{dce}-\ac{mri}}\label{sec:stateart}
 
+As stated in the introduction, one of our main challenge is to demonstrate the benefit of using our normalization method prior to extract parameters using quantitative and semi-quantitative methods.
+In this section, we summarize the different methods which have been used for the quantification of \ac{dce}-\ac{mri} for \ac{cap} detection~\citep{lemaitre2015computer}.
+Furthermore, we would like to emphasize the following additional contributions: (i) a novel automatic \ac{aif} estimation algorithm based on clustering and (ii) a simplified semi-quantitative method using constrained optimization.
+
 \subsubsection{Brix and Hoffmann models}\label{sec:brixhoffmann}
 
 In the Brix model~\citep{brix1991pharmacokinetic}, the \ac{mri} signal intensity is assumed to be proportional to the media concentration.
@@ -116,16 +133,18 @@ Therefore, the model is expressed as in Eq.\,\eqref{eq:brix}:
   \label{eq:enh}
 \end{equation}
 
-\noindent where $s(t)$ and $S_0$ are the \ac{mri} signal intensity at time $t$ and the average pre-contrast \ac{mri} signal intensity, respectively; $A$, $k_{el}$, and $k_{ep}$ are a constant proportional to the transfer constant, the diffusion rate constant, and the rate constant, respectively. Additionally, during the injection time $0 \leq t \leq \tau$, $t' = t$ and afterwards while $t > \tau$, $t' = \tau$.
+\noindent where $s(t)$ and $S_0$ are the \ac{mri} signal intensity at time $t$ and the average pre-contrast \ac{mri} signal intensity, respectively; $A$, $k_{el}$, and $k_{ep}$ are a constant proportional to the transfer constant, the diffusion rate constant, and the rate constant, respectively.
+Additionally, $t'$ is set such that $0 \leq t \leq \tau$, $t' = t$ and afterwards while $t > \tau$, $t' = \tau$.
 
-Following this model, \citeauthor{hoffmann1995pharmacokinetic} propose the following similar model as expressed in Eq.\,\eqref{eq:hoffmann}:
+\citeauthor{hoffmann1995pharmacokinetic} propose a similar model as expressed in Eq.\,\eqref{eq:hoffmann}, which derive from the Brix model:
 
 \begin{equation}
+  \small
   s_n(t) = 1 + \frac{A}{\tau} \left[ \frac{k_{ep} \left( \exp(k_{el} t') - 1 \right)}{k_{el}(k_{ep} - k_{el})} \exp(- k_{el} t) - \frac{\exp(k_{ep} t') - 1}{(k_{ep} - k_{el})} \exp(- k_{ep} t) \right].
   \label{eq:hoffmann}
 \end{equation}
 
-The parameters are estimated by fitting the model using non-linear least-squares optimization solved with Levenberg-Marcquardt.
+The parameters $A$, $k_{el}$, and $k_{ep}$ are estimated by fitting the model using non-linear least-squares optimization solved with Levenberg-Marcquardt.
 
 \subsubsection{Tofts model}\label{sec:tofts}
 
@@ -161,7 +180,7 @@ Therefore, Tofts model requires to:
     (i) dynamic signals with small peak are rejecting by thresholding,
     (ii) voxels with a small wash-in are rejected by thresholding,
     (iii) a blob detector is used and large enough regions are kept, and
-    (iv) circular and cylindricality are used to reject the last false positive.
+    (iv) circular and cylindricality criteria are used to reject the last false positive.
     \citeauthor{zhu2011automated} propose an iterative method selecting voxels which best fit a gamma variate function~\citep{zhu2011automated}.
     However, it requires to compute first and second derivatives as well as maximum curvature points.
     \citeauthor{shanbhag2012generalized} propose a 4-steps algorithm~\citep{shanbhag2012generalized,fennessy2015quantitative}:
@@ -193,7 +212,7 @@ Therefore, Tofts model requires to:
       \noindent where $s(t)$ is the \ac{mri} signal, $S_0$ is the \ac{mri} signal prior to the injection of the contrast media, $\alpha$ is the flip angle, $TR$ is the \acf{tr}, $R_{10}$ is the pre-contrast tissue relaxation time also equal to $\frac{1}{T_{10}}$, $r_1$ is the relaxitivity coefficient of the contrast agent.
 
       $T_{10}$ can be estimated from the acquisition of a T$_1$ map.
-      However, this modality was not part of the clinical trial in this research and the value of $T_{10}$ was fixed to \SI{1600}{\ms} for both blood and prostate as stated in the literature~\citep{fennessy2015quantitative,de2004mr,carr2011magnetic}.
+      However, this modality is not part of the clinical trial in this research and the value of $T_{10}$ is fixed to \SI{1600}{\ms} for both blood and prostate, in accordance with the values found in the literature~\citep{fennessy2015quantitative,de2004mr,carr2011magnetic}.
       \item[Estimation of population-based \ac{aif}] While estimating the pharmacokinetic parameters from Tofts model, the \ac{aif} concentration $C_p(t)$ can be computed either from the patient or a population.
         We presented in the two previous sections the algorithms which allows to estimate the patient-based \ac{aif} concentration.
         To compare with the previous approach, we also computed a population-based \ac{aif} which will be also later used to compare the performance of both approaches.
