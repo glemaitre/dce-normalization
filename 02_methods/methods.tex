@@ -9,35 +9,34 @@
   \label{fig:t2w}
 \end{figure}
 
-In this work, we propose a method to normalize \ac{dce}-\ac{mri} prostate data to reduce intra-patient variations, although it can be applied to any \ac{dce}-\ac{mri} sequences.
+In this work, we propose a method to normalize \ac{dce}-\ac{mri} prostate data to reduce inter-patient variations, although it can be applied to any \ac{dce}-\ac{mri} sequences.
 In \ac{t2w}-\ac{mri}, these variations are characterized by a shift and a scaling of the intensities as illustrated by the intensity \ac{pdf} in Fig.\,\ref{fig:t2w}.
 Therefore, these variations can be corrected using a $z$-score approach, assuming that the data follow a specific distribution~\citep{lemaitre2016normalization}.
 
 \begin{figure*}
   \centering
   \hspace*{\fill}
-  \subfigure[]{\label{subfig:pathist}\includegraphics[width=1\textwidth]{02_methods/figures/heatmaprep.pdf}} \hfill
+  \subfigure[]{\label{subfig:pathhist}\includegraphics[width=1\textwidth]{02_methods/figures/heatmaprep.pdf}} \hfill
   \hspace*{\fill}
   \\
   \hspace*{\fill}
-  \subfigure{\includegraphics[width=.2\textwidth]{02_methods/figures/pat1.pdf}} \hfill
-  \subfigure[]{\label{subfig:pat2}\includegraphics[width=.2\textwidth]{02_methods/figures/pat2.pdf}} \hfill
-  \subfigure{\includegraphics[width=.2\textwidth]{02_methods/figures/pat2.pdf}}
+  \subfigure[]{\label{subfig:pat1}\includegraphics[width=.49\textwidth]{02_methods/figures/pat1_annotated.pdf}} \hfill
+  \subfigure[]{\label{subfig:pat2}\includegraphics[width=.49\textwidth]{02_methods/figures/pat2.pdf}} \hfill
   \hspace*{\fill}
-  \caption{Illustration of the variations of the intensity \acs*{pdf} over time of two patients in a \ac{dce}-\ac{mri}.}
+  \caption{\subref{subfig:pathhist} Illustration of the heatmap representation: all \ac*{pdf}s of the prostate gland are concatenated together to build an heatmap; \subref{subfig:pat1}-\subref{subfig:pat2} Illustration of inter-patient variations (i.e., $\Delta_i$, $\Delta_t$, and $\sigma_i$) \acs*{pdf} over time of two patients in a \ac{dce}-\ac{mri}.}
   \label{fig:heatmap}
 \end{figure*}
 
-In \ac{dce}-\ac{mri}, the intensity \ac{pdf} does not follow a unique type of distribution such as Rician or Gaussian distribution, as shown in Fig.\,\ref{subfig:pathist}.
+In \ac{dce}-\ac{mri}, the intensity \ac{pdf} of prostate gland does not follow a unique type of distribution such as Rician or Gaussian distribution, as shown in Fig.\,\ref{subfig:pathist}.
 Indeed, the inter-patient variations are more complex due to the temporal acquisition.
-A better representation to observed these variations is to represent the intensity \ac{pdf} of the \ac{dce}-\ac{mri} data over time using a heatmap representation as shown in Fig.\,\ref{subfig:pathhist}.
+A better representation to observe these variations is to represent the intensity \ac{pdf} of the \ac{dce}-\ac{mri} data over time using a heatmap representation as shown in Fig.\,\ref{subfig:pathhist}.
 Analyzing this heatmap representation across patients (see Fig.\,\ref{subfig:pat2}), the following variations are highlighted:
 (i) an intensity offset $\Delta_i$ of the \ac{pdf} peak at pre-contrast,
 (ii) a time offset $\Delta_t$ depending of the contrast agent arrival, and
 (iii) a change of scale $\sigma_i$ related to the signal enhancement.
 Therefore, our normalization method should attenuate all these variations and be performed globally across the different time sequence rather than for each independent sequence.
 
-\subsubsection{Graph-based offset correction for each \ac{dce}-\ac{mri} sequence}
+\subsubsection{Graph-based intensity offset correction}
 
 \begin{figure}
   \centering
@@ -47,11 +46,11 @@ Therefore, our normalization method should attenuate all these variations and be
 \end{figure}
 
 Before to standardize each sequence, the first step of the normalization is to cancel the intensity specific at each patient, occurring due to the media injection.
-As previously mentioned, the intensity \ac{pdf} do not always follow either a Rician or a Gaussian distribution over time, in \ac{dce}-\ac{mri}.
-Therefore, the mean of these distributions cannot be used as a potential estimate for this offset.
-Additionally, this offset should be characterized by a smooth transition between series over time.
-Thus, this problem is solved using the graph-theory: considering the intensity \ac{pdf} over time as shown in Fig.\,\ref{subfig:heatmaprep}, the offset is the boundary splitting the heatmap in two partitions such that it is as close as possible to the peak of the intensity \ac{pdf} (see Fig.\,\ref{fig:estimator} for an illustration).
-Given the heatmap, a directed weighted graph $\mathcal{G}=(\mathcal{V}, \mathcal{E})$ is built by taking each bar of the heatmap as a node and connecting each pair of bars by an edge.
+As previously mentioned, the intensity \ac{pdf} does not always follow either a Rician or a Gaussian distribution over time, in \ac{dce}-\ac{mri}.
+Therefore, the mean of these distributions cannot be used as a potential estimate for these offsets.
+Additionally, these offsets should be characterized by a smooth transition between series over time.
+Thus, this problem is solved using the graph-theory: considering the intensity \ac{pdf} over time as shown in Fig.\,\ref{subfig:heatmaprep}, the offsets correspond to the boundary splitting the heatmap in two partitions such that they are as close as possible to the peak of the intensity \ac{pdf} (see Fig.\,\ref{fig:estimator} for an illustration).
+Given the heatmap, a directed weighted graph $\mathcal{G}=(\mathcal{V}, \mathcal{E})$ is built by taking each bar--- i.e., the probability for a given time and pixel intensity---of the heatmap as a node and connecting each pair of bars by an edge.
 The edge weight $w_{ij}$ between two nodes $i$ and $j$ corresponding to two pixels at position $(x_i, y_i)$ and $(x_j, y_j)$, respectively, is defined as in Eq.\,\eqref{eq:weight}:
 
 \begin{equation}
@@ -65,13 +64,13 @@ The edge weight $w_{ij}$ between two nodes $i$ and $j$ corresponding to two pixe
 
 \noindent where $H$ is the heatmap, $\alpha$ is a smoothing parameter controlling the partitioning.
 
-Therefore, the offset is estimated by finding the shortest-path to cross the graph using Dijkstra's algorithm.
+Therefore, these offsets are estimated by finding the shortest-path to cross the graph using Dijkstra's algorithm.
 The entry and exiting nodes are set to be the bin with the maximum probability for the first \ac{dce}-\ac{mri} serie and the bin corresponding to the median value for the last \ac{dce}-\ac{mri} serie, respectively.
-To ensure a robust estimation of the offset, the process of finding the shortest-path is iteratively repeated by shifting the data and updating the heatmap as well as the graph $\mathcal{G}$.
-The procedure is stopped once that the offset found do not change.
+To ensure a robust estimation of these offsets, the process of finding the shortest-path is iteratively repeated by shifting the data and updating the heatmap as well as the graph $\mathcal{G}$.
+The procedure is stopped once that the offset found does not change.
 In general, this process is not repeated more than 3 iterations.
-An example of the offset found using this approach is presented in Fig.\,\ref{fig:estimator}.
-Finally, for each \ac{dce}-\ac{mri} serie, the intensities are shifted by this offset.
+Figure~\ref{fig:estimator} illustrates the final estimation of the offsets (i.e., red landmark) found for each \ac{dce}-\ac{mri} serie.
+Therefore, each intensity offset is subtracted for each \ac{dce}-\ac{mri}.
 
 \subsubsection{Time offset and data dispersion correction}
 
@@ -86,7 +85,7 @@ Finally, for each \ac{dce}-\ac{mri} serie, the intensities are shifted by this o
 \end{figure*}
 
 The next variations to correct are the time offset and the data dispersion.
-By computing the \ac{rmse} of the intensities for each \ac{dce}-\ac{mri} serie, one can observed these two variations as shown in Fig.\,\ref{fig:rmse}.
+By computing the \ac{rmse} of the intensities for each \ac{dce}-\ac{mri} serie, one can observe these two variations as shown in Fig.\,\ref{fig:rmse}.
 Therefore, to correct these variations, we propose to register each patient \ac{rmse} to a mean model which corresponds to the mean of all patients \ac{rmse}.
 The parametric model to perform the registration is formulated as in Eq.\,\eqref{eq:model}:
 
@@ -95,7 +94,14 @@ The parametric model to perform the registration is formulated as in Eq.\,\eqref
   \label{eq:model}
 \end{equation}
 
-\noindent where $\alpha$ and $\tau$ are the two parameters handling the time offset and global scale, respectively, $f(\cdot)$ is the \ac{rmse} function.
+\noindent where $\alpha$ and $\tau$ are the two parameters handling the time offset and global scale, respectively, $f(\cdot)$ is the \ac{rmse} function define as:
+
+\begin{equation}
+  f(t) = \sqrt{ \left( \frac{\sum_{n=0}^{N} x(t)_{n}^2}{N}  \right) },
+  \label{eq:rmsd}
+\end{equation}
+
+\noindent where $x(t)_n$ is the shifted intensity of a sample from a specific \ac{dce}-\ac{mri} serie at time $t$ from a total number of $N$ samples.
 
 Therefore the registration problem is equivalent to:
 
@@ -107,7 +113,7 @@ Therefore the registration problem is equivalent to:
 \noindent where $\mu(\cdot)$ is the mean model, $N$ is the number of \ac{dce}-\ac{mri} serie.
 
 Illustration of the correction applied to each \ac{rmse} patient is shown in Fig.\,\ref{fig:rmseal}.
-Once all these parameters have been inferred, the data can be shifted as well as scaled.
+Once all these parameters have been inferred, the data can be shifted as well as scale.
 
 \subsection{Quantification of \ac{dce}-\ac{mri}}\label{sec:stateart}
 
@@ -132,16 +138,18 @@ Therefore, the model is expressed as in Eq.\,\eqref{eq:brix}:
   \label{eq:enh}
 \end{equation}
 
-\noindent where $s(t)$ and $S_0$ are the \ac{mri} signal intensity at time $t$ and the average pre-contrast \ac{mri} signal intensity, respectively; $A$, $k_{el}$, and $k_{ep}$ are a constant proportional to the transfer constant, the diffusion rate constant, and the rate constant, respectively.
+\noindent where $s(t)$ and $S_0$ are the \ac{mri} signal intensity at time $t$ and the average pre-contrast \ac{mri} signal intensity, respectively; $A$, $k_{el}$, and $k_{ep}$ are the constant proportional to the transfer constant, the diffusion rate constant, and the rate constant, respectively.
 Additionally, $t'$ is set such that $0 \leq t \leq \tau$, $t' = t$ and afterwards while $t > \tau$, $t' = \tau$.
 
-\citeauthor{hoffmann1995pharmacokinetic} propose a similar model as expressed in Eq.\,\eqref{eq:hoffmann}, which derive from the Brix model:
+\citeauthor{hoffmann1995pharmacokinetic} proposed a similar model as expressed in Eq.\,\eqref{eq:hoffmann}, which derive from the Brix model:
 
 \begin{equation}
   \small
-  s_n(t) = 1 + \frac{A}{\tau} \left[ \frac{k_{ep} \left( \exp(k_{el} t') - 1 \right)}{k_{el}(k_{ep} - k_{el})} \exp(- k_{el} t) - \frac{\exp(k_{ep} t') - 1}{(k_{ep} - k_{el})} \exp(- k_{ep} t) \right].
+  s_n(t) = 1 + \frac{A}{\tau} \left[ \frac{k_{ep} \left( \exp(k_{el} t') - 1 \right)}{k_{el}(k_{ep} - k_{el})} \exp(- k_{el} t) - \frac{\exp(k_{ep} t') - 1}{(k_{ep} - k_{el})} \exp(- k_{ep} t) \right] ,
   \label{eq:hoffmann}
 \end{equation}
+
+\noindent in which the constant $A$ is redefined by isolating the parameter $\tau$.
 
 The parameters $A$, $k_{el}$, and $k_{ep}$ are estimated by fitting the model using non-linear least-squares optimization solved with Levenberg-Marcquardt.
 
@@ -175,18 +183,17 @@ Therefore, Tofts model requires to:
 \begin{description}
   \item[Segmentation of artery voxels and patient-based \ac{aif} estimation] The \ac{aif} signal from \ac{dce}-\ac{mri} can be manually estimated by selecting the most-enhanced voxels from the femoral or iliac arteries~\citep{meng2010comparison}.
     Few methods have been proposed to address the automated extraction of \ac{aif} signal.
-    \citeauthor{chen2008automatic} filter successively the possible candidates~\citep{chen2008automatic}:
-    (i) dynamic signals with small peak are rejecting by thresholding,
-    (ii) voxels with a small wash-in are rejected by thresholding,
-    (iii) a blob detector is used and large enough regions are kept, and
-    (iv) circular and cylindricality criteria are used to reject the last false positive.
-    \citeauthor{zhu2011automated} propose an iterative method selecting voxels which best fit a gamma variate function~\citep{zhu2011automated}.
+    \citeauthor{chen2008automatic} filtered successively the possible candidates to be considered as \ac{aif} such that~\citep{chen2008automatic}:
+    (i) dynamic signals with small peak and voxels with a small wash-in are rejected by thresholding,
+    (ii) a blob detector is used and large enough regions are kept, and
+    (iii) circular and cylindricality criteria are used to reject the last false positive.
+    \citeauthor{zhu2011automated} proposed an iterative method selecting voxels which best fit a gamma variate function~\citep{zhu2011automated}.
     However, it requires to compute first and second derivatives as well as maximum curvature points.
-    \citeauthor{shanbhag2012generalized} propose a 4-steps algorithm~\citep{shanbhag2012generalized,fennessy2015quantitative}:
+    \citeauthor{shanbhag2012generalized} proposed a 4-steps algorithm~\citep{shanbhag2012generalized,fennessy2015quantitative}:
     (i) remove slices with artefacts and find the best slices based on intrinsic anatomic landmarks and enhancement characteristics,
     (ii) find the voxel candidates using the maximum enhanced voxels and a multi-label maximum entropy based thresholding algorithm,
-    (iii) excluding region next to the endorectal coil, and
-    (iv) selecting the best 5 candidates which meet enhancement characteristics and that are correlated.
+    (iii) exclude region next to the endorectal coil, and
+    (iv) select the best 5 candidates which meet enhancement characteristics and that are correlated.
 
     All the above methods are rather complex and thus we propose a method which is based on the following simple assumptions:
     (i) all possible \ac{aif} signal candidates should have a similar shape,
@@ -214,7 +221,7 @@ Therefore, Tofts model requires to:
       However, this modality is not part of the clinical trial in this research and the value of $T_{10}$ is fixed to \SI{1600}{\ms} for both blood and prostate, in accordance with the values found in the literature~\citep{fennessy2015quantitative,de2004mr,carr2011magnetic}.
       \item[Estimation of population-based \ac{aif}] While estimating the pharmacokinetic parameters from Tofts model, the \ac{aif} concentration $C_p(t)$ can be computed either from the patient or a population.
         We presented in the two previous sections the algorithms which allows to estimate the patient-based \ac{aif} concentration.
-        To compare with the previous approach, we also computed a population-based \ac{aif} which will be also later used to compare the performance of both approaches.
+        To compare with the previous approach, we also computed a population-based \ac{aif} which will be also used later to compare the performance of both approaches.
         In that regard, the population-based \ac{aif} was estimated as in~\citep{meng2010comparison} by fitting the average patient-based \ac{aif}s to the model of~\cite{parker2006experimentally} which is formulated as in Eq.\,\eqref{eq:parker}:
         \begin{equation}
           C_p(t) = \sum_{n=1}^{2} \frac{A_n}{\sigma_n \sqrt{2 \pi}} \exp\left(\frac{- (t- T_n)^2}{2\sigma_{n}^{2}}\right) + \frac{\alpha \exp(-\beta t)}{1 + \exp{-s (t - \tau)}} ,
@@ -227,7 +234,7 @@ The parameters are estimated by fitting the model using non-linear least-squares
 
 \subsubsection{\acs*{pun} model}\label{sec:pun}
 
-\citeauthor{gliozzi2011phenomenological} show that \ac{pun} approach can be used for \ac{dce}-\ac{mri} analysis~\citep{gliozzi2011phenomenological}.
+\citeauthor{gliozzi2011phenomenological} showed that \ac{pun} approach can be used for \ac{dce}-\ac{mri} analysis~\citep{gliozzi2011phenomenological}.
 The model has been successfully used in a \ac{cad} system proposed by~\cite{giannini2015fully}.
 This model can be expressed as in Eq.\,\eqref{eq:pun}:
 
@@ -249,8 +256,8 @@ The parameters are estimated by fitting the model using non-linear least-squares
 
 \subsubsection{Semi-quantitative analysis}\label{sec:semi}
 
-The semi-quantitative analysis of the \ac{dce}-\ac{mri} is equivalent to extract curve characteristics directly from the signal without a strict theoretical pharmacokinetic meaning.
-In this work, we use the model presented by~\cite{huisman2001accurate} which formulate the \ac{mri} signal as in Eq.\,\eqref{eq:huisman}:
+The semi-quantitative analysis of the \ac{dce}-\ac{mri} is equivalent to extracting curve characteristics directly from the signal without a strict theoretical pharmacokinetic meaning.
+In this work, we use the model presented by~\cite{huisman2001accurate} which formulated the \ac{mri} signal as in Eq.\,\eqref{eq:huisman}:
 
 \begin{equation}
   s(t) = \begin{cases}
@@ -273,9 +280,11 @@ Therefore, they propose to:
 Instead of these successive estimations, we propose a unified optimization in which $t_0$ is fixed since that this is a key parameter.
 Therefore, $t_0$ is robustly estimated from the \ac{aif} signal since that this is the most enhanced signal in which the start of enhancement is easily identifiable.
 The \ac{aif} signal is computed as in Section~\ref{sec:tofts}.
-$t_0$ is estimated by finding the maximum in the beginning of the first derivative of the \ac{mri} signal.
-Then, the function in Eq.\,\eqref{eq:huisman} is fitted using non-linear least squares with Trust Region Reflective algorithm.
+$t_0$ is estimated by finding the maximum of the first derivative of the \ac{aif} signal, always occurring at the beginning of the signal.
+Then, the function in Eq.\,\eqref{eq:huisman} is fitted using non-linear least squares with Trust Region Reflective algorithm~\citep{sorensen1982newton}.
 Furthermore, the parameters $\tau$ and $S_M$ are bounded during the optimization to ensure robust estimations.
+$\tau$ is bounded between $t_0$ and $t_f$ which is the time of the last sample while $S_M$ is bounded between $S_0$ and $\max(s(t))$.
+
 
 From Eq.\,\eqref{eq:huisman}, the following features are extracted:
 (i) the wash-in corresponding to the slope between $t_0$ and $t_0 + 2 \tau$,
