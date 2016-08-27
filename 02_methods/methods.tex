@@ -23,7 +23,7 @@ Therefore, these variations can be corrected using a $z$-score approach, assumin
   \subfigure[]{\label{subfig:pat1}\includegraphics[width=.49\textwidth]{02_methods/figures/pat1_annotated.pdf}} \hfill
   \subfigure[]{\label{subfig:pat2}\includegraphics[width=.49\textwidth]{02_methods/figures/pat2_annotated.pdf}} \hfill
   \hspace*{\fill}
-  \caption{\subref{subfig:pathhist} Illustration of the heatmap representation: all \ac*{pdf}s of the prostate gland are concatenated together to build an heatmap; \subref{subfig:pat1}-\subref{subfig:pat2} Illustration of inter-patient variations (i.e., $\Delta_i$, $\Delta_t$, and $\sigma_i$) \acs*{pdf} over time of two patients in a \ac{dce}-\ac{mri}.}
+  \caption{\subref{subfig:pathhist} Illustration of the heatmap representation: all \ac*{pdf}s of the prostate gland are concatenated together to build an heatmap; \subref{subfig:pat1}-\subref{subfig:pat2} Illustration of inter-patient variations (i.e., $\Delta_i$, $\Delta_t$, and $\alpha_i$) \acs*{pdf} over time of two patients in a \ac{dce}-\ac{mri}.}
   \label{fig:heatmap}
 \end{figure*}
 
@@ -33,7 +33,7 @@ A better representation to observe these variations is to represent the intensit
 Analyzing this heatmap representation across patients (see Fig.\,\ref{subfig:pat2}), the following variations are highlighted:
 (i) an intensity offset $\Delta_i$ of the \ac{pdf} peak at pre-contrast,
 (ii) a time offset $\Delta_t$ depending of the contrast agent arrival, and
-(iii) a change of scale $\sigma_i$ related to the signal enhancement.
+(iii) a change of scale $\alpha_i$ related to the signal enhancement.
 Therefore, our normalization method should attenuate all these variations and be performed globally across the different time sequence rather than for each independent sequence.
 
 \subsubsection{Graph-based intensity offsets correction}\label{sec:intoffsets}
