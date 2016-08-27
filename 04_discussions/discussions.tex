@@ -2,13 +2,14 @@
 
 The experiments conducted in the previous section can give rise to several discussions.
 In Tofts quantification, two different approaches have been used to infer the pharmacokinetic parameters: using a population-based or a patient-based \ac{aif}.
-The population-based \ac{aif} approach leads to better classification performance.
+The patient-based \ac{aif} approach leads to better classification performance.
 However, there is two shortcomings to take into account while advancing this fact:
 (i) T$_{10}$ parameter has been fixed and not computed from a T$_1$ map and
 (ii) the population-based \ac{aif} has been estimated from a cohort of only 17 patients.
 These two limitations have to be considered while advancing that population-based \ac{aif} modelling is outperforming patient-based \ac{aif} modelling.
 
 The best classification performance is reached by normalizing the \ac{dce}-\ac{mri} data and use the whole enhanced signal as feature, emphasizing the fact that a loss of information while extracting quantitative parameters.
+Furthermore, this normalization is a less complex process than all quantification methods.
 However, this strategy suffers from one drawback: the training time of the \ac{rf} classifier increases since that from 3 to 5 features, the feature space become a 40 dimensions space.
 
 %%% Local Variables: 

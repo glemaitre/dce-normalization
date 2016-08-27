@@ -27,7 +27,7 @@ Therefore, these variations can be corrected using a $z$-score approach, assumin
   \label{fig:heatmap}
 \end{figure*}
 
-In \ac{dce}-\ac{mri}, the intensity \ac{pdf} of prostate gland does not follow a unique type of distribution such as Rician or Gaussian distribution, as shown in Fig.\,\ref{subfig:pathist}.
+In \ac{dce}-\ac{mri}, the intensity \ac{pdf} of prostate gland does not follow a unique type of distribution such as Rician or Gaussian distribution, as shown in Fig.\,\ref{subfig:pathhist}.
 Indeed, the inter-patient variations are more complex due to the temporal acquisition.
 A better representation to observe these variations is to represent the intensity \ac{pdf} of the \ac{dce}-\ac{mri} data over time using a heatmap representation as shown in Fig.\,\ref{subfig:pathhist}.
 Analyzing this heatmap representation across patients (see Fig.\,\ref{subfig:pat2}), the following variations are highlighted:
@@ -36,7 +36,7 @@ Analyzing this heatmap representation across patients (see Fig.\,\ref{subfig:pat
 (iii) a change of scale $\sigma_i$ related to the signal enhancement.
 Therefore, our normalization method should attenuate all these variations and be performed globally across the different time sequence rather than for each independent sequence.
 
-\subsubsection{Graph-based intensity offset correction}
+\subsubsection{Graph-based intensity offsets correction}\label{sec:intoffsets}
 
 \begin{figure}
   \centering
@@ -49,7 +49,7 @@ Before to standardize each sequence, the first step of the normalization is to c
 As previously mentioned, the intensity \ac{pdf} does not always follow either a Rician or a Gaussian distribution over time, in \ac{dce}-\ac{mri}.
 Therefore, the mean of these distributions cannot be used as a potential estimate for these offsets.
 Additionally, these offsets should be characterized by a smooth transition between series over time.
-Thus, this problem is solved using the graph-theory: considering the intensity \ac{pdf} over time as shown in Fig.\,\ref{subfig:heatmaprep}, the offsets correspond to the boundary splitting the heatmap in two partitions such that they are as close as possible to the peak of the intensity \ac{pdf} (see Fig.\,\ref{fig:estimator} for an illustration).
+Thus, this problem is solved using the graph-theory: considering the intensity \ac{pdf} over time as shown in Fig.\,\ref{subfig:pathhist}, the offsets correspond to the boundary splitting the heatmap in two partitions such that they are as close as possible to the peak of the intensity \ac{pdf} (see Fig.\,\ref{fig:estimator} for an illustration).
 Given the heatmap, a directed weighted graph $\mathcal{G}=(\mathcal{V}, \mathcal{E})$ is built by taking each bar--- i.e., the probability for a given time and pixel intensity---of the heatmap as a node and connecting each pair of bars by an edge.
 The edge weight $w_{ij}$ between two nodes $i$ and $j$ corresponding to two pixels at position $(x_i, y_i)$ and $(x_j, y_j)$, respectively, is defined as in Eq.\,\eqref{eq:weight}:
 
@@ -113,12 +113,15 @@ Therefore the registration problem is equivalent to:
 \noindent where $\mu(\cdot)$ is the mean model, $N$ is the number of \ac{dce}-\ac{mri} serie.
 
 Illustration of the correction applied to each \ac{rmse} patient is shown in Fig.\,\ref{fig:rmseal}.
-Once all these parameters have been inferred, the data can be shifted as well as scale.
+Once all these parameters have been inferred, the data are shifted as well as scale.
+
+The resulting normalized data can be classified into two fashions: (i) each normalized signal can be classified considering the whole \ac{dce}-\ac{mri} signal or (ii) the normalized data can be fitted using a quantitative method, as presented in the next section.
+However, in the second strategy, this is necessary to apply common intensity offsets such that the data follow a shape as expected by the different quantitative models.
+The set of offsets applied is in fact corresponding to the maximum offsets found in Sect.\,\ref{sec:intoffsets}.
 
 \subsection{Quantification of \ac{dce}-\ac{mri}}\label{sec:stateart}
 
-As stated in the introduction, one of our main challenge is to demonstrate the benefit of using our normalization method prior to extract parameters using quantitative and semi-quantitative methods.
-In this section, we summarize the different methods which have been used for the quantification of \ac{dce}-\ac{mri} for \ac{cap} detection~\citep{lemaitre2015computer}.
+In this section, we summarize the different methods which have been used for the quantification of \ac{dce}-\ac{mri} for \ac{cap} detection~\citep{lemaitre2015computer} and which will be used for comparison in this work.
 Furthermore, we would like to emphasize the following additional contributions: (i) a novel automatic \ac{aif} estimation algorithm based on clustering and (ii) a simplified semi-quantitative method using constrained optimization.
 
 \subsubsection{Brix and Hoffmann models}\label{sec:brixhoffmann}
