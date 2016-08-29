@@ -52,14 +52,14 @@ Parameter estimation of the quantification methods are related to fit a specific
 Therefore, this section report the goodness of fitting by computing the coefficient of determination $R^2$ such as in Eq.\,\eqref{eq:r2}
 
 \begin{equation}
-  R^2 = 1 - \frac{\sum_{t = 0}^{T} (s_t - \hat{s}_t)^2}{\sum_{t = 0}^{T} (s_t - \bar{s})^2} ,
+  R^2 = 1 - \frac{\sum_{t = 1}^{T} (s_t - \hat{s}_t)^2}{\sum_{t = 1}^{T} (s_t - \bar{s})^2} ,
   \label{eq:r2}
 \end{equation}
 
 \noindent where $s_t$ and $\hat{s}_t$ are the signal to be fitted and the estimated signal at time $t$, respectively; $\bar{s}$ is the average signal to be fitted.
 
 Mean and standard-deviation of the coefficient of determination $R^{2}$ is reported in Table~\ref{tab:r2} for each quantification model.
-Brix, Hoffmann, and Tofts models are fitted with a coefficient $R^{2}$ superior to 0.80.%, implying that they are adequate models for that purpose.
+Brix, Hoffmann, and Tofts models are fitted with a coefficient $R^{2}$ superior to 0.80.
 Additionally, the proposed \ac{pun} model does not seem to fit well the data.
 Normalizing the data improve the coefficient $R^2$ for all the methods apart of the Hoffmann model.
 The large standard deviation for this model might imply that there is some cases, that the fitting fails.

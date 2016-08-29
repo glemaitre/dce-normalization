@@ -29,7 +29,7 @@ Therefore, these variations can be corrected using a $z$-score approach, assumin
 
 In \ac{dce}-\ac{mri}, the intensity \ac{pdf} of prostate gland does not follow a unique type of distribution such as Rician or Gaussian distribution, as shown in Fig.\,\ref{subfig:pathhist}.
 Indeed, the inter-patient variations are more complex due to the temporal acquisition.
-A better representation to observe these variations is to represent the intensity \ac{pdf} of the \ac{dce}-\ac{mri} data over time using a heatmap representation as shown in Fig.\,\ref{subfig:pathhist}.
+A better representation to observe these variations is to represent the intensity \ac{pdf} of the prostate gland over time--- requiring to segment the prostate ---using a heatmap representation as shown in Fig.\,\ref{subfig:pathhist}.
 Analyzing this heatmap representation across patients (see Fig.\,\ref{subfig:pat2}), the following variations are highlighted:
 (i) an intensity offset $\Delta_i$ of the \ac{pdf} peak at pre-contrast,
 (ii) a time offset $\Delta_t$ depending of the contrast agent arrival, and
@@ -69,6 +69,7 @@ The entry and exiting nodes are set to be the bin with the maximum probability f
 To ensure a robust estimation of these offsets, the process of finding the shortest-path is iteratively repeated by shifting the data and updating the heatmap as well as the graph $\mathcal{G}$.
 The procedure is stopped once that the offset found does not change.
 In general, this process is not repeated more than 3 iterations.
+The parameter $\alpha$ is set to $0.9$, empirically.
 Figure~\ref{fig:estimator} illustrates the final estimation of the offsets (i.e., red landmark) found for each \ac{dce}-\ac{mri} serie.
 Therefore, each intensity offset is subtracted for each \ac{dce}-\ac{mri}.
 
@@ -97,7 +98,7 @@ The parametric model to perform the registration is formulated as in Eq.\,\eqref
 \noindent where $\alpha$ and $\tau$ are the two parameters handling the time offset and global scale, respectively, $f(\cdot)$ is the \ac{rmse} function define as:
 
 \begin{equation}
-  f(t) = \sqrt{ \left( \frac{\sum_{n=0}^{N} x(t)_{n}^2}{N}  \right) },
+  f(t) = \sqrt{ \left( \frac{\sum_{n=1}^{N} x(t)_{n}^2}{N}  \right) },
   \label{eq:rmsd}
 \end{equation}
 
@@ -106,14 +107,14 @@ The parametric model to perform the registration is formulated as in Eq.\,\eqref
 Therefore the registration problem is equivalent to:
 
 \begin{equation}
-  \argmin_{\alpha, \tau} = \sum_{t=0}^{N} \left[ T\left(\alpha, \tau, f(t)\right) - \mu(t) \right]^{2} ,
+  \argmin_{\alpha, \tau} = \sum_{t=1}^{N} \left[ T\left(\alpha, \tau, f(t)\right) - \mu(t) \right]^{2} ,
   \label{eq:cost}
 \end{equation}
 
 \noindent where $\mu(\cdot)$ is the mean model, $N$ is the number of \ac{dce}-\ac{mri} serie.
 
 Illustration of the correction applied to each \ac{rmse} patient is shown in Fig.\,\ref{fig:rmseal}.
-Once all these parameters have been inferred, the data are shifted as well as scale.
+Once all these parameters have been inferred, the data are shifted as well as scaled.
 
 The resulting normalized data can be classified into two fashions: (i) each normalized signal can be classified considering the whole \ac{dce}-\ac{mri} signal or (ii) the normalized data can be fitted using a quantitative method, as presented in the next section.
 However, in the second strategy, this is necessary to apply common intensity offsets such that the data follow a shape as expected by the different quantitative models.
@@ -165,7 +166,7 @@ The extended Tofts model is formulated as in Eq.\,\eqref{eq:exttofts}:
   \label{eq:exttofts}
 \end{equation}
 
-\noindent where $\Conv$ is the convolution operator; $C_t(t)$ and $C_p(t)$ is the concentration of contrast agent in the tissue and in the plasma, respectively; $K_{trans}$, $k_{ep}$, and $v_p$ are the volume transfer constant, the diffusion rate constant, and the plasma volume fraction, respectively.
+\noindent where $\Conv$ is the convolution operator; $C_t(t)$ and $C_p(t)$ are the concentrations of contrast agent in the tissue and in the plasma, respectively; $K_{trans}$, $k_{ep}$, and $v_p$ are the volume transfer constant, the diffusion rate constant, and the plasma volume fraction, respectively.
 
 Therefore, Tofts model requires to:
 (i) detect candidate voxels from the femoral or iliac arteries and estimate a patient-based \ac{aif} signal,
@@ -200,7 +201,7 @@ Therefore, Tofts model requires to:
 
     All the above methods are rather complex and thus we propose a method which is based on the following simple assumptions:
     (i) all possible \ac{aif} signal candidates should have a similar shape,
-    (ii) an high enhancement, and
+    (ii) a high enhancement, and
     (iii) the arteries should be almost round and within a size range.
     Therefore, each slice is clustered into regions using K-means clustering with $k=6$.
     The cluster with the highest enhancement\textemdash i.e. corresponding to the 90\textsuperscript{th} percentile of the maximum of each dynamic signal\textemdash contain the arteries and is selected.
