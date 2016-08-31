@@ -11,7 +11,7 @@
 
 In this work, we propose a method to normalize \ac{dce}-\ac{mri} prostate data to reduce inter-patient variations, although it can be applied to any \ac{dce}-\ac{mri} sequences.
 In \ac{t2w}-\ac{mri}, these variations are characterized by a shift and a scaling of the intensities as illustrated by the intensity \ac{pdf} in Fig.\,\ref{fig:t2w}.
-Therefore, these variations can be corrected using a $z$-score approach, assuming that the data follow a specific distribution~\citep{lemaitre2016normalization}.
+Therefore, these variations can be corrected using a $z$-score approach--- i.e., normalizing the data by subtracting the mean and dividing by the standard deviation ---assuming that the data follow a specific distribution~\citep{lemaitre2016normalization}.
 
 \begin{figure*}
   \centering
@@ -31,10 +31,10 @@ In \ac{dce}-\ac{mri}, the intensity \ac{pdf} of prostate gland does not follow a
 Indeed, the inter-patient variations are more complex due to the temporal acquisition.
 A better representation to observe these variations is to represent the intensity \ac{pdf} of the prostate gland over time--- requiring to segment the prostate ---using a heatmap representation as shown in Fig.\,\ref{subfig:pathhist}.
 Analyzing this heatmap representation across patients (see Fig.\,\ref{subfig:pat2}), the following variations are highlighted:
-(i) an intensity offset $\Delta_i$ of the \ac{pdf} peak at pre-contrast,
+(i) intensity offsets $\Delta_i$ of the \ac{pdf} peak,
 (ii) a time offset $\Delta_t$ depending of the contrast agent arrival, and
 (iii) a change of scale $\alpha_i$ related to the signal enhancement.
-Therefore, our normalization method should attenuate all these variations and be performed globally across the different time sequence rather than for each independent sequence.
+Therefore, our normalization method should attenuate all these variations and be performed globally across the different time sequences rather than for each independent sequence.
 
 \subsubsection{Graph-based intensity offsets correction}\label{sec:intoffsets}
 
@@ -64,13 +64,13 @@ The edge weight $w_{ij}$ between two nodes $i$ and $j$ corresponding to two pixe
 
 \noindent where $H$ is the heatmap, $\alpha$ is a smoothing parameter controlling the partitioning.
 
-Therefore, these offsets are estimated by finding the shortest-path to cross the graph using Dijkstra's algorithm.
+Therefore, these offsets related to $\Delta_i$ are estimated by finding the shortest-path to cross the graph using Dijkstra's algorithm.
 The entry and exiting nodes are set to be the bin with the maximum probability for the first \ac{dce}-\ac{mri} serie and the bin corresponding to the median value for the last \ac{dce}-\ac{mri} serie, respectively.
 To ensure a robust estimation of these offsets, the process of finding the shortest-path is iteratively repeated by shifting the data and updating the heatmap as well as the graph $\mathcal{G}$.
-The procedure is stopped once that the offset found does not change.
+The procedure is stopped once the offset found does not change.
 In general, this process is not repeated more than 3 iterations.
 The parameter $\alpha$ is set to $0.9$, empirically.
-Figure~\ref{fig:estimator} illustrates the final estimation of the offsets (i.e., red landmark) found for each \ac{dce}-\ac{mri} serie.
+Figure~\ref{fig:estimator} illustrates the final estimation of the offsets $\Delta_i$ (i.e., red landmark) found for each \ac{dce}-\ac{mri} serie.
 Therefore, each intensity offset is subtracted for each \ac{dce}-\ac{mri}.
 
 \subsubsection{Time offset and data dispersion correction}
@@ -85,7 +85,7 @@ Therefore, each intensity offset is subtracted for each \ac{dce}-\ac{mri}.
   \label{fig:curveal}
 \end{figure*}
 
-The next variations to correct are the time offset and the data dispersion.
+The next variations to correct are the time offset $\Delta_t$ and the data dispersion $\sigma_i$.
 By computing the \ac{rmse} of the intensities for each \ac{dce}-\ac{mri} serie, one can observe these two variations as shown in Fig.\,\ref{fig:rmse}.
 Therefore, to correct these variations, we propose to register each patient \ac{rmse} to a mean model which corresponds to the mean of all patients \ac{rmse}.
 The parametric model to perform the registration is formulated as in Eq.\,\eqref{eq:model}:
@@ -95,7 +95,7 @@ The parametric model to perform the registration is formulated as in Eq.\,\eqref
   \label{eq:model}
 \end{equation}
 
-\noindent where $\alpha$ and $\tau$ are the two parameters handling the time offset and global scale, respectively, $f(\cdot)$ is the \ac{rmse} function define as:
+\noindent where $\alpha$ and $\tau$ are the two parameters handling the time offset $\Delta_i$ and global scale $\sigma_i$, respectively, $f(\cdot)$ is the \ac{rmse} function define as:
 
 \begin{equation}
   f(t) = \sqrt{ \left( \frac{\sum_{n=1}^{N} x(t)_{n}^2}{N}  \right) },
@@ -116,14 +116,14 @@ Therefore the registration problem is equivalent to:
 Illustration of the correction applied to each \ac{rmse} patient is shown in Fig.\,\ref{fig:rmseal}.
 Once all these parameters have been inferred, the data are shifted as well as scaled.
 
-The resulting normalized data can be classified into two fashions: (i) each normalized signal can be classified considering the whole \ac{dce}-\ac{mri} signal or (ii) the normalized data can be fitted using a quantitative method, as presented in the next section.
-However, in the second strategy, this is necessary to apply common intensity offsets such that the data follow a shape as expected by the different quantitative models.
-The set of offsets applied is in fact corresponding to the maximum offsets found in Sect.\,\ref{sec:intoffsets}.
+The resulting normalized data can be used into two fashions: (i) each normalized signal can be used as a whole to determine whether the corresponding voxel is healthy or cancerous or (ii) the normalized data can be fitted using a quantitative method, as presented in the next section.
+%However, for the second strategy, this is necessary to apply common intensity offsets such that the data follow a shape as expected by the different quantitative models.
+%The set of offsets applied is in fact corresponding to the maximum offsets found in Sect.\,\ref{sec:intoffsets}.
 
 \subsection{Quantification of \ac{dce}-\ac{mri}}\label{sec:stateart}
 
 In this section, we summarize the different methods which have been used for the quantification of \ac{dce}-\ac{mri} for \ac{cap} detection~\citep{lemaitre2015computer} and which will be used for comparison in this work.
-Furthermore, we would like to emphasize the following additional contributions: (i) a novel automatic \ac{aif} estimation algorithm based on clustering and (ii) a simplified semi-quantitative method using constrained optimization.
+Furthermore, we would like to emphasize the following additional contributions for this section: (i) a novel automatic \ac{aif} estimation algorithm based on clustering and (ii) a simplified semi-quantitative method using constrained optimization.
 
 \subsubsection{Brix and Hoffmann models}\label{sec:brixhoffmann}
 
@@ -190,7 +190,7 @@ Therefore, Tofts model requires to:
     \citeauthor{chen2008automatic} filtered successively the possible candidates to be considered as \ac{aif} such that~\citep{chen2008automatic}:
     (i) dynamic signals with small peak and voxels with a small wash-in are rejected by thresholding,
     (ii) a blob detector is used and large enough regions are kept, and
-    (iii) circular and cylindricality criteria are used to reject the last false positive.
+    (iii) circular and cylindricality criteria are used to reject the false positives.
     \citeauthor{zhu2011automated} proposed an iterative method selecting voxels which best fit a gamma variate function~\citep{zhu2011automated}.
     However, it requires to compute first and second derivatives as well as maximum curvature points.
     \citeauthor{shanbhag2012generalized} proposed a 4-steps algorithm~\citep{shanbhag2012generalized,fennessy2015quantitative}:
@@ -199,12 +199,13 @@ Therefore, Tofts model requires to:
     (iii) exclude region next to the endorectal coil, and
     (iv) select the best 5 candidates which meet enhancement characteristics and that are correlated.
 
-    All the above methods are rather complex and thus we propose a method which is based on the following simple assumptions:
+    All the above methods are rather complex and thus we propose a simpler method which is based on the following reasonable assumptions:
     (i) all possible \ac{aif} signal candidates should have a similar shape,
     (ii) a high enhancement, and
     (iii) the arteries should be almost round and within a size range.
     Therefore, each slice is clustered into regions using K-means clustering with $k=6$.
-    The cluster with the highest enhancement\textemdash i.e. corresponding to the 90\textsuperscript{th} percentile of the maximum of each dynamic signal\textemdash contain the arteries and is selected.
+    The cluster made of the most enhanced signals is selected since it contains the artery signals.
+    In this regards, the selection criteria corresponds to the 90\textsuperscript{th} percentile of the maximum \ac{dce}-\ac{mri} signal.
     Finally, regions with an eccentricity smaller than $0.5$ and an area in the range of $[100, 400]$ voxels are kept.
     Additionally, to remove voxels contaminated by partial volume effect, only the $10\%$ most enhanced voxels of the possible candidates are kept as proposed by~\citep{schabel2008uncertainty} and the average signal is computed.
     A summary of the different segmentation steps is presented in Fig.\,\ref{fig:aif}.
@@ -219,7 +220,7 @@ Therefore, Tofts model requires to:
         S^{*} = \frac{1 - \exp(- TR \cdot R_{10})}{1 - \cos \alpha \cdot \exp(- TR \cdot R_{10})} ,
         \label{eq:sstarconv}
       \end{equation}
-      \noindent where $s(t)$ is the \ac{mri} signal, $S_0$ is the \ac{mri} signal prior to the injection of the contrast media, $\alpha$ is the flip angle, $TR$ is the \acf{tr}, $R_{10}$ is the pre-contrast tissue relaxation time also equal to $\frac{1}{T_{10}}$, $r_1$ is the relaxitivity coefficient of the contrast agent.
+      \noindent where $s(t)$ is the \ac{mri} signal, $S_0$ is the \ac{mri} signal prior to the injection of the contrast media, $\alpha$ is the flip angle, $TR$ is the \acf{tr}, $R_{10}$ is the pre-contrast tissue relaxation time also equal to $\frac{1}{T_{10}}$, and $r_1$ is the relaxitivity coefficient of the contrast agent.
 
       $T_{10}$ can be estimated from the acquisition of a T$_1$ map.
       However, this modality is not part of the clinical trial in this research and the value of $T_{10}$ is fixed to \SI{1600}{\ms} for both blood and prostate, in accordance with the values found in the literature~\citep{fennessy2015quantitative,de2004mr,carr2011magnetic}.
@@ -234,7 +235,7 @@ Therefore, Tofts model requires to:
         \noindent where $A_n$, $T_n$, and $\sigma_n$ are the scaling constants, centers, and widths of the n\textsuperscript{th} Gaussian, $\alpha$ and $\beta$ are the amplitude and decay constant of the exponential; and $s$ and $\tau$ are the width and center of the sigmoid function, respectively.
 \end{description}
 
-The parameters are estimated by fitting the model using a constrained non-linear least-squares optimization, solved with Trust Region Reflective algorithm~\citep{sorensen1982newton} and bounding the parameters to be positive.
+The parameters are estimated by fitting the model using a constrained non-linear least-squares optimization, solved with the Trust Region Reflective algorithm~\citep{sorensen1982newton} and bounding the parameters to be positive.
 
 \subsubsection{\acs*{pun} model}\label{sec:pun}
 
@@ -285,7 +286,7 @@ Instead of these successive estimations, we propose a unified optimization in wh
 Therefore, $t_0$ is robustly estimated from the \ac{aif} signal since that this is the most enhanced signal in which the start of enhancement is easily identifiable.
 The \ac{aif} signal is computed as in Section~\ref{sec:tofts}.
 $t_0$ is estimated by finding the maximum of the first derivative of the \ac{aif} signal, always occurring at the beginning of the signal.
-Then, the function in Eq.\,\eqref{eq:huisman} is fitted using non-linear least squares with Trust Region Reflective algorithm~\citep{sorensen1982newton}.
+Then, the function in Eq.\,\eqref{eq:huisman} is fitted using non-linear least squares with the Trust Region Reflective algorithm~\citep{sorensen1982newton}.
 Furthermore, the parameters $\tau$ and $S_M$ are bounded during the optimization to ensure robust estimations.
 $\tau$ is bounded between $t_0$ and $t_f$ which is the time of the last sample while $S_M$ is bounded between $S_0$ and $\max(s(t))$.
 
