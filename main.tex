@@ -6,6 +6,10 @@
 % Package to change into landscape
 \usepackage{pdflscape}
 
+% Package for the appendix
+%\usepackage[toc,page]{appendix}
+\usepackage[header,title]{appendix}
+
 % Package for table
 \usepackage{booktabs}
 
@@ -133,7 +137,9 @@ The best classification performance to detect \ac{cap} is obtained using the who
 
 % Include the bibliography
 \section*{References}
-
 \bibliography{00_files_system/literature}
+
+\input{07_tables/tables}
+\input{08_figures/figures}
 
 \end{document}

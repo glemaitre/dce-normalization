@@ -32,22 +32,6 @@ The data used for this work are also publicly available\footnote{\url{https://ze
 
 %{\color{red} In case that we have issue with $R^2$, we need to provide the AIC since that the model are usually non-linear.}
 
-\begin{table*}
-  \caption{Coefficient of determination $R^{2}$ (i.e., $\mu \ (\pm \sigma)$), while fitting data with the different quantification models.}
-  \centering
-  \resizebox{\columnwidth}{!}{
-  \begin{tabular}{lc c c c c c}
-    \toprule
-    Data type & Brix & Hoffmann & Tofts population \ac{aif} & Tofts patient \ac{aif} & \ac{pun} & Semi-quantitative \\
-    \midrule
-    Un-normalized & $0.85 \ (\pm 0.11)$ & $0.81 \ (\pm 0.17)$ & $0.84 \ (\pm 0.14)$ & $0.88 \ (\pm 0.12)$ & $0.27 \ (\pm 0.18)$ & $0.64 \ (\pm 0.24)$  \\
-    Normalized    & $0.92 \ (\pm 0.05)$ & $0.72 \ (\pm 0.32)$ & $0.92 \ (\pm 0.06)$ & $0.90 \ (\pm 0.10)$ & $0.28 \ (\pm 0.20)$ & $0.75 \ (\pm 0.20)$  \\
-    \bottomrule
-  \end{tabular}
-  }
-  \label{tab:r2}
-\end{table*}
-
 Parameter estimation of the quantification methods are related to fit a specific model to the \ac{dce}-\ac{mri} data.
 Therefore, this section report the goodness of fitting by computing the coefficient of determination $R^2$ such as in Eq.\,\eqref{eq:r2}
 
@@ -66,56 +50,6 @@ The large standard deviation for this model might imply that there are some case
 
 \subsection{Detection of \acs*{cap} using pharmacokinetic parameters}
 
-\begin{table*}
-  \caption{\acs*{auc} (i.e., $\mu \ (\pm \sigma)$) for each individual pharmacokinetic parameter using a \acs*{rf} classifier.}
-  \centering
-  \resizebox{\columnwidth}{!}{
-  \begin{tabular}{l c c}
-    \toprule
-    \textbf{Features} & Un-normalized data & Normalized data \\
-    \midrule
-    \textbf{Brix model} & & \\
-    \quad $A$         & $0.540\ (\pm 0.069)$ & $0.555\ (\pm 0.080)$ \\
-    \quad $k_{el}$    & $0.549\ (\pm 0.062)$ & $0.577\ (\pm 0.093)$ \\
-    \quad $k_{ep}$    & $0.506\ (\pm 0.032)$ & $0.497\ (\pm 0.019)$ \\
-    \textbf{Hoffmann model} & & \\
-    \quad $A$         & $0.516\ (\pm 0.020)$ & $0.508\ (\pm 0.031)$ \\
-    \quad $k_{el}$    & $0.545\ (\pm 0.066)$ & $0.529\ (\pm 0.065)$ \\
-    \quad $k_{ep}$    & $0.550\ (\pm 0.063)$ & $0.545\ (\pm 0.060)$ \\
-    \textbf{Tofts model with population \ac{aif}} & & \\
-    \quad $K_{trans}$ & $0.556\ (\pm 0.086)$ & $0.565\ (\pm 0.097)$ \\
-    \quad $k_{ep}$    & $0.506\ (\pm 0.026)$ & $0.528\ (\pm 0.038)$ \\
-    \quad $v_{p}$     & $0.533\ (\pm 0.064)$ & $0.548\ (\pm 0.082)$ \\
-    \textbf{Tofts model with patient \ac{aif}} & & \\
-    \quad $K_{trans}$ & $0.563\ (\pm 0.077)$ & $0.548\ (\pm 0.060)$ \\
-    \quad $k_{ep}$    & $0.492\ (\pm 0.025)$ & $0.491\ (\pm 0.020)$ \\
-    \quad $v_{p}$     & $0.530\ (\pm 0.069)$ & $0.495\ (\pm 0.033)$ \\
-    \textbf{\ac{pun} model} & & \\
-    \quad $a_0$       & $0.521\ (\pm 0.040)$ & $0.530\ (\pm 0.045)$ \\
-    \quad $r$         & $0.550\ (\pm 0.085)$ & $0.573\ (\pm 0.097)$ \\
-    \quad $\beta$     & $0.531\ (\pm 0.051)$ & $0.549\ (\pm 0.068)$ \\
-    \textbf{Semi-quantitative analysis} & & \\
-    \quad wash-in     & $0.587\ (\pm 0.107)$ & $0.533\ (\pm 0.032)$ \\
-    \quad wash-out    & $0.516\ (\pm 0.037)$ & $0.486\ (\pm 0.035)$ \\
-    \quad IAUC        & $0.506\ (\pm 0.048)$ & $0.513\ (\pm 0.032)$ \\
-    \quad $\tau$      & $0.565\ (\pm 0.104)$ & $0.537\ (\pm 0.089)$ \\
-    \quad $S_M - S_0$ & $0.560\ (\pm 0.083)$ & $0.532\ (\pm 0.029)$ \\
-    \bottomrule
-  \end{tabular}
-  }
-  \label{tab:resfeats}
-\end{table*}
-
-\begin{figure*}
-  \centering
-  \hspace*{\fill}
-  \subfigure[Without normalization.]{\label{fig:rfpharmaunorm}\includegraphics[width=.49\textwidth]{03_experiments/figures/unormalized/unormalized_methods_0.pdf}} \hfill
-  \subfigure[With normalization.]{\label{fig:rfpharmanorm}\includegraphics[width=.49\textwidth]{03_experiments/figures/normalized/normalized_methods_0.pdf}}
-  \hspace*{\fill}
-  \caption{\acs*{roc} analysis using a \acs*{rf} classifier with and without normalization \ac{dce}-\ac{mri} data for different pharmacokinetic models.}
-  \label{fig:normpharmarf}
-\end{figure*}
-
 To study the potential benefit of our normalization, \ac{cap} are detected at a voxel level using pharmacokinetic parameters estimated from un-normalized and normalized \ac{dce}-\ac{mri} data.
 Each individual pharmacokinetic parameter is classified to evaluate their individual discriminative power to detect \ac{cap}.
 Therefore, a \ac{rf} classifier is used in conjunction with a \ac{lopo}.
@@ -128,13 +62,6 @@ The reasons behind the decrease of the \ac{auc} might be related to: (i) a poor 
 The best classification performance are obtained using the semi-quantitative approach with an \ac{auc} of 0.655.
 
 \subsection{Classification of the entire enhanced \acs*{dce}-\acs*{mri} signal}
-
-\begin{figure}
-  \centering
-  \includegraphics[width=0.7\linewidth]{03_experiments/figures/full_signal_0.pdf}
-  \caption{\acs*{roc} analysis using the entire \ac{dce}-\ac{mri} signal with and without normalization in conjunction with a \acs*{rf} classifier.}
-  \label{fig:rfnormdcesignal}
-\end{figure}
 
 As stated in the introduction, the quantification methods are extracting a set of parameters characterizing the enhancement \ac{dce}-\ac{mri} signal.
 However, this extraction might lead to a loss of information.

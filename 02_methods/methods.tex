@@ -2,30 +2,9 @@
 
 \subsection{Normalization of \ac{dce}-\ac{mri} images}\label{sec:norm}
 
-\begin{figure}
-  \centering
-  \includegraphics[width=0.7\linewidth]{02_methods/figures/t2w.pdf}
-  \caption{Illustration of the inter-patient variations in 17 different patients, using the \acs*{pdf} representation.}
-  \label{fig:t2w}
-\end{figure}
-
 In this work, we propose a method to normalize \ac{dce}-\ac{mri} prostate data to reduce inter-patient variations, although it can be applied to any \ac{dce}-\ac{mri} sequences.
 In \ac{t2w}-\ac{mri}, these variations are characterized by a shift and a scaling of the intensities as illustrated by the intensity \ac{pdf} in Fig.\,\ref{fig:t2w}.
 Therefore, these variations can be corrected using a $z$-score approach--- i.e., normalizing the data by subtracting the mean and dividing by the standard deviation ---assuming that the data follow a specific distribution~\citep{lemaitre2016normalization}.
-
-\begin{figure*}
-  \centering
-  \hspace*{\fill}
-  \subfigure[]{\label{subfig:pathhist}\includegraphics[width=1\textwidth]{02_methods/figures/heatmaprep.pdf}} \hfill
-  \hspace*{\fill}
-  \\
-  \hspace*{\fill}
-  \subfigure[]{\label{subfig:pat1}\includegraphics[width=.49\textwidth]{02_methods/figures/pat1_annotated.pdf}} \hfill
-  \subfigure[]{\label{subfig:pat2}\includegraphics[width=.49\textwidth]{02_methods/figures/pat2_annotated.pdf}} \hfill
-  \hspace*{\fill}
-  \caption{\subref{subfig:pathhist} Illustration of the heatmap representation: all \ac*{pdf}s of the prostate gland are concatenated together to build an heatmap; \subref{subfig:pat1}-\subref{subfig:pat2} Illustration of inter-patient variations (i.e., $\Delta_i$, $\Delta_t$, and $\alpha_i$) \acs*{pdf} over time of two patients in a \ac{dce}-\ac{mri}.}
-  \label{fig:heatmap}
-\end{figure*}
 
 In \ac{dce}-\ac{mri}, the intensity \ac{pdf} of prostate gland does not follow a unique type of distribution such as Rician or Gaussian distribution, as shown in Fig.\,\ref{subfig:pathhist}.
 Indeed, the inter-patient variations are more complex due to the temporal acquisition.
@@ -37,13 +16,6 @@ Analyzing this heatmap representation across patients (see Fig.\,\ref{subfig:pat
 Therefore, our normalization method should attenuate all these variations and be performed globally across the different time sequences rather than for each independent sequence.
 
 \subsubsection{Graph-based intensity offsets correction}\label{sec:intoffsets}
-
-\begin{figure}
-  \centering
-  \includegraphics[width=0.7\linewidth]{02_methods/figures/estimator.pdf}
-  \caption{Illustration of the estimator found using the shortest-path through the graph.}
-  \label{fig:estimator}
-\end{figure}
 
 Before to standardize each sequence, the first step of the normalization is to cancel the intensity specific at each patient, occurring due to the media injection.
 As previously mentioned, the intensity \ac{pdf} does not always follow either a Rician or a Gaussian distribution over time, in \ac{dce}-\ac{mri}.
@@ -74,16 +46,6 @@ Figure~\ref{fig:estimator} illustrates the final estimation of the offsets $\Del
 Therefore, each intensity offset is subtracted for each \ac{dce}-\ac{mri}.
 
 \subsubsection{Time offset and data dispersion correction}
-
-\begin{figure*}
-  \centering
-  \hspace*{\fill}
-  \subfigure[\acs*{rmse} computed for each patient of our dataset.]{\label{fig:rmse}\includegraphics[width=.49\textwidth]{02_methods/figures/rmse.pdf}} \hfill
-  \subfigure[\acs*{rmse} after alignment using the curve parametric model.]{\label{fig:rmseal}\includegraphics[width=.49\textwidth]{02_methods/figures/rmse_aligned.pdf}}
-  \hspace*{\fill}
-  \caption{Illustration of the correction of the time offset and the data dispersion.}
-  \label{fig:curveal}
-\end{figure*}
 
 The next variations to correct are the time offset $\Delta_t$ and the data dispersion $\sigma_i$.
 By computing the \ac{rmse} of the intensities for each \ac{dce}-\ac{mri} serie, one can observe these two variations as shown in Fig.\,\ref{fig:rmse}.
@@ -173,17 +135,6 @@ Therefore, Tofts model requires to:
 (ii) convert the \ac{mri} signal intensity (i.e., \ac{aif} and dynamic signal) to a concentration, and
 (iii) in the case of a population-based \ac{aif}, estimate an \ac{aif} signal.
 
-\begin{figure*}
-  \centering
-  \hspace*{\fill}
-  \subfigure[Original image.]{\label{fig:org}\includegraphics[width=.3\textwidth]{02_methods/figures/original.pdf}} \hfill
-  \subfigure[Candidates region after clustering.]{\label{fig:cand}\includegraphics[width=.3\textwidth]{02_methods/figures/candidate.pdf}} \hfill
-  \subfigure[Regions selected after applying the different criteria.]{\label{fig:final}\includegraphics[width=.3\textwidth]{02_methods/figures/aif.pdf}}
-  \hspace*{\fill}
-  \caption{Illustration of the segmentation of the area used to determine the \acs*{aif}.}
-  \label{fig:aif}
-\end{figure*}
-
 \begin{description}
   \item[Segmentation of artery voxels and patient-based \ac{aif} estimation] The \ac{aif} signal from \ac{dce}-\ac{mri} can be manually estimated by selecting the most-enhanced voxels from the femoral or iliac arteries~\citep{meng2010comparison}.
     Few methods have been proposed to address the automated extraction of \ac{aif} signal.
@@ -210,7 +161,7 @@ Therefore, Tofts model requires to:
     Additionally, to remove voxels contaminated by partial volume effect, only the $10\%$ most enhanced voxels of the possible candidates are kept as proposed by~\citep{schabel2008uncertainty} and the average signal is computed.
     A summary of the different segmentation steps is presented in Fig.\,\ref{fig:aif}.
     \item[Conversion of \ac{mri} signal intensity to concentration] To estimate the free parameters of the Tofts model (see Eq.\,\eqref{eq:exttofts}), the concentration $C_t(t)$ and $C_p(t)$ need to be computed from the \ac{mri} signal intensity and the \ac{aif} signal, respectively.
-      This conversion is based on the equation of the FLASH sequence\textemdash see~\ref{app:signaltoconc} for details\textemdash and is formulated as in Eq.\,\eqref{eq:conv}:
+      This conversion is based on the equation of the FLASH sequence\textemdash see Appendix~\ref{app:signaltoconc} for details\textemdash and is formulated as in Eq.\,\eqref{eq:conv}:
       \begin{equation}
         c(t) = \frac{1}{TR \cdot r_1} \ln\left( \frac{1 - \cos \alpha \cdot S^{*}\frac{s(t)}{S_0}}{1 - S^{*}\frac{s(t)}{S_0}} \right) - \frac{R_{10}}{r_1} ,
         \label{eq:conv}
