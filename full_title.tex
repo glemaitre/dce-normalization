@@ -103,48 +103,21 @@
 \address[label4]{\scriptsize Department of Magnetic Resonance, Cl\'inica Girona, Lorenzana 36, 17002 Girona, Spain}
 \address[label5]{\scriptsize Department of Scientific Computing, 400 Dirac Science Library, Florida State University, Tallahassee, FL 32306, United States}
 \address[label6]{\scriptsize CISIR, Electrical \& Electronic Engineering Department, Universiti Teknologi Petronas, 32610 Seri Iskandar, Perak, Malaysia}
-\cortext[cor1]{Corresponding author.}
+\cortext[cor1]{Corresponding author: Guillaume Lema\^itre, 12 rue de la Fonderie, 71200 Le Creusot, +33761104782}
 
-% Start the abstract
 \begin{abstract}
 \begin{description}
-  \item[Purpose] \ac{mpmri} plays a major role in the detection of \ac{cap} and is commonly used to the design of new \ac{cad} systems.
-    \ac{dce}-\ac{mri} is one of the modality regularly used in \ac{mpmri} \ac{cad} system.
-    Pharmocokinetric parameters are extracted from the \ac{dce}-\ac{mri} sequences and later used to discriminate cancerous from healthy tissue.
-    However, some inter-patients variations occur during the data acquisition leading to estimation errors of the pharmacokinetic parameters.
-    Therefore, we propose a fully automatic normalization method for \ac{dce}-\ac{mri} that reduces the inter-patient variability of the data.
-  \item[Materials and Methods] The inter-patient variations in \ac{dce}-\ac{mri} are corrected based on a graph-based intensity offsets correction as well as a time offset and data dispersion correction.
-    This normalization is applied ahead of usual pharmacokinetic quantitative analysis.
-    The different parameters are used in a \ac{rf} classifier in order to distinguish cancerous voxels from healthy one.
-  \item[Results] The best classification performance to detect \ac{cap} is obtained using the whole \ac{dce}-\ac{mri} normalized signal, reaching an \ac{auc} of $0.666\ (\pm 0.154)$ and outperforming the quantitative approaches.
-  \item[Conclusion] We show the benefit of our normalization method prior to extract quantitative and semi-quantitative features, with a significant improvement of the classification performance.
-    Nevertheless, we also show that using the whole normalized \ac{dce}-\ac{mri} signal outperforms all quantitative approaches.
+  \item[Acknowledgements] None.
+  \item[Grant support] Guillaume Lema\^itre is supported by the Generalitat de Catalunya (grant nb. FI-DGR2012) and partly by the Mediterranean Office for Youth (grant nb. 2011/018/06).
+  \item[Running title] All you need is a good normalization
 \end{description}
 \end{abstract}
 
-% Give the different keywords
-\begin{keyword}
-\acs*{dce}-\acs*{mri}\sep prostate cancer\sep normalization\sep classification\sep quantification
-\end{keyword}
-
 \end{frontmatter}
 
-% Reset all the acronyms
-\acresetall
-\linenumbers
-% Include now the different files
-\input{01_introduction/introduction}
-\input{02_methods/methods}
-\input{03_experiments/experiments}
-\input{04_discussions/discussions}
-\input{05_conclusions/conclusions}
-\input{06_appendix/appendix}
-
-% Include the bibliography
-\section*{References}
-\bibliography{00_files_system/literature}
-
-\input{07_tables/tables}
-\input{08_figures/figures}
-
 \end{document}
+
+%%% Local Variables: 
+%%% mode: latex
+%%% TeX-master: t
+%%% End: 
