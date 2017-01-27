@@ -8,14 +8,32 @@ However, there are two shortcomings to take into account while advancing this fa
 (ii) the population-based \ac{aif} has been estimated from a cohort of only 17 patients.
 These two limitations have to be considered while advancing that population-based \ac{aif} modelling is outperforming patient-based \ac{aif} modelling.
 
-The best classification performance is reached by normalizing the \ac{dce}-\ac{mri} data and use the whole enhanced signal as feature, emphasizing the fact that a loss of information while extracting quantitative parameters.
-Furthermore, this normalization is a less complex process than all quantification methods.
-However, this strategy suffers from one drawback: the training time of the \ac{rf} classifier increases since that from 3 to 5 features, the feature space becomes a 40 dimensions space.
+The best classification performance is reached by normalizing the \ac{dce}-\ac{mri} data and use the entire enhanced signal as feature, emphasizing the fact that a \emph{loss of information} while extracting quantitative parameters.
+Furthermore, this normalization is a less complex process than all
+quantification methods and significantly improves the classification
+performance of the semi-quantitative approach ($p=0.001$) proposed by
+\citeauthor{huisman2001accurate}.
+Additionally, our normalization improves the \ac{auc} score related to
+the detection of \ac{cap} in \ac{cg}, also known to be the most
+challenging cases in the diagnosis of \ac{cap}.
+
+However, using the entire enhanced signal in conjunction with the
+normalization suffers from one drawback: the training time of the
+\ac{rf} classifier increases; instead of using $3$ to $5$ features, the
+feature space becomes a $40$ dimensions space. The extraction of the
+semi-quantitative parameters leads to a comparable classification performance ---
+$0.655$ vs. $0.666$ --- and should be chosen as the alternative method to
+consider if the number of feature in the classification is
+critical. Despite this fact, the benefit of the normalization method
+has been shown for both methods.
 
 Nevertheless, this study is performed on a small cohort of patients using a single \ac{mri} machine.
 Generalizing the results of this study on a larger dataset acquired from different commercial systems have to be considered to study the robustness of the proposed approach.
+Additionally, our method being non-parametric should provide an
+adequate framework to process \ac{dce} data from different
+institutions, scanners with different settings.
 
-%%% Local Variables: 
+%%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "../main"
-%%% End: 
+%%% End:
