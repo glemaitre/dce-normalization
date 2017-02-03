@@ -26,7 +26,11 @@ The nominal matrix and the \ac{fov} of the 3D \ac{t2w} fast spin-echo images are
 sequence (\ac{tr}/\ac{te}/Flip angle:
 \SI{3.25}{\ms}/\SI{1.12}{\ms}/\SI{10}{\degree}; Matrix: $256 \times
 192$; \ac{fov}: $280 \times 210$ (with 75\% rectangular \ac{fov}); a slab of 16 partitions of \SI{3.5}{\mm} thickness; temporal resolution: \SI{6}{\s}/slab over approximately \SI{5}{\minute}).
-A power injector (Medrad, Indianola, USA) is used to provide a bolus injection of Gd-DTPA (Dotarem, Guerbet, Roissy, France) at a dose of \SI{0.2}{\ml} Gd-DTPA/kg of body weight.
+A power injector (Medrad, Indianola, USA) is used to provide a bolus
+injection of Gd-DTPA (Dotarem, Guerbet, Roissy, France) at a dose of
+\SI{0.2}{\ml} Gd-DTPA/kg of body weight.
+\textbf{The acquisition starts before the bolus injection to obtain
+  pre-contrast volumes.}
 
 These \ac{dce}-\ac{mri} sequences are resampled using the spatial
 information of the \ac{t2w}-\ac{mri} and any missing data are added using linear interpolation.

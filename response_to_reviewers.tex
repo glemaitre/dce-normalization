@@ -62,7 +62,7 @@
   possible, the comments of the reviewers have been addressed and
   highlighted in the article.
 
-  Please, find below a point-by-point response to each issues raised
+  Please, find below a point-by-point response to each of the issues raised
   by the reviewers.
 
   Reviewer \#1:
@@ -75,12 +75,13 @@
       blood hemorrhage following prostate biopsy. Please discuss
       why a pre or a post contrast T1w image is missing from the
       clinical trial that will be using DCE images.}\\
-    The MRI acquisition was performed prior to carry out the
-    biopsy. Therefore, the risk of blood hemorrhage is discarded.
-    Additionally, pre-contrast T1w images are available since 4 to 6
-    volumes are acquired previous to the bolus injection of the
-    contrast media. Indeed, this pre-contrast data are used in some
-    models (i.e., $S_0$).
+    Maybe it was not entirely clear from the text but the DCE sequence
+    used in this work is based on T1w. In other words, the
+    pre-contrast acquisition corresponds to the first volumes in the
+    sequence before the contrast injection. To avoid confusion, this
+    has been clarified in the Material section (p.~15/l.~275).
+    Additionally, the risk of blood hemorrhage is discarded since the
+    biopsies are carried out after the MRI acquisition.
   \item \textbf{The other advantage of normalizing to T1w images are
       patient specific information will be preserved. Different
       patients may have different cancer lesions of different grades
@@ -88,17 +89,21 @@
       patients to the same space may result in loss of
       information. Please comment.}\\
     Our normalization is designed to align the \emph{mean kinetic
-      expression}. Therefore, it is true that patient-related
-    information can be lost. However, lesion with different grades
-    should more or less dispersed to the mean kinetic expression. This
-    information remains available after applying our normalization.
+      expression}. The mean kinetic expression contains cancer and
+    non-cancer kinetic information. Assuming that the amount of cancer
+    information (voxels) is much lower than the normal tissue, the use
+    of this normalization allows to minimize undersired
+    patient-specific (overall-intensity, mean contrast, uptake, ...)
+    without affecting the lesion information.
   \item \textbf{T1w normalization will be probably be more robust to
       change in magnet, machine, reconstruction software and
       acquisition parameters across different institutions as the
       objective is normalization to be patient and institution
       specific. Please comment how the presented model may be affected
       in a multi-institutional study.}\\
-    Our method does not rely on any manufacturer/machine-specific settings.
+    In line with the previous comment on the use of T1w, we want to
+    clarify that DCE is based on T1w sequence.
+    Moreover, our method does not rely on any manufacturer/machine-specific settings.
     Subsequently, our approach should work on any type
     of devices, enabling multi-institutional studies. We included
     these remarks in our future work section in p.~23/l.~396.
@@ -113,14 +118,16 @@
       lesions. Further please comment how this model adds value to
       already established clinical pipeline of detecting prostate
       cancer (PIRADS).}\\
-    A stratified analysis separating PZ and CG showed an increase of
-    the classification performance in CG after applying our
+    We have included a new stratified analysis, separating PZ and CG,
+    which showed an increase of the classification performance in CG after
+    applying our
     normalization method as depicted in Fig.\,8 p.~22.
-    The PIRADS v2 emphasized that DCE-MRI have to be included in
-    mp-MRI acquisition to detect small lesion. However, it also warn
+    The PIRADS v2 emphasizes that DCE-MRI has to be included in
+    mp-MRI acquisition to detect small lesions. However, it also warns
     that the benefit is modest. Therefore, the impact of an
     improvement of detection in DCE-MRI can only be evaluated in a
-    fully mp-MRI CAD system. Indeed, we recently showed, --- Lemaitre,
+    fully mp-MRI CAD system which is beyond the scope of this paper.
+    Indeed, we recently showed, --- Lemaitre,
     Guillaume. Computer-Aided Diagnosis for Prostate Cancer using
     Multi-Parametric Magnetic Resonance Imaging. Diss. Universit\'e de
     Bourgogne; Universitat de Girona, 2016;
@@ -140,7 +147,7 @@
     are obtained using our normalization approach, showing the importance of
     this step. We added a discussion in p.~23/l.~388 regarding the
     semi-quantitative approach and entire enhanced signal
-    classification. The semi-quantitative approach reduce the number
+    classification. The semi-quantitative approach reduces the number
     of features to analyze, speeding up the classification. However,
     it relies on the curve fitting which is also time consuming and
     might fail.
@@ -153,9 +160,11 @@
     Unlike a linear SVM, RF allows to find multiple thresholds,
     leading to a much complex decision boundary for this
     feature. Bootstrapping the samples for each tree allows to cope
-    with the over-fitting of each decision trees. Therefore, we do not
-    think that a linear SVM will substantially better insights as are
-    showing the results provided in the additional material.
+    with the over-fitting of each decision trees. Results with SVM
+    show no particular improvement in comparison with RF. Therefore,
+    we do not
+    think that including a linear SVM will be beneficial for the paper
+    as are the results provided in the additional material showing.
   \end{enumerate}
 
   Reviewer \#4:
@@ -169,7 +178,8 @@
   \item \textbf{The use of the English language needs some attention:
       get it all proof read.}\\
     As suggested, the manuscript has been corrected by an English editing
-    service to ensure a good quality writing.
+    service to ensure a good quality writing. A certificate of the
+    service can be provided upon request.
   \item \textbf{What guided biopsy was used: US?}\\
     The guided biopsy was performed with a TRUS. We added this
     statement in p.~15/l.~275.
@@ -177,15 +187,20 @@
       possibly affecting the results and that the limitations might be
       based on the sample size. At the end of section 5 one could draw
       the conclusion that they should do a more extensive study.}\\
-    The statement has been added in the discussions p.~23/l.~396.
+    The reviewer is right with the comment, unfortunately due to the
+    difficulty on acquiring and annotating this kind of data, we
+    cannot provide a larger database at this time. However, a
+    statement has been added in the discussions p.~23/l.~396,
+    describing this limitation of the study.
   \item \textbf{How would this translate to other types of MRI
       systems: it would be good to see experimental results on this or
       at least some discussion.}\\
-    Refer to reviewer \#1 / comment 3 since this is a shared remarks.
+    Refer to reviewer \#1 / comment 3 since this is a shared remark.
   \item \textbf{The disappointing performance and large standard
       deviation of the PUN model should be investigated and
       explained.}\\
-    A discussion is added in p.~17/l.~320. The original model lacks of
+    A discussion is added in p.~17/l.~320. The original published
+    model lacks of
     degrees of freedom. Two additional parameters will
     allow for a better fit. However, we used the original formulation
     in our experiments.
@@ -206,7 +221,8 @@
     1083-1092 regarding the classification performance of the Tofts
     parameters.
   \item \textbf{Sections 5 and 6 are both disappointingly short.}
-    Due to additional analyses, the discussion became longer.
+    After including the remarks from the reviewers, this section has
+    become much longer.
     % However,
     % we believed that there is no need for repeating information
     % already presented in the experiment section or give hypothesis
@@ -234,12 +250,14 @@
     This is important to emphasize that our goal was to propose a
     normalization method to allow classification of the entire
     enhanced signal which should perform as good as the current
-    models. We apply the same normalization on the different
+    models. For the sake of completeness, we apply the same
+    normalization on the different
     pharmacokinetic models and, as mentioned by the reviewer ---
-    the results are not significantly better.
+    the results are not significantly better as the model parameters
+    might have a different interpretation after the normalization is
+    applied.
     Indeed, these experiments were carried out to investigate the
-    benefit or not of the normalization with the current models,
-    without expecting the results to improve.
+    benefit or not of the normalization with the current models.
   % \item \textbf{Although quantitative parameters obtained from
   %     pharmacokinetic models applied to DCE-MRI series have
   %     demonstrated in general superior performance to differentiate
@@ -262,7 +280,7 @@
     the benefits of our methods before the classification step. A study of
     the variances with and without normalization could be carried out but
     an evaluation after classification seems equivalent and a good manner to
-    evaluate the benefit of the normalization. In fact, this is the
+    evaluate the benefit of the normalization. In fact, these are the
     results reported in Fig.\,6(c).
   \item \textbf{Figure 1 is not pertinent for the goal of this paper.
       It is not clear how is represented the interindividual variation in
@@ -271,7 +289,9 @@
       individuals does not appear.}\\
     Figure 1 is used to illustrate inter-patients variation in T2w-MRI
     and to highlight the need of a different normalization approach
-    than the one needed in T2w. We improve the Fig.\,2. Figure~2(a)
+    than the one needed in T2w. We have clarified in the caption that
+    Fig.\,1 is related to T2w, and if requested by the reviewers,
+    Figure 1 could be removed. We improve the Fig.\,2. Figure~2(a)
     presents only the process to build the
     heatmap. In Fig.\,2(b)-2(c), we added parameters which highlight
     more clearly the variations and added their corresponding values
@@ -283,19 +303,18 @@
     There is probably a confusion. We do not try to smooth the heatmap
     but we search a smooth estimate. Equation 1 represents the weight
     of the graph and is a standard way to formalize graph-based
-    problem in image processing.
+    problem in image processing which often includes a data driven
+    term and a smoothing term.
   \item \textbf{The theoretical foundations of equation 3 are not
       clear. Other registration methods for time signas may have been
       included.}\\
     While other registrations could have been used,
     using a rigid registration directly affect the variations
-    $\alpha_i$ and $\Delta_t$. Applying more advanced registration
-    such as elastic registration as in Lemaitre, Guillaume, et
-    al. "Normalization of T2W-MRI prostate images using Rician a
-    priori." SPIE Medical Imaging. International Society for Optics
-    and Photonics, 2016. would make it complicated to shift the data
-    with only these two parameters. Furthermore, rigid registration
-    will not change the variations of the contrast agent over time.
+    $\alpha_i$ and $\Delta_t$. Non rigid registration is deemed not
+    necessary as the main parameters that we propose to recover are
+    translations and scaling. Moreover, this kind of registration
+    might induce deformation artifacts which could impact on the
+    overall contrast enhancement over time.
   \item \textbf{Other question that may be raised is the influence of
       the equation parameters (tau, alfa..) in the pharmacokinetic
       models. Do they change with f(t)?}\\
