@@ -1,36 +1,36 @@
 \section{Introduction}
 
 \Ac{cap} is the second most frequently diagnosed cancer in men,
-accounting for 899,000 cases and leading to 258,100 deaths per year~\citep{ferlay2010estimates}.
-As highlighted by the PI-RADS Steering Committee, the two main challenges to be addressed are~\citep{weinreb2016pi}:
+accounting for 899,000 cases and leading to 258,100 deaths per year~\cite{ferlay2010estimates}.
+As highlighted by the PI-RADS Steering Committee, the two main challenges to be addressed are~\cite{weinreb2016pi}:
 (i) improving the detection of clinically significant \ac{cap} and
 (ii) increasing confidence in benign or dormant cases and therefore avoiding unnecessary invasive medical exams.
 In this regard, \ac{mpmri} is frequently used to build robust \ac{cad} systems to detect, localize, and grade \ac{cap}.
-In general, \ac{cad} systems are based on \ac{mpmri} which potentially combines several of the following modalities~\citep{lemaitre2015computer}: \ac{t2w}-\ac{mri}, \ac{dce}-\ac{mri}, \ac{adc} maps, and \ac{mrsi}.
+In general, \ac{cad} systems are based on \ac{mpmri} which potentially combines several of the following modalities~\cite{lemaitre2015computer}: \ac{t2w}-\ac{mri}, \ac{dce}-\ac{mri}, \ac{adc} maps, and \ac{mrsi}.
 
 In \ac{dce}-\ac{mri}, a contrast media is injected intravenously and a set of images is acquired over time.
 Consequently, each voxel in an image corresponds to a dynamic signal that is related to both contrast agent concentration and the vascular properties of the tissue.
 Therefore, changes in the enhanced signal allows for the
 discrimination of healthy tissues from \ac{cap} tissues.
-In fact, these properties are automatically extracted using quantitative or semi-quantitative approaches~\citep{lemaitre2015computer}.
+In fact, these properties are automatically extracted using quantitative or semi-quantitative approaches~\cite{lemaitre2015computer}.
 
-\emph{Quantitative} approaches uses pharmacokinetic modelling based on a bicompartment model, namely Brix~\citep{brix1991pharmacokinetic} and Tofts~\citep{tofts1995quantitative} models.
+\emph{Quantitative} approaches uses pharmacokinetic modelling based on a bicompartment model, namely Brix~\cite{brix1991pharmacokinetic} and Tofts~\cite{tofts1995quantitative} models.
 The parameters of the Brix model are inferred by assuming a linear relationship between the media concentration and the \ac{mri} signal intensity.
 However, this assumption has been shown to lead to inaccurate
-estimations of the pharmacokinetic parameters~\citep{heilmann2006determination}.
+estimations of the pharmacokinetic parameters~\cite{heilmann2006determination}.
 In contrast, the Tofts model requires the conversion of \ac{mri}
 signal intensity to concentration, which becomes a non-linear
 relationship using a specific equation of \ac{mri} sequences (e.g., FLASH sequence).
-Tofts modeling, however, is highly complex~\citep{gliozzi2011phenomenological}.
+Tofts modeling, however, is highly complex~\cite{gliozzi2011phenomenological}.
 Achieving the conversion using the non-linear approach requires the
 acquisition of a T$_1$ map which is not always possible during clinical examination.
 Additionally, the parameter calculation requires the \ac{aif} which is challenging to measure and can also lead to an inaccurate estimation.
 
-\emph{Semi-quantitative} approaches are mathematical rather than pharmacokinetic because no pharmacokinetic assumptions regarding the relationship between the \ac{mri} signal and the contrast agent are made~\citep{huisman2001accurate,gliozzi2011phenomenological}.
+\emph{Semi-quantitative} approaches are mathematical rather than pharmacokinetic because no pharmacokinetic assumptions regarding the relationship between the \ac{mri} signal and the contrast agent are made~\cite{huisman2001accurate,gliozzi2011phenomenological}.
 These methods are advantageous because they do not require any knowledge of the \ac{mri} sequence or any conversion from signal intensity to concentration.
 However, they present some limitations: the heuristic approach
 proposed by \citeauthor{huisman2001accurate} requires an initial
-estimate of the standard deviation of the signal noise and some manual tuning.
+estimate of the standard deviation of the signal noise and some manual tuning \cite{huisman2001accurate}.
 
 Nevertheless, all of the presented methods suffer from the following two major drawbacks:
 (i) inter-patient variability and (ii) loss of information.

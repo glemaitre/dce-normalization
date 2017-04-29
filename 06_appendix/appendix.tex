@@ -1,11 +1,10 @@
-\appendix
 \section{Conversion from FLASH signal to media concentration}\label{app:signaltoconc}
 
 In this appendix, we show the demonstration used to extract the agent concentration from the \ac{mri} signal.
 
-The signal equation in FLASH sequence~\citep{haase1986flash} is defined as:
+The signal equation in FLASH sequence~\cite{haase1986flash} is defined as:
 
-\begin{equation}
+\begin{equation}\footnotesize
   s(t) = S_{eq} \sin \alpha \cdot \frac{1 - \exp\left(-TR\left(R_{10} + r_1 c(t)\right)\right)}{1 - \cos \alpha \cdot \exp\left(-TR\left(R_{10} + r_1 c(t)\right)\right)} ,
   \label{eq:app:flash}
 \end{equation}
@@ -21,39 +20,39 @@ Therefore, the pre-contrast signal prior to bolus injection of the media is defi
 
 To simplify the demonstration, let us define:
 
-\begin{align}
-  A &= \exp(-TR \cdot R_{10}) , \\
-  B &= \exp(-TR \cdot r_1 c(t)) .
-\end{align}
+\begin{align*}
+  A &= \exp(-TR \cdot R_{10}) , \\ \IEEEnonumber
+  B &= \exp(-TR \cdot r_1 c(t)) . \IEEEnonumber
+\end{align*}
 
 Let us define:
 
-\begin{align}
-  S^{*} &= \frac{S_0}{S_{eq} \sin \alpha} , \\
-  &= \frac{1 - A}{1 - A \cos \alpha} .
-\end{align}
+\begin{align*}
+  S^{*} &= \frac{S_0}{S_{eq} \sin \alpha} , \\ \IEEEnonumber
+  &= \frac{1 - A}{1 - A \cos \alpha} . \IEEEnonumber
+\end{align*}
 
 Thus,
 
-\begin{align}
-  S^{*}\frac{s(t)}{S_0} &= \frac{S_0}{S_{eq}\sin \alpha} \frac{s(t)}{S_0} , \\
-  &= \frac{1 - A B}{1 - A B \cos \alpha} .
-\end{align}
+\begin{align*}
+  S^{*}\frac{s(t)}{S_0} &= \frac{S_0}{S_{eq}\sin \alpha} \frac{s(t)}{S_0} , \\ \IEEEnonumber
+  &= \frac{1 - A B}{1 - A B \cos \alpha} . \IEEEnonumber
+\end{align*}
 
 Now, let us define:
 
-\begin{align}
-  \frac{1 - \cos \alpha \cdot S^{*}\frac{s(t)}{S_0}}{1 - S^{*}\frac{s(t)}{S_0}} &= \frac{ 1 - \cos \alpha\left(\frac{1 - A B}{1 - A B \cos \alpha}\right)} {1 - \frac{1 - A B}{1 - A B \cos \alpha}} , \\
-  &= \frac{1 - A B \cos \alpha - \cos \alpha(1 - A B)}{1 - A B \cos \alpha - (1 - A B)} , \\
-  &= \frac{1 - A B \cos \alpha - \cos \alpha + A B \cos \alpha}{1 - A B \cos \alpha - 1 + A B} , \\
-  &= \frac{1 - \cos \alpha}{ A B (1 - \cos \alpha)}, \\
-  &= \frac{1}{A B}.
-\end{align}
+\begin{align*}
+  \frac{1 - \cos \alpha \cdot S^{*}\frac{s(t)}{S_0}}{1 - S^{*}\frac{s(t)}{S_0}} &= \frac{ 1 - \cos \alpha\left(\frac{1 - A B}{1 - A B \cos \alpha}\right)} {1 - \frac{1 - A B}{1 - A B \cos \alpha}} , \\ \IEEEnonumber
+  &= \frac{1 - A B \cos \alpha - \cos \alpha(1 - A B)}{1 - A B \cos \alpha - (1 - A B)} , \\ \IEEEnonumber
+  &= \frac{1 - A B \cos \alpha - \cos \alpha + A B \cos \alpha}{1 - A B \cos \alpha - 1 + A B} , \\ \IEEEnonumber
+  &= \frac{1 - \cos \alpha}{ A B (1 - \cos \alpha)}, \\ \IEEEnonumber
+  &= \frac{1}{A B}. \IEEEnonumber
+\end{align*}
 
 Thus,
 
 \begin{equation}
-  -TR \cdot R_{10} -TR \cdot r_1 c(t) = \ln\left( \frac{1 - \cos \alpha \cdot S^{*}\frac{s(t)}{S_0}}{1 - S^{*}\frac{s(t)}{S_0}} \right) .
+  -TR \cdot R_{10} -TR \cdot r_1 c(t) = \ln\left( \frac{1 - \cos \alpha \cdot S^{*}\frac{s(t)}{S_0}}{1 - S^{*}\frac{s(t)}{S_0}} \right) . \IEEEnonumber
 \end{equation}
 
 Therefore,
@@ -62,48 +61,48 @@ Therefore,
   c(t) = \frac{1}{TR \cdot r_1} \ln\left( \frac{1 - \cos \alpha \cdot S^{*}\frac{s(t)}{S_0}}{1 - S^{*}\frac{s(t)}{S_0}} \right) - \frac{R_{10}}{r_1} .
 \end{equation}
 
-\section{Classification of individual features using a linear
-  \acs*{svm} classifier}
+%\section{Classification of individual features using a linear
+%  \acs*{svm} classifier}
 
-\begin{table*}
-  \caption{\acs*{auc} (i.e., $\mu \ (\pm \sigma)$) for each individual pharmacokinetic parameter using a \acs*{svm} classifier.}
-  \centering
-  \resizebox{\columnwidth}{!}{
-  \begin{tabular}{l c c}
-    \toprule
-    \textbf{Features} & Un-normalized data & Normalized data \\
-    \midrule
-    \textbf{Brix model} & & \\
-    \quad $A$         & $0.647\ (\pm 0.199)$ & $0.670\ (\pm 0.215)$ \\
-    \quad $k_{el}$    & $0.622\ (\pm 0.170)$ & $0.674\ (\pm 0.209)$ \\
-    \quad $k_{ep}$    & $0.452\ (\pm 0.128)$ & $0.423\ (\pm 0.111)$ \\
-    \textbf{Hoffmann model} & & \\
-    \quad $A$         & $0.520\ (\pm 0.077)$ & $0.558\ (\pm 0.096)$ \\
-    \quad $k_{el}$    & $0.575\ (\pm 0.123)$ & $0.456\ (\pm 0.077)$ \\
-    \quad $k_{ep}$    & $0.571\ (\pm 0.123)$ & $0.553\ (\pm 0.081)$ \\
-    \textbf{Tofts model with population \ac{aif}} & & \\
-    \quad $K_{trans}$ & $0.669\ (\pm 0.215)$ & $0.671\ (\pm 0.217)$ \\
-    \quad $k_{ep}$    & $0.541\ (\pm 0.159)$ & $0.575\ (\pm 0.130)$ \\
-    \quad $v_{p}$     & $0.656\ (\pm 0.207)$ & $0.633\ (\pm 0.216)$ \\
-    \textbf{Tofts model with patient \ac{aif}} & & \\
-    \quad $K_{trans}$ & $0.663\ (\pm 0.203)$ & $0.646\ (\pm 0.200)$ \\
-    \quad $k_{ep}$    & $0.460\ (\pm 0.134)$ & $0.470\ (\pm 0.128)$ \\
-    \quad $v_{p}$     & $0.357\ (\pm 0.179)$ & $0.395\ (\pm 0.178)$ \\
-    \textbf{\ac{pun} model} & & \\
-    \quad $a_0$       & $0.597\ (\pm 0.178)$ & $0.566\ (\pm 0.180)$ \\
-    \quad $r$         & $0.484\ (\pm 0.198)$ & $0.455\ (\pm 0.234)$ \\
-    \quad $\beta$     & $0.513\ (\pm 0.120)$ & $0.497\ (\pm 0.066)$ \\
-    \textbf{Semi-quantitative analysis} & & \\
-    \quad wash-in     & $0.391\ (\pm 0.191)$ & $0.428\ (\pm 0.150)$ \\
-    \quad wash-out    & $0.590\ (\pm 0.167)$ & $0.481\ (\pm 0.156)$ \\
-    \quad IAUC        & $0.404\ (\pm 0.190)$ & $0.415\ (\pm 0.191)$ \\
-    \quad $\tau$      & $0.585\ (\pm 0.107)$ & $0.491\ (\pm 0.057)$ \\
-    \quad $S_M - S_0$ & $0.459\ (\pm 0.209)$ & $0.447\ (\pm 0.151)$ \\
-    \bottomrule
-  \end{tabular}
-  }
-  \label{tab:resfeats}
-\end{table*}
+%\begin{table*}
+%  \caption{\acs*{auc} (i.e., $\mu \ (\pm \sigma)$) for each individual pharmacokinetic parameter using a %\acs*{svm} classifier.}
+%  \centering
+%  \resizebox{\columnwidth}{!}{
+%  \begin{tabular}{l c c}
+%    \toprule
+%    \textbf{Features} & Un-normalized data & Normalized data \\
+%    \midrule
+%    \textbf{Brix model} & & \\
+%    \quad $A$         & $0.647\ (\pm 0.199)$ & $0.670\ (\pm 0.215)$ \\
+%    \quad $k_{el}$    & $0.622\ (\pm 0.170)$ & $0.674\ (\pm 0.209)$ \\
+%    \quad $k_{ep}$    & $0.452\ (\pm 0.128)$ & $0.423\ (\pm 0.111)$ \\
+%    \textbf{Hoffmann model} & & \\
+%    \quad $A$         & $0.520\ (\pm 0.077)$ & $0.558\ (\pm 0.096)$ \\
+%    \quad $k_{el}$    & $0.575\ (\pm 0.123)$ & $0.456\ (\pm 0.077)$ \\
+%    \quad $k_{ep}$    & $0.571\ (\pm 0.123)$ & $0.553\ (\pm 0.081)$ \\
+%    \textbf{Tofts model with population \ac{aif}} & & \\
+%    \quad $K_{trans}$ & $0.669\ (\pm 0.215)$ & $0.671\ (\pm 0.217)$ \\
+%    \quad $k_{ep}$    & $0.541\ (\pm 0.159)$ & $0.575\ (\pm 0.130)$ \\
+%    \quad $v_{p}$     & $0.656\ (\pm 0.207)$ & $0.633\ (\pm 0.216)$ \\
+%    \textbf{Tofts model with patient \ac{aif}} & & \\
+%    \quad $K_{trans}$ & $0.663\ (\pm 0.203)$ & $0.646\ (\pm 0.200)$ \\
+%    \quad $k_{ep}$    & $0.460\ (\pm 0.134)$ & $0.470\ (\pm 0.128)$ \\
+%    \quad $v_{p}$     & $0.357\ (\pm 0.179)$ & $0.395\ (\pm 0.178)$ \\
+%    \textbf{\ac{pun} model} & & \\
+%    \quad $a_0$       & $0.597\ (\pm 0.178)$ & $0.566\ (\pm 0.180)$ \\
+%    \quad $r$         & $0.484\ (\pm 0.198)$ & $0.455\ (\pm 0.234)$ \\
+%    \quad $\beta$     & $0.513\ (\pm 0.120)$ & $0.497\ (\pm 0.066)$ \\
+%    \textbf{Semi-quantitative analysis} & & \\
+%    \quad wash-in     & $0.391\ (\pm 0.191)$ & $0.428\ (\pm 0.150)$ \\
+%    \quad wash-out    & $0.590\ (\pm 0.167)$ & $0.481\ (\pm 0.156)$ \\
+%    \quad IAUC        & $0.404\ (\pm 0.190)$ & $0.415\ (\pm 0.191)$ \\
+%    \quad $\tau$      & $0.585\ (\pm 0.107)$ & $0.491\ (\pm 0.057)$ \\
+%    \quad $S_M - S_0$ & $0.459\ (\pm 0.209)$ & $0.447\ (\pm 0.151)$ \\
+%    \bottomrule
+%  \end{tabular}
+%  }
+%  \label{tab:resfeats}
+%\end{table*}
 
 %%% Local Variables:
 %%% mode: latex

@@ -4,8 +4,8 @@
 
 The multi-parametric \ac{mri} data are acquired from a cohort of patients with higher-than-normal levels of \ac{psa}.
 Acquisition is achieved with a 3T whole body \ac{mri} scanner (Siemens Magnetom Trio TIM, Erlangen, Germany) using sequences to obtain \ac{t2w}-\ac{mri}, \ac{dce}-\ac{mri} and \ac{dw}-\ac{mri}.
-\textbf{In addition to the \ac{mri} examination, these patients also have
-undergone a \ac{trus} guided-biopsy.}
+In addition to the \ac{mri} examination, these patients also have
+undergone a \ac{trus} guided-biopsy.
 The dataset is composed of a total of 20 patients, 18 of which have
 biopsies that were positive for \ac{cap} and 2 patients are considered
 ``healthy'' because they have negative biopsies.
@@ -29,19 +29,19 @@ sequence (\ac{tr}/\ac{te}/Flip angle:
 A power injector (Medrad, Indianola, USA) is used to provide a bolus
 injection of Gd-DTPA (Dotarem, Guerbet, Roissy, France) at a dose of
 \SI{0.2}{\ml} Gd-DTPA/kg of body weight.
-\textbf{The acquisition starts before the bolus injection to obtain
-  pre-contrast volumes.}
+The acquisition starts before the bolus injection to obtain
+  pre-contrast volumes.
 
 These \ac{dce}-\ac{mri} sequences are resampled using the spatial
 information of the \ac{t2w}-\ac{mri} and any missing data are added using linear interpolation.
 The volumes of the \ac{dce}-\ac{mri} dynamic are rigidly registered to remove any patient motion during the acquisition.
 Furthermore, a non-rigid registration is performed between the \ac{t2w}-\ac{mri} and \ac{dce}-\ac{mri} to propagate the prostate zones and \ac{cap} ground-truths.
-The resampling is implemented in C++ using the Insight Segmentation and Registration Toolkit~\citep{ibanez2005itk}.
+The resampling is implemented in C++ using the Insight Segmentation and Registration Toolkit~\cite{ibanez2005itk}.
 
 \subsection{Implementation}
 
-The implementation of the registration (C++), normalization (Python), and classification pipeline (Python) are publicly available on GitHub\footnote{\url{https://github.com/I2Cvb/lemaitre-2016-nov/tree/master}}~\citep{lemaitre2016github}.
-The data used in this work are also publicly available\footnote{\url{https://zenodo.org/record/61163}}~\citep{lemaitre2016dce}.
+The implementation of the registration (C++), normalization (Python), and classification pipeline (Python) are publicly available on GitHub\footnote{\url{https://github.com/I2Cvb/lemaitre-2016-nov/tree/master}}~\cite{lemaitre2016github}.
+The data used in this work are also publicly available\footnote{\url{https://zenodo.org/record/61163}}~\cite{lemaitre2016dce}.
 
 \section{Experiments and results}\label{sec:experiments}
 
@@ -52,7 +52,6 @@ The data used in this work are also publicly available\footnote{\url{https://zen
 \begin{table*}
   \caption{Coefficient of determination $R^{2}$ (i.e., $\mu \ (\pm \sigma)$), while fitting data with the different quantification models.}
   \centering
-  \resizebox{\columnwidth}{!}{
   \begin{tabular}{lc c c c c c}
     \toprule
     Data type & Brix & Hoffmann & Tofts population \ac{aif} & Tofts patient \ac{aif} & \ac{pun} & Huisman \\
@@ -61,7 +60,6 @@ The data used in this work are also publicly available\footnote{\url{https://zen
     Normalized    & $0.92 \ (\pm 0.05)$ & $0.72 \ (\pm 0.32)$ & $0.92 \ (\pm 0.06)$ & $0.90 \ (\pm 0.10)$ & $0.28 \ (\pm 0.20)$ & $0.75 \ (\pm 0.20)$  \\
     \bottomrule
   \end{tabular}
-  }
   \label{tab:r2}
 \end{table*}
 
@@ -79,12 +77,12 @@ the estimated signal at time $t$, respectively, and $\bar{s}$ is the average sig
 
 The mean and the standard-deviation of the coefficient of determination, $R^{2}$, are reported in Table~\ref{tab:r2} for each quantification model.
 Brix, Hoffmann, and Tofts models are fitted with a coefficient $R^{2}$ superior to 0.80.
-\textbf{Additionally, the proposed \ac{pun} model does not to fit the data well.
+Additionally, the proposed \ac{pun} model does not to fit the data well.
 After introspection of the fitted curves, the original model --- as
 formulated in Eq.\,\eqref{eq:pun} --- does not provide enough degrees
 of freedom to fit well the data. Additional parameters should be
 integrated in this model to control the translation and amplitude of
-the model to be fitted.}
+the model to be fitted.
 Data normalization improves the coefficient $R^2$ for all the methods
 except for the Hoffmann model.
 The large standard deviation for this model might imply that there are some cases where the fitting fails.
@@ -97,7 +95,6 @@ The large standard deviation for this model might imply that there are some case
 \begin{table*}
   \caption{\acs*{auc} (i.e., $\mu \ (\pm \sigma)$) for each individual pharmacokinetic parameter using a \acs*{rf} classifier.}
   \centering
-  \resizebox{\columnwidth}{!}{
   \begin{tabular}{l c c}
     \toprule
     \textbf{Features} & Un-normalized data & Normalized data \\
@@ -130,18 +127,18 @@ The large standard deviation for this model might imply that there are some case
     \quad $S_M - S_0$ & $0.560\ (\pm 0.083)$ & $0.532\ (\pm 0.029)$ \\
     \bottomrule
   \end{tabular}
-  }
   \label{tab:resfeats}
 \end{table*}
 
 \begin{figure*}
   \centering
   \hspace*{\fill}
-  \subfigure[Quantiative model without normalization.]{\label{fig:rfpharmaunorm}\includegraphics[width=.49\textwidth]{03_experiments/figures/unormalized/unormalized_methods_0.pdf}} \hfill
-  \subfigure[Quantitative model With normalization.]{\label{fig:rfpharmanorm}\includegraphics[width=.49\textwidth]{03_experiments/figures/normalized/normalized_methods_0.pdf}}
-  \hspace*{\fill}
-  \hspace*{\fill}
-  \subfigure[Entire enhanced \acs*{dce} signal classification.]{\label{fig:rfnormdcesignal}\includegraphics[width=.49\textwidth]{03_experiments/figures/full_signal_0.pdf}}
+  \subfloat[Quantiative model without normalization.]{\label{fig:rfpharmaunorm}\includegraphics[width=.32\textwidth]{03_experiments/figures/unormalized/unormalized_methods_0.pdf}} \hfill
+  \subfloat[Quantitative model With normalization.]{\label{fig:rfpharmanorm}\includegraphics[width=.32\textwidth]{03_experiments/figures/normalized/normalized_methods_0.pdf}}
+  %\hspace*{\fill}
+  %\hspace*{\fill}
+  \hfill
+  \subfloat[Entire enhanced \acs*{dce} signal classification.]{\label{fig:rfnormdcesignal}\includegraphics[width=.32\textwidth]{03_experiments/figures/full_signal_0.pdf}}
   \hspace*{\fill}
   \caption{\acs*{roc} analysis using a \acs*{rf} classifier with and
     without normalization using different approaches: \protect\subref{fig:rfpharmaunorm} -
@@ -155,31 +152,31 @@ The large standard deviation for this model might imply that there are some case
 \begin{figure}
   \centering
   \includegraphics[width=1.\linewidth]{03_experiments/figures/wilcoxon.pdf}
-  \caption{\textbf{Wilcoxon signed-ranked test to compare each pair of
+  \caption{Wilcoxon signed-ranked test to compare each pair of
     classifiers. The annotation in the matrix corresponds to the
     p-values ($p$). $p < 0.05$ indicates that a pair of classifiers
     are significantly different, consequently the classifier with the
     highest \acs*{auc} significantly outperforms the other
     one. In the co-occurrence matrix, {\color{blue}blue} cells
     correspond to lower $p$ while {\color{red} red} cells are
-    representing greater $p$.}}
+    representing greater $p$.}
   \label{fig:wilcoxon}
 \end{figure}
 
 To study the potential benefit of our normalization, \ac{cap} is detected at a voxel level using pharmacokinetic parameters estimated from non-normalized and normalized \ac{dce}-\ac{mri} data.
 Each individual pharmacokinetic parameter is classified to evaluate its individual discriminative power to detect \ac{cap}.
-\textbf{In addition, p-values ($p$) are computed to identify pairs of classifiers
+In addition, p-values ($p$) are computed to identify pairs of classifiers
 which are significantly different, using a Wilcoxon signed-ranked
 test. Those p-values are represented in the color coded co-occurrence
 matrix shown in Fig.\,\ref{fig:wilcoxon}, where blue cells correspond
 to lower p-values while red cells are greater p-values.
 Therefore, a \ac{rf} classifier is used in conjunction with a \ac{lopo}.
-The use of \ac{rf} is encouraged since it leads to the best performance in the state-of-the-art methods~\citep{litjens2014computer,lemaitre2015computer}.}
+The use of \ac{rf} is encouraged since it leads to the best performance in the state-of-the-art methods~\cite{litjens2014computer,lemaitre2015computer}.
 The results are summarized in Table~\ref{tab:resfeats} in terms of the \ac{auc}.
 Normalization can improve the detection of \ac{cap}, but the benefit
 of normalization is more obvious with the combination of the
 pharmacokinetic features of a given model (e.g., $A$, $k_ep$, and
-$k_el$ for the Brix model) as previously executed in the traditional \ac{cad} system~\citep{lemaitre2015computer}.
+$k_el$ for the Brix model) as previously executed in the traditional \ac{cad} system~\cite{lemaitre2015computer}.
 For the latter configuration, results are summarized by performing a \ac{roc} analysis and computing the \ac{auc}, as reported in Fig.\,\ref{fig:normpharmarf}.
 Quantification using normalized data outperforms quantification using
 non-normalized data in terms of the classification performance, except
@@ -192,13 +189,13 @@ semi-quantitative approach with an \ac{auc} of $0.655 \pm 0.106$.
 
 %\subsection{Classification of the entire enhanced \acs*{dce}-\acs*{mri} signal}
 
-\begin{figure*}
+\begin{figure}
   \centering
   \includegraphics[width=1.\linewidth]{03_experiments/figures/plot_auc_by_zones.pdf}
-  \caption{\textbf{Comparison of the distribution of the \acs*{auc} score for
-    each prostate zone, with and without normalization.}}
+  \caption{Comparison of the distribution of the \acs*{auc} score for
+    each prostate zone, with and without normalization.}
   \label{fig:boxplot}
-\end{figure*}
+\end{figure}
 
 As stated in the introduction, the quantification methods extract a
 set of parameters that characterize the enhancement of the \ac{dce}-\ac{mri} signal.
@@ -212,11 +209,11 @@ with an \ac{auc} of $0.568 \pm 0.162$.
 However, data normalization in conjunction with the use of the entire
 \ac{dce}-\ac{mri} signal is the strategy that outperforms others,
 with an \ac{auc} of $0.666 \pm 0.154$.
-\textbf{Comparable outcomes are visible while analyzing the \ac{auc}
+Comparable outcomes are visible while analyzing the \ac{auc}
 scores distribution for each prostate zone as shown in
 Fig.\,\ref{fig:boxplot}. The \ac{auc} scores
 related to \ac{cap} in \ac{cg} improves using normalized data, for
-most of the models.}
+most of the models.
 
 %%% Local Variables:
 %%% mode: latex

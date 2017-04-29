@@ -5,31 +5,31 @@
 \begin{figure}
   \centering
   \includegraphics[width=0.7\linewidth]{02_methods/figures/t2w.pdf}
-  \caption{\textbf{Illustration of the inter-patient variations in 17
+  \caption{Illustration of the inter-patient variations in 17
     different patients in \acs*{t2w}-\acs*{mri}, using the \acs*{pdf}
-    representation.}}
+    representation.}
   \label{fig:t2w}
 \end{figure}
 
 In this work, we propose a method to normalize \ac{dce}-\ac{mri}
 prostate data to reduce inter-patient variations, although this method can be applied to any \ac{dce}-\ac{mri} sequences.
 In \ac{t2w}-\ac{mri}, these variations are characterized by a shift and a scaling of the intensities as illustrated by the intensity \ac{pdf} in Fig.\,\ref{fig:t2w}.
-Therefore, these variations can be corrected using a $z$-score approach,--- i.e., normalizing the data by subtracting the mean and dividing by the standard deviation ---assuming that the data follow a specific distribution~\citep{lemaitre2016normalization}.
+Therefore, these variations can be corrected using a $z$-score approach,--- i.e., normalizing the data by subtracting the mean and dividing by the standard deviation ---assuming that the data follow a specific distribution~\cite{lemaitre2016normalization}.
 
 \begin{figure*}
   \centering
   \hspace*{\fill}
-  \subfigure[]{\label{subfig:pathhist}\includegraphics[width=1\textwidth]{02_methods/figures/heatmaprep.pdf}} \hfill
+  \subfloat[]{\label{subfig:pathhist}\includegraphics[width=1\textwidth]{02_methods/figures/heatmaprep.pdf}} \hfill
   \hspace*{\fill}
   \\
   \hspace*{\fill}
-  \subfigure[\textbf{$I_0$: 117; $t_0$: 6\textsuperscript{th} serie; wider st. dev.}]{\label{subfig:pat1}\includegraphics[width=.49\textwidth]{02_methods/figures/pat1_annotated.pdf}} \hfill
-  \subfigure[\textbf{$I_0$: 103; $t_0$: 4\textsuperscript{th} serie; narrower std. dev.}]{\label{subfig:pat2}\includegraphics[width=.49\textwidth]{02_methods/figures/pat2_annotated.pdf}} \hfill
+  \subfloat[$I_0$: 117; $t_0$: 6\textsuperscript{th} serie; wider st. dev.]{\label{subfig:pat1}\includegraphics[width=.49\textwidth]{02_methods/figures/pat1_annotated.pdf}} \hfill
+  \subfloat[$I_0$: 103; $t_0$: 4\textsuperscript{th} serie; narrower std. dev.]{\label{subfig:pat2}\includegraphics[width=.49\textwidth]{02_methods/figures/pat2_annotated.pdf}} \hfill
   \hspace*{\fill}
-  \caption{\subref{subfig:pathhist} Illustration of the heatmap
+  \caption{\protect\subref{subfig:pathhist} Illustration of the heatmap
     representation: all \ac*{pdf}s of the prostate gland are
     concatenated together to build an heatmap;
-    \subref{subfig:pat1}-\subref{subfig:pat2} Heatmap of 2 patients
+    \protect\subref{subfig:pat1}-\protect\subref{subfig:pat2} Heatmap of 2 patients
     revealing  the three types of inter-patient variations: intensity shift
     ($\Delta_i$), time shift ($\Delta_t$), and intensity scale
     ($\alpha_i$).}
@@ -71,7 +71,7 @@ The edge weight $w_{ij}$ between two nodes $i$ and $j$ corresponds to
 two pixels at positions $(x_i, y_i)$ and $(x_j, y_j)$, respectively,
 is defined as in Eq.\,\eqref{eq:weight}, as follows:
 
-\begin{equation}
+\begin{equation}\small
   w_{ij} = \begin{cases}
     \alpha \exp(1 - \frac{H(i)}{\max(H)})       & \text{if } x_j = x_i + 1 \text{ and } y_j = y_i, \\
     (1 - \alpha) \exp(1 - \frac{H(i)}{\max(H)}) & \text{if } x_j = x_i \text{ and } y_j = y_i + 1, \\
@@ -100,8 +100,8 @@ Therefore, each intensity offset is subtracted for each \ac{dce}-\ac{mri}.
 \begin{figure*}
   \centering
   \hspace*{\fill}
-  \subfigure[\acs*{rmse} computed for each patient of our dataset.]{\label{fig:rmse}\includegraphics[width=.44\textwidth]{02_methods/figures/rmse.pdf}} \hfill
-  \subfigure[\acs*{rmse} after alignment using the curve parametric model.]{\label{fig:rmseal}\includegraphics[width=.49\textwidth]{02_methods/figures/rmse_aligned.pdf}}
+  \subfloat[\acs*{rmse} computed for each patient of our dataset.]{\label{fig:rmse}\includegraphics[width=.44\textwidth]{02_methods/figures/rmse.pdf}} \hfill
+  \subfloat[\acs*{rmse} after alignment using the curve parametric model.]{\label{fig:rmseal}\includegraphics[width=.49\textwidth]{02_methods/figures/rmse_aligned.pdf}}
   \hspace*{\fill}
   \caption{Illustration of the correction of the time offset and the data dispersion.}
   \label{fig:curveal}
@@ -154,19 +154,19 @@ normalized signal can be used as a whole to determine if the corresponding voxel
 
 In this section, we summarize the different methods that have been
 used for the quantification of \ac{dce}-\ac{mri} for \ac{cap}
-detection~\citep{lemaitre2015computer} and will be used for comparison in this work.
+detection~\cite{lemaitre2015computer} and will be used for comparison in this work.
 Furthermore, we would like to emphasize the following additional contributions for this section: (i) a novel automatic \ac{aif} estimation algorithm based on clustering and (ii) a simplified semi-quantitative method using constrained optimization.
 
 \subsubsection{Brix and Hoffmann models}\label{sec:brixhoffmann}
 
-In the Brix model~\citep{brix1991pharmacokinetic}, the \ac{mri} signal intensity is assumed to be proportional to the media concentration.
+In the Brix model~\cite{brix1991pharmacokinetic}, the \ac{mri} signal intensity is assumed to be proportional to the media concentration.
 Therefore, the model is expressed as shown in Eq.\,\eqref{eq:brix}, as
 follows:
 
-\begin{equation}
+\begin{dmath}
   s_n(t) = 1 + A \left[ \frac{\exp(k_{el} t') - 1}{k_{ep}(k_{ep} - k_{el})} \exp(- k_{el} t) - \frac{\exp(k_{ep} t') - 1}{k_{el}(k_{ep} - k_{el})} \exp(- k_{ep} t) \right],
   \label{eq:brix}
-\end{equation}
+\end{dmath}
 
 \noindent with
 
@@ -182,11 +182,10 @@ so forth while $t > \tau$, $t' = \tau$.
 \citeauthor{hoffmann1995pharmacokinetic} proposed a similar model,
 expressed in Eq.\,\eqref{eq:hoffmann}, which is derived from the Brix model:
 
-\begin{equation}
-  \small
+\begin{dmath}
   s_n(t) = 1 + \frac{A}{\tau} \left[ \frac{k_{ep} \left( \exp(k_{el} t') - 1 \right)}{k_{el}(k_{ep} - k_{el})} \exp(- k_{el} t) - \frac{\exp(k_{ep} t') - 1}{(k_{ep} - k_{el})} \exp(- k_{ep} t) \right] ,
   \label{eq:hoffmann}
-\end{equation}
+\end{dmath}
 
 \noindent where the constant $A$ is redefined by isolating the parameter $\tau$.
 
@@ -215,28 +214,28 @@ arteries and an estimation of a patient-based \ac{aif} signal,
 \begin{figure*}
   \centering
   \hspace*{\fill}
-  \subfigure[Original image.]{\label{fig:org}\includegraphics[width=.3\textwidth]{02_methods/figures/original.pdf}} \hfill
-  \subfigure[Candidates region after clustering.]{\label{fig:cand}\includegraphics[width=.3\textwidth]{02_methods/figures/candidate.pdf}} \hfill
-  \subfigure[Regions selected after applying the different criteria.]{\label{fig:final}\includegraphics[width=.3\textwidth]{02_methods/figures/aif.pdf}}
+  \subfloat[Original image.]{\label{fig:org}\includegraphics[width=.3\textwidth]{02_methods/figures/original.pdf}} \hfill
+  \subfloat[Candidates region after clustering.]{\label{fig:cand}\includegraphics[width=.3\textwidth]{02_methods/figures/candidate.pdf}} \hfill
+  \subfloat[Regions selected after applying the different criteria.]{\label{fig:final}\includegraphics[width=.3\textwidth]{02_methods/figures/aif.pdf}}
   \hspace*{\fill}
   \caption{Illustration of the segmentation of the area used to determine the \acs*{aif}.}
   \label{fig:aif}
 \end{figure*}
 
 \begin{description}
-  \item[Segmentation of artery voxels and patient-based \ac{aif} estimation] The \ac{aif} signal from \ac{dce}-\ac{mri} can be manually estimated by selecting the most-enhanced voxels from the femoral or iliac arteries~\citep{meng2010comparison}.
+  \item[Segmentation of artery voxels and \ac{aif} estimation] The \ac{aif} signal from \ac{dce}-\ac{mri} can be manually estimated by selecting the most-enhanced voxels from the femoral or iliac arteries~\cite{meng2010comparison}.
     Few methods have been proposed to address the automated extraction
     of the \ac{aif} signal.
     \citeauthor{chen2008automatic} successively filtered the possible
-    candidates to be considered as the \ac{aif} such that~\citep{chen2008automatic}:
+    candidates to be considered as the \ac{aif} such that~\cite{chen2008automatic}:
     (i) dynamic signals with a small peak and voxels with a small wash-in are rejected by thresholding,
     (ii) a blob detector is used and large enough regions are maintained, and
     (iii) circular and cylindricality criteria are used to reject the false positives.
     \citeauthor{zhu2011automated} proposed an iterative method that
-    involves the selection of voxels that best fit a gamma variate function~\citep{zhu2011automated}.
+    involves the selection of voxels that best fit a gamma variate function~\cite{zhu2011automated}.
     However, this method requires the computation of the first and
     second derivatives as well as the maximum curvature points.
-    \citeauthor{shanbhag2012generalized} proposed the following 4-step algorithm~\citep{shanbhag2012generalized,fennessy2015quantitative}:
+    \citeauthor{shanbhag2012generalized} proposed the following 4-step algorithm~\cite{shanbhag2012generalized,fennessy2015quantitative}:
     (i) remove the slices with artifacts and find the best slices based on intrinsic anatomic landmarks and enhancement characteristics,
     (ii) find the voxel candidates using the maximum enhanced voxels and a multi-label maximum entropy based thresholding algorithm,
     (iii) exclude the region next to the endorectal coil, and
@@ -250,7 +249,7 @@ arteries and an estimation of a patient-based \ac{aif} signal,
     The cluster made of the most enhanced signals is selected since it contains the artery signals.
     In this regards, the selection criteria corresponds to the 90\textsuperscript{th} percentile of the maximum \ac{dce}-\ac{mri} signal.
     Finally, regions with an eccentricity smaller than $0.5$ and an area in the range of $[100, 400]$ voxels are kept.
-    Additionally, to remove voxels contaminated by the partial volume effect, only the $10\%$ most enhanced voxels of the possible candidates are kept as proposed by~\citep{schabel2008uncertainty} and the average signal is computed.
+    Additionally, to remove voxels contaminated by the partial volume effect, only the $10\%$ most enhanced voxels of the possible candidates are kept as proposed by~\cite{schabel2008uncertainty} and the average signal is computed.
     A summary of the different segmentation steps is presented in Fig.\,\ref{fig:aif}.
     \item[Conversion of \ac{mri} signal intensity to concentration] To estimate the free parameters of the Tofts model (see Eq.\,\eqref{eq:exttofts}), the concentrations $C_t(t)$ and $C_p(t)$ need to be computed from the \ac{mri} signal intensity and the \ac{aif} signal, respectively.
       This conversion is based on the equation of the FLASH sequence\textemdash see~\ref{app:signaltoconc} for details\textemdash and is formulated as in Eq.\,\eqref{eq:conv}:
@@ -266,18 +265,18 @@ arteries and an estimation of a patient-based \ac{aif} signal,
       \noindent where $s(t)$ is the \ac{mri} signal, $S_0$ is the \ac{mri} signal prior to the injection of the contrast media, $\alpha$ is the flip angle, $TR$ is the \acf{tr}, $R_{10}$ is the pre-contrast tissue relaxation time also equal to $\frac{1}{T_{10}}$, and $r_1$ is the relaxivity coefficient of the contrast agent.
 
       $T_{10}$ can be estimated from the acquisition of a T$_1$ map.
-      However, this modality is not part of the clinical trial in this research and the value of $T_{10}$ is fixed to \SI{1600}{\ms} for both blood and prostate, in accordance with the values found in the literature~\citep{fennessy2015quantitative,de2004mr,carr2011magnetic}.
+      However, this modality is not part of the clinical trial in this research and the value of $T_{10}$ is fixed to \SI{1600}{\ms} for both blood and prostate, in accordance with the values found in the literature~\cite{fennessy2015quantitative,de2004mr,carr2011magnetic}.
       \item[Estimation of population-based \ac{aif}] While estimating
         the pharmacokinetic parameters using the Tofts model, the \ac{aif} concentration $C_p(t)$ can be computed either from the patient or a population.
         In the two previous sections, we presented the algorithms that
         allow for the estimation of the patient-based \ac{aif} concentration.
         For a comparison with the previous approach, we also computed a population-based \ac{aif} that will be used later to compare the performance of both approaches.
         In this regard, the population-based \ac{aif} was estimated in
-        accordance with the method of~\citep{meng2010comparison} by
+        accordance with the method of~\cite{meng2010comparison} by
         fitting the average patient-based \ac{aif}s to the model
         of~\cite{parker2006experimentally} which is formulated as
         shown in Eq.\,\eqref{eq:parker}, as follows:
-        \begin{equation}
+        \begin{equation}\footnotesize
           C_p(t) = \sum_{n=1}^{2} \frac{A_n}{\sigma_n \sqrt{2 \pi}} \exp\left(\frac{- (t- T_n)^2}{2\sigma_{n}^{2}}\right) + \frac{\alpha \exp(-\beta t)}{1 + \exp{-s (t - \tau)}} ,
           \label{eq:parker}
         \end{equation}
@@ -287,11 +286,11 @@ arteries and an estimation of a patient-based \ac{aif} signal,
         and decay constant of the exponential, respectively; and $s$ and $\tau$ are the width and center of the sigmoid function, respectively.
 \end{description}
 
-The parameters are estimated by fitting the model using constrained non-linear least-squares optimization, solved with the Trust Region Reflective algorithm~\citep{sorensen1982newton} and bounding the parameters to be positive.
+The parameters are estimated by fitting the model using constrained non-linear least-squares optimization, solved with the Trust Region Reflective algorithm~\cite{sorensen1982newton} and bounding the parameters to be positive.
 
 \subsubsection{\acs*{pun} model}\label{sec:pun}
 
-\citeauthor{gliozzi2011phenomenological} showed that the \ac{pun} approach can be used for \ac{dce}-\ac{mri} analysis~\citep{gliozzi2011phenomenological}.
+\citeauthor{gliozzi2011phenomenological} showed that the \ac{pun} approach can be used for \ac{dce}-\ac{mri} analysis~\cite{gliozzi2011phenomenological}.
 The model has been successfully used in a \ac{cad} system proposed by~\cite{giannini2015fully}.
 This model can be expressed as in Eq.\,\eqref{eq:pun}:
 
@@ -319,7 +318,7 @@ least-squares optimization solved with Levenberg-Marquardt algorithm.
 The semi-quantitative analysis of the \ac{dce}-\ac{mri} is equivalent to extracting curve characteristics directly from the signal without a strict theoretical pharmacokinetic meaning.
 In this work, we use the model presented by~\cite{huisman2001accurate}, which formulates the \ac{mri} signal as in Eq.\,\eqref{eq:huisman}:
 
-\begin{equation}
+\begin{equation}\tiny
   s(t) = \begin{cases}
     S_0 & 0 \leq t \leq t_0 \\
     S_M - (S_M - S_0) \exp\left( \frac{-(t - t_0)}{\tau} \right) & t_0 < t \leq t_0 + 2 \tau \\
@@ -349,7 +348,7 @@ Instead of these successive estimations, we propose a unified optimization in wh
 Therefore, $t_0$ is robustly estimated from the \ac{aif} signal since this is the most enhanced signal in which the start of enhancement is easily identifiable.
 The \ac{aif} signal is computed as discussed in Section~\ref{sec:tofts}.
 $t_0$ is estimated by finding the maximum of the first derivative of the \ac{aif} signal, always occurring at the beginning of the signal.
-Then, the function in Eq.\,\eqref{eq:huisman} is fitted using non-linear least squares with the Trust Region Reflective algorithm~\citep{sorensen1982newton}.
+Then, the function in Eq.\,\eqref{eq:huisman} is fitted using non-linear least squares with the Trust Region Reflective algorithm~\cite{sorensen1982newton}.
 Furthermore, the parameters $\tau$ and $S_M$ are bounded during the optimization to ensure robust estimations.
 $\tau$ is bounded between $t_0$ and $t_f$, which is the time of the
 last sample, and $S_M$ is bounded between $S_0$ and $\max(s(t))$.
